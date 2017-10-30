@@ -1,0 +1,92 @@
+﻿<Window x:Class="Halo2CodezLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Halo2CodezLauncher"
+        mc:Ignorable="d"
+        Title="Halo 2 Editing Toolkit" Height="449.667" Width="454.667"
+        ResizeMode="NoResize">
+    <Window.Resources>
+        <Visibility x:Key="show_light_slider">Visible</Visibility>
+    </Window.Resources>
+    <Grid Height="388" VerticalAlignment="Top">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="325*"/>
+            <RowDefinition Height="63*"/>
+            <RowDefinition Height="0*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Header="Halo 2 Editing tools" Margin="32,10,32,232" RenderTransformOrigin="0.946,0.575">
+            <Grid HorizontalAlignment="Left" Height="58" Margin="10,0,0,0" VerticalAlignment="Top" Width="350" RenderTransformOrigin="-0.2,0.108">
+                <Button Content="Run H2Sapien" Click="RunHalo2Sapien" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="92"/>
+                <Button Content="Run H2Guerilla" Click="RunHalo2Guerilla" HorizontalAlignment="Left" Margin="129,20,0,0" VerticalAlignment="Top" Width="92"/>
+                <Button Content="Run Halo2" Click="RunHalo2" HorizontalAlignment="Left" Margin="248,20,0,0" VerticalAlignment="Top" Width="92"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Specific Tasks" HorizontalAlignment="Left" Margin="32,113,0,-11" Width="380" Grid.RowSpan="3" Height="286" VerticalAlignment="Top">
+            <TabControl HorizontalAlignment="Left" Width="351" Margin="10,10,0,5">
+                <TabItem Header="Level Compiling">
+                    <Grid Background="#FFE5E5E5">
+                        <Button x:Name="browse_level_compile" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_level_compile_Click"/>
+
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select .ass file to compile." Foreground="{StaticResource brushWatermarkForeground}" 
+                       Visibility="{Binding ElementName=compile_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
+                        <TextBox Name="compile_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
+
+                        <Button Content="Compile Level" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileLevel"/>
+                        <RadioButton Name="CompileOnly" Content="Compile Only" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,-1.4" IsChecked="True" Checked="CompileOnly_Checked"/>
+                        <RadioButton Name="LightOnly" Content="Light Only" HorizontalAlignment="Left" Margin="129,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.356,0.533" Checked="LightOnly_Checked"/>
+                        <RadioButton Name="CompileAndLight" Content="Compile and light" HorizontalAlignment="Left" Margin="222,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.429,0.4" Checked="CompileAndLight_Checked"/>
+                        <GroupBox Header="Light Quality" HorizontalAlignment="Left" Height="63" Margin="10,80,0,0" VerticalAlignment="Top" Width="325" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
+                            <GroupBox.BindingGroup>
+                                <BindingGroup/>
+                            </GroupBox.BindingGroup>
+                            <Grid HorizontalAlignment="Left" Height="43" Margin="0,0,-2,-2" VerticalAlignment="Top" Width="315" RenderTransformOrigin="0.18,-0.079">
+                                <Slider HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Width="220"/>
+                                <Label Content="Low" HorizontalAlignment="Left" Margin="0,7,0,0" VerticalAlignment="Top"/>
+                                <Label Content="High" HorizontalAlignment="Left" Margin="272,7,0,0" VerticalAlignment="Top"/>
+                            </Grid>
+                        </GroupBox>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Text Creation" Margin="-2,0">
+                    <Grid Background="#FFE5E5E5">
+                        <Button x:Name="Browse_text" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="Browse_text_Click"/>
+                        <Button Content="Compile Text" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileText"/>
+
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select unicode encoded .txt file to compile." Foreground="{StaticResource brushWatermarkForeground}" 
+                       Visibility="{Binding ElementName=compile_text_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
+                        <TextBox Name="compile_text_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Bitmap Creation" Margin="-2,0">
+                    <Grid Background="#FFE5E5E5">
+                        <Button x:Name="browse_bitmap" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_bitmap_Click"/>
+                        <Button Content="Compile Image" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileImage"/>
+
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select image to compile." Foreground="{StaticResource brushWatermarkForeground}" 
+                       Visibility="{Binding ElementName=compile_image_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
+                        <TextBox Name="compile_image_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Packaging" Margin="-2,0">
+                    <Grid Background="#FFE5E5E5">
+                        <Button x:Name="browse_package_level" Content="Browse" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_package_level_Click"/>
+
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select unicode encoded .txt file to compile." Foreground="{StaticResource brushWatermarkForeground}" 
+                       Visibility="{Binding ElementName=package_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
+                        <TextBox Name="package_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
+
+                        <Button Content="Package Level" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="PackageLevel"/>
+                        <CheckBox Content="Copy to custom maps folder after packaging." HorizontalAlignment="Left" Margin="24,48,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Settings" Margin="-2,0">
+                    <Grid Background="#FFE5E5E5"  Margin="-2,0,-2,-5">
+                        <Button Content="Reset Sapien display settings" Margin="92,15,92,0" VerticalAlignment="Top" Click="ResetSapienDisplay" RenderTransformOrigin="0.509,0.65"/>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </GroupBox>
+    </Grid>
+</Window>
