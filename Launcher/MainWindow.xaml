@@ -16,11 +16,13 @@
             <RowDefinition Height="63*"/>
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Halo 2 Editing tools" Margin="32,10,32,232" RenderTransformOrigin="0.946,0.575">
-            <Grid HorizontalAlignment="Left" Height="58" Margin="10,0,0,0" VerticalAlignment="Top" Width="350" RenderTransformOrigin="-0.2,0.108">
+        <GroupBox Header="Halo 2 Editing tools" Margin="32,10,32,217" RenderTransformOrigin="0.946,0.575">
+            <Grid HorizontalAlignment="Left" Height="76" Margin="10,0,0,0" VerticalAlignment="Top" Width="350" RenderTransformOrigin="-0.2,0.108">
                 <Button Content="Run H2Sapien" Click="RunHalo2Sapien" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="92"/>
                 <Button Content="Run H2Guerilla" Click="RunHalo2Guerilla" HorizontalAlignment="Left" Margin="129,20,0,0" VerticalAlignment="Top" Width="92"/>
                 <Button Content="Run Halo2" Click="RunHalo2" HorizontalAlignment="Left" Margin="248,20,0,0" VerticalAlignment="Top" Width="92"/>
+                <Button x:Name="run_cmd" Content="Open CMD in Toolkit folder" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="162" Click="run_cmd_Click"/>
+                <Button x:Name="custom_h2tool_cmd" Content="Custom H2Tool Command" HorizontalAlignment="Left" Margin="193,46,0,0" VerticalAlignment="Top" Width="147" Click="custom_h2tool_cmd_Click"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Specific Tasks" HorizontalAlignment="Left" Margin="32,113,0,-11" Width="380" Grid.RowSpan="3" Height="286" VerticalAlignment="Top">
@@ -94,5 +96,24 @@
                 </TabItem>
             </TabControl>
         </GroupBox>
+        <Grid x:Name="Custom_Command" Margin="0,0,0,-32" Grid.RowSpan="3" Visibility="Collapsed" >
+            <Grid Background="Black" Opacity="0.5"/>
+            <Border
+            MinWidth="250"
+            Background="#FFE5E5E5" 
+            BorderBrush="Black" 
+            BorderThickness="1" 
+            HorizontalAlignment="Center" 
+            VerticalAlignment="Center" RenderTransformOrigin="0.508,-0.635" Margin="92,42,107,304">
+                <StackPanel>
+                    <TextBlock Margin="5" Text="Run Custom Command" FontWeight="Bold" FontFamily="Cambria" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.351,0.429" />
+                    <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="custom_command_text"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="custom_run" Margin="5" Content="Run" Background="{x:Null}" RenderTransformOrigin="0.24,0.45" Click="custom_run_Click"/>
+                        <Button x:Name="custom_cancel" Margin="5" Content="Cancel" Background="{x:Null}" Click="custom_cancel_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
     </Grid>
 </Window>

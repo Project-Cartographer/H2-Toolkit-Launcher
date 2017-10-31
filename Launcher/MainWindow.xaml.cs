@@ -222,6 +222,29 @@ namespace Halo2CodezLauncher
                 package_level_path.Text = dlg.FileName;
             }
         }
+
+        private void run_cmd_Click(object sender, RoutedEventArgs e)
+        {
+            Start("cmd", "/K \"cd /d \"" + H2Ek_install_path + "\"");
+        }
+
+        private void custom_h2tool_cmd_Click(object sender, RoutedEventArgs e)
+        {
+            Custom_Command.Visibility = Visibility.Visible;
+        }
+
+        private void custom_cancel_Click(object sender, RoutedEventArgs e)
+        {
+            Custom_Command.Visibility = Visibility.Collapsed;
+            custom_command_text.Text = "";
+        }
+
+        private void custom_run_Click(object sender, RoutedEventArgs e)
+        {
+            Custom_Command.Visibility = Visibility.Collapsed;
+            Start(H2Ek_install_path + "h2tool.exe", custom_command_text.Text);
+            custom_command_text.Text = "";
+        }
     }
 
     public class TextInputToVisibilityConverter : IMultiValueConverter
