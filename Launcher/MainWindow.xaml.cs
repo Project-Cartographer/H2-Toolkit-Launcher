@@ -139,7 +139,8 @@ namespace Halo2CodezLauncher
             string image_path = compile_image_path.Text;
             if (File.Exists(image_path))
             {
-                Start(H2Ek_install_path + "h2tool.exe", "bitmaps \"" + image_path + "\"");
+                string path = new FileInfo(image_path).Directory.FullName;
+                Start(H2Ek_install_path + "h2tool.exe", "bitmaps \"" + path + "\"");
             }
             else
             {
