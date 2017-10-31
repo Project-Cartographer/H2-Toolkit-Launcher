@@ -49,6 +49,23 @@ namespace Halo2CodezLauncher
             super
         }
 
+        enum object_type
+        {
+            biped,
+            vehicle,
+            weapon,
+            equipment,
+            garbage,
+            projectile,
+            scenery,
+            machine,
+            control,
+            light_fixture,
+            sound_scenery,
+            crate,
+            creature
+        }
+
         public MainWindow()
         {
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
@@ -244,6 +261,16 @@ namespace Halo2CodezLauncher
             Custom_Command.Visibility = Visibility.Collapsed;
             Start(H2Ek_install_path + "h2tool.exe", custom_command_text.Text);
             custom_command_text.Text = "";
+        }
+
+        private void compile_model_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Annoy num0005#8646 on discord if you want this to work.");
+        }
+
+        private void browse_model_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Annoy num0005#8646 on discord if you want this to work.");
         }
     }
 
