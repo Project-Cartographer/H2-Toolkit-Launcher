@@ -27,7 +27,27 @@ namespace Halo2CodezLauncher
     {
         private string H2Ek_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2 Map Editor\\";
         private string Halo_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2\\";
-        bool show_light_slider = false;
+        [Flags] enum level_compile_type : Byte
+        {
+            none = 0,
+            compile = 2,
+            light = 4,
+        }
+        level_compile_type levelCompileType;
+
+        enum light_quality
+        {
+            checkerboard,
+            direct_only,
+            draft_low,
+            draft_medium,
+            draft_high,
+            low,
+            medium,
+            high,
+            super
+        }
+
         public MainWindow()
         {
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
@@ -66,11 +86,17 @@ namespace Halo2CodezLauncher
 
         private void CompileLevel(object sender, RoutedEventArgs e)
         {
-            string level_path = compile_level_path.ToString();
+            string level_path = compile_level_path.Text;
             if (File.Exists(level_path))
             {
-                MessageBox.Show("Not Implemented yet!");
-                Start(H2Ek_install_path + "h2tool.exe", "bitmaps \"" + level_path + "\"");
+                if (levelCompileType.HasFlag(level_compile_type.compile))
+                {
+                    Start(H2Ek_install_path + "h2tool.exe", "structure-new-from-ass \"" + level_path + "\" yes");
+                }
+                if (levelCompileType.HasFlag(level_compile_type.light))
+                {
+                    MessageBox.Show("Lighting not implemented yet!");
+                }
             }
             else
             {
@@ -80,7 +106,7 @@ namespace Halo2CodezLauncher
 
         private void CompileText(object sender, RoutedEventArgs e)
         {
-            string text_path = compile_text_path.ToString();
+            string text_path = compile_text_path.Text;
             if (File.Exists(text_path))
             {
                 Start(H2Ek_install_path + "h2tool.exe", "new-strings \"" + text_path + "\"");
@@ -93,7 +119,7 @@ namespace Halo2CodezLauncher
 
         private void CompileImage(object sender, RoutedEventArgs e)
         {
-            string image_path = compile_image_path.ToString();
+            string image_path = compile_image_path.Text;
             if (File.Exists(image_path))
             {
                 Start(H2Ek_install_path + "h2tool.exe", "bitmaps \"" + image_path + "\"");
@@ -106,8 +132,7 @@ namespace Halo2CodezLauncher
 
         private void PackageLevel(object sender, RoutedEventArgs e)
         {
-            return;
-            string level_path = package_level_path.ToString();
+            string level_path = package_level_path.Text;
             if (File.Exists(level_path))
             {
                 level_path.Replace(".scenario", "");
@@ -121,17 +146,17 @@ namespace Halo2CodezLauncher
 
         private void CompileOnly_Checked(object sender, RoutedEventArgs e)
         {
-            show_light_slider = false;
+            levelCompileType = level_compile_type.compile;
         }
 
         private void LightOnly_Checked(object sender, RoutedEventArgs e)
         {
-            show_light_slider = true;
+            levelCompileType = level_compile_type.light;
         }
 
         private void CompileAndLight_Checked(object sender, RoutedEventArgs e)
         {
-            show_light_slider = true;
+            levelCompileType = level_compile_type.compile | level_compile_type.light;
         }
 
         private void browse_level_compile_Click(object sender, RoutedEventArgs e)

@@ -41,11 +41,17 @@
                             <GroupBox.BindingGroup>
                                 <BindingGroup/>
                             </GroupBox.BindingGroup>
-                            <Grid HorizontalAlignment="Left" Height="43" Margin="0,0,-2,-2" VerticalAlignment="Top" Width="315" RenderTransformOrigin="0.18,-0.079">
-                                <Slider HorizontalAlignment="Left" Margin="47,10,0,0" VerticalAlignment="Top" Width="220"/>
-                                <Label Content="Low" HorizontalAlignment="Left" Margin="0,7,0,0" VerticalAlignment="Top"/>
-                                <Label Content="High" HorizontalAlignment="Left" Margin="272,7,0,0" VerticalAlignment="Top"/>
-                            </Grid>
+                            <ComboBox x:Name="light_quality_level" Margin="31.334,10,30.333,8.08" d:LayoutOverrides="Height" SelectedIndex="6">
+                                <ComboBoxItem Content="Checkerboard"/>
+                                <ComboBoxItem Content="Direct only"/>
+                                <ComboBoxItem Content="Draft low"/>
+                                <ComboBoxItem Content="Draft medium"/>
+                                <ComboBoxItem Content="Draft high"/>
+                                <ComboBoxItem Content="Low"/>
+                                <ComboBoxItem Content="Medium"/>
+                                <ComboBoxItem Content="High"/>
+                                <ComboBoxItem Content="Super"/>
+                            </ComboBox>
                         </GroupBox>
                     </Grid>
                 </TabItem>
