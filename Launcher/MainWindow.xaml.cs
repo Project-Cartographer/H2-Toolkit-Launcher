@@ -106,12 +106,14 @@ namespace Halo2CodezLauncher
         {
             if (levelCompileType.HasFlag(level_compile_type.compile))
             {
-                var proc = Start(H2Ek_install_path + "h2tool.exe", "structure-new-from-ass \"" + level_path + "\" yes");
+                string command = (level_path .Contains(".ass") ? "structure-new-from-ass" : "structure-new-from-jms");
+                var proc = Start(H2Ek_install_path + "h2tool.exe", command + " \"" + level_path + "\" yes");
                 proc.WaitForExit(-1);
             }
             if (levelCompileType.HasFlag(level_compile_type.light))
             {
                 level_path = level_path.Replace(".ass", "");
+                level_path = level_path.Replace(".jms", "");
                 level_path = level_path.Replace("\\data\\", "\\tags\\");
                 level_path = level_path.Replace("\\structure\\", "\\");
                 Start(H2Ek_install_path + "h2tool.exe", "lightmaps \"" + level_path + "\" " 
@@ -181,7 +183,7 @@ namespace Halo2CodezLauncher
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Uncompiled level";
-            dlg.Filter = "Uncompiled map geometry|*.ASS";
+            dlg.Filter = "Uncompiled map geometry|*.ASS;*.JMS";
             if (dlg.ShowDialog() == true)
             {
                 compile_level_path.Text = dlg.FileName;
