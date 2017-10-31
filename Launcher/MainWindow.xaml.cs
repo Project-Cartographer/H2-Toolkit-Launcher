@@ -213,8 +213,8 @@ namespace Halo2CodezLauncher
         private void browse_package_level_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select Scenerio";
-            dlg.Filter = "Unpackaged Map|*.scenerio";
+            dlg.Title = "Select Scenario";
+            dlg.Filter = "Unpackaged Map|*.scenario";
             if (dlg.ShowDialog() == true)
             {
                 package_level_path.Text = dlg.FileName;

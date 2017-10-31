@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Halo2CodezLauncher"
         mc:Ignorable="d"
         Title="Halo 2 Editing Toolkit" Height="449.667" Width="454.667"
-        ResizeMode="NoResize">
+        ResizeMode="CanMinimize">
     <Window.Resources>
         <Visibility x:Key="show_light_slider">Visible</Visibility>
     </Window.Resources>
@@ -89,7 +89,7 @@
                 </TabItem>
                 <TabItem Header="Settings" Margin="-2,0">
                     <Grid Background="#FFE5E5E5"  Margin="-2,0,-2,-5">
-                        <Button Content="Reset Sapien display settings" Margin="92,15,92,0" VerticalAlignment="Top" Click="ResetSapienDisplay" RenderTransformOrigin="0.509,0.65"/>
+                        <Button Content="Reset Sapien window layout" Margin="92,15,92,0" VerticalAlignment="Top" Click="ResetSapienDisplay" RenderTransformOrigin="0.509,0.65"/>
                     </Grid>
                 </TabItem>
             </TabControl>
