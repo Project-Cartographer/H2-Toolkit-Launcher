@@ -33,7 +33,7 @@
                        Visibility="{Binding ElementName=compile_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
                         <TextBox Name="compile_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
 
-                        <Button Content="Compile Level" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileLevel"/>
+                        <Button Content="Compile Level" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="HandleClickCompile"/>
                         <RadioButton Name="CompileOnly" Content="Compile Only" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,-1.4" IsChecked="True" Checked="CompileOnly_Checked"/>
                         <RadioButton Name="LightOnly" Content="Light Only" HorizontalAlignment="Left" Margin="129,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.356,0.533" Checked="LightOnly_Checked"/>
                         <RadioButton Name="CompileAndLight" Content="Compile and light" HorizontalAlignment="Left" Margin="222,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.429,0.4" Checked="CompileAndLight_Checked"/>

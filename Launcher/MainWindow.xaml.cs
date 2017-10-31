@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Threading;
 using System.IO;
 using static System.Environment;
 using static System.Object;
@@ -84,23 +85,38 @@ namespace Halo2CodezLauncher
             }
         }
 
-        private void CompileLevel(object sender, RoutedEventArgs e)
+        private void HandleClickCompile(object sender, RoutedEventArgs e)
         {
             string level_path = compile_level_path.Text;
             if (File.Exists(level_path))
             {
-                if (levelCompileType.HasFlag(level_compile_type.compile))
+                light_quality light_level = (light_quality)light_quality_level.SelectedIndex;
+                new Thread(delegate ()
                 {
-                    Start(H2Ek_install_path + "h2tool.exe", "structure-new-from-ass \"" + level_path + "\" yes");
-                }
-                if (levelCompileType.HasFlag(level_compile_type.light))
-                {
-                    MessageBox.Show("Lighting not implemented yet!");
-                }
+                    CompileLevel(level_path.ToLower(), light_level);
+                }).Start();
             }
             else
             {
                 MessageBox.Show("Error: No such file!");
+            }
+        }
+
+        private void CompileLevel(string level_path, light_quality lightQuality)
+        {
+            if (levelCompileType.HasFlag(level_compile_type.compile))
+            {
+                var proc = Start(H2Ek_install_path + "h2tool.exe", "structure-new-from-ass \"" + level_path + "\" yes");
+                proc.WaitForExit(-1);
+            }
+            if (levelCompileType.HasFlag(level_compile_type.light))
+            {
+                level_path = level_path.Replace(".ass", "");
+                level_path = level_path.Replace("\\data\\", "\\tags\\");
+                level_path = level_path.Replace("\\structure\\", "\\");
+                Start(H2Ek_install_path + "h2tool.exe", "lightmaps \"" + level_path + "\" " 
+                    + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality);
+                System.IO.Path.GetFileNameWithoutExtension(level_path);
             }
         }
 
@@ -135,7 +151,7 @@ namespace Halo2CodezLauncher
             string level_path = package_level_path.Text;
             if (File.Exists(level_path))
             {
-                level_path.Replace(".scenario", "");
+                level_path = level_path.Replace(".scenario", "");
                 Start(H2Ek_install_path + "h2tool.exe", "build-cache-file \"" + level_path + "\"");
             }
             else
