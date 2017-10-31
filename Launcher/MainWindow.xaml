@@ -79,7 +79,7 @@
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_package_level" Content="Browse" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_package_level_Click"/>
 
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select unicode encoded .txt file to compile." Foreground="{StaticResource brushWatermarkForeground}" 
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select a .scenario file to package." Foreground="{StaticResource brushWatermarkForeground}" 
                        Visibility="{Binding ElementName=package_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
                         <TextBox Name="package_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
 
