@@ -125,7 +125,8 @@ namespace Halo2CodezLauncher
             string text_path = compile_text_path.Text;
             if (File.Exists(text_path))
             {
-                Start(H2Ek_install_path + "h2tool.exe", "new-strings \"" + text_path + "\"");
+                string path = new FileInfo(text_path).Directory.FullName;
+                Start(H2Ek_install_path + "h2tool.exe", "new-strings \"" + path + "\"");
             }
             else
             {
@@ -177,22 +178,46 @@ namespace Halo2CodezLauncher
 
         private void browse_level_compile_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not Implemented yet!");
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Select Uncompiled level";
+            dlg.Filter = "Uncompiled map geometry|*.ASS";
+            if (dlg.ShowDialog() == true)
+            {
+                compile_level_path.Text = dlg.FileName;
+            }
         }
 
         private void Browse_text_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not Implemented yet!");
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Select unicode encoded .txt file to compile.";
+            dlg.Filter = "Unicode encoded .txt files|*.txt";
+            if (dlg.ShowDialog() == true)
+            {
+                compile_text_path.Text = dlg.FileName;
+            }
         }
 
         private void browse_bitmap_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not Implemented yet!");
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Select Image File";
+            dlg.Filter = "Supported image files|*.tif;*.tga;*.jpg;*.bmp";
+            if (dlg.ShowDialog() == true)
+            {
+                compile_image_path.Text = dlg.FileName;
+            }
         }
 
         private void browse_package_level_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not Implemented yet!");
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Select Scenerio";
+            dlg.Filter = "Unpackaged Map|*.scenerio";
+            if (dlg.ShowDialog() == true)
+            {
+                package_level_path.Text = dlg.FileName;
+            }
         }
     }
 
