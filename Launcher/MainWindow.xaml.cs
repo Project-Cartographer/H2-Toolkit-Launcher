@@ -15,6 +15,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using System.IO;
+using System.Reflection;
+using System.Diagnostics;
 using static System.Environment;
 using static System.Object;
 using static System.Diagnostics.Process;
@@ -71,7 +73,8 @@ namespace Halo2CodezLauncher
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
             InitializeComponent();
 #if !DEBUG
-            string our_version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string our_version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
             string latest_version;
             using (var wc = new System.Net.WebClient())
                 latest_version = wc.DownloadString("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/version");
