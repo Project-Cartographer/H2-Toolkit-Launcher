@@ -10,7 +10,7 @@ assembly_info:
 build:
   verbosity: minimal
 before_package:
-- cmd: cmd /c "echo|set /p=%APPVEYOR_BUILD_VERSION% > version" && exit 0
+- ps: Add-Content version $env:APPVEYOR_BUILD_VERSION -NoNewLine
 
 artifacts:
 - path: '\Launcher\bin\Release\*'
