@@ -72,15 +72,38 @@ namespace Halo2CodezLauncher
         {
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
             InitializeComponent();
-#if !DEBUG
+#if DEBUG
+            var cmd_args = GetCommandLineArgs();
+            if (cmd_args.Length > 1 && cmd_args[1] == "--update")
+                File.Delete("H2CodezLauncher.exe.old");
             Assembly assembly = Assembly.GetExecutingAssembly();
+            var wc = new System.Net.WebClient();
             string our_version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
-            string latest_version;
-            using (var wc = new System.Net.WebClient())
-                latest_version = wc.DownloadString("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/version");
+            string latest_version = wc.DownloadString("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/version");
             if (latest_version != our_version)
-                MessageBox.Show("Outdated Version! Latest version is: " + latest_version + " You are using: " + our_version);
+            {
+                MessageBoxResult user_answer = MessageBox.Show("Latest version is: " + latest_version + " You are using: " + our_version + " \nDo you want to update?",
+                     "Outdated Version!", MessageBoxButton.YesNo);
+                if (user_answer == MessageBoxResult.Yes)
+                {
+                    wc.DownloadFile("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/Launcher/bin/Release/H2CodezLauncher.exe", "H2CodezLauncher.exe.new");
+                    ForceMove("H2CodezLauncher.exe", "H2CodezLauncher.exe.old");
+                    ForceMove("H2CodezLauncher.exe.new", "H2CodezLauncher.exe");
+                    Start("H2CodezLauncher.exe", "--update");
+                    Exit(0);
+                }
+            }
 #endif
+        }
+
+        private void ForceMove(string sourceFilename, string destinationFilename)
+        {
+            if (File.Exists(destinationFilename))
+            {
+                System.IO.File.Delete(destinationFilename);
+            }
+
+            System.IO.File.Move(sourceFilename, destinationFilename);
         }
         private void RunHalo2Sapien(object sender, RoutedEventArgs e)
         {
