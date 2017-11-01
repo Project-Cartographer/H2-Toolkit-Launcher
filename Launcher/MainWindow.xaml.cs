@@ -76,7 +76,7 @@ namespace Halo2CodezLauncher
             using (var wc = new System.Net.WebClient())
                 latest_version = wc.DownloadString("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/version");
             if (latest_version != our_version)
-                MessageBox.Show("Outdated Version! Latest version is: " + latest_version);
+                MessageBox.Show("Outdated Version! Latest version is: " + latest_version + " You are using: " + our_version);
 #endif
         }
         private void RunHalo2Sapien(object sender, RoutedEventArgs e)
