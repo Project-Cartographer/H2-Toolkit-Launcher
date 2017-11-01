@@ -58,7 +58,7 @@ namespace Halo2CodezLauncher
         enum model_compile : Byte
         {
             none = 0,
-            render = 2,
+            collision = 2,
             physics = 4,
             obj = 8,
         }
@@ -413,7 +413,25 @@ namespace Halo2CodezLauncher
 
         private void compile_model_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Annoy num0005#8646 on discord if you want this to work.");
+            string path = compile_model_path.Text;
+            object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
+            new Thread(delegate ()
+            {
+                if (model_compile_type.HasFlag(model_compile.physics))
+                {
+                    var proc = Start(H2Ek_install_path + "h2tool.exe", "model-physics \"" + path + "\" pause_after_run");
+                    proc.WaitForExit(-1);
+                }
+                if (model_compile_type.HasFlag(model_compile.collision))
+                {
+                    var proc = Start(H2Ek_install_path + "h2tool.exe", "model-collision \"" + path + "\" pause_after_run");
+                    proc.WaitForExit(-1);
+                }
+                if (model_compile_type.HasFlag(model_compile.obj))
+                {
+                    Start(H2Ek_install_path + "h2tool.exe", "model-object \"" + path + "\" " + obj + " pause_after_run");
+                }
+            }).Start();
         }
 
         private void browse_model_Click(object sender, RoutedEventArgs e)
@@ -421,9 +439,9 @@ namespace Halo2CodezLauncher
             MessageBox.Show("Annoy num0005#8646 on discord if you want this to work.");
         }
 
-        private void model_compile_render_Checked(object sender, RoutedEventArgs e)
+        private void model_compile_collision_Checked(object sender, RoutedEventArgs e)
         {
-            model_compile_type = model_compile.render;
+            model_compile_type = model_compile.collision;
             model_compile_obj_type.IsEnabled = false;
         }
 
@@ -441,7 +459,7 @@ namespace Halo2CodezLauncher
 
         private void model_compile_all_Checked(object sender, RoutedEventArgs e)
         {
-            model_compile_type = model_compile.render | model_compile.physics | model_compile.obj;
+            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj;
             model_compile_obj_type.IsEnabled = true;
         }
     }

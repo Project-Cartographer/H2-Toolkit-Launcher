@@ -99,7 +99,7 @@
                             <ComboBoxItem Content="Crate"/>
                             <ComboBoxItem Content="Creature"/>
                         </ComboBox>
-                        <RadioButton x:Name="model_compile_render" Content="Render" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.25,0.333" Checked="model_compile_render_Checked" />
+                        <RadioButton x:Name="model_compile_render" Content="Collision" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.25,0.333" Checked="model_compile_collision_Checked" />
                         <RadioButton x:Name="model_compile_physics" Content="Physics" HorizontalAlignment="Left" Margin="103,78,0,0" VerticalAlignment="Top" Checked="model_compile_physics_Checked"/>
                         <RadioButton x:Name="model_compile_obj" Content="Object" HorizontalAlignment="Left" Margin="197,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Checked="model_compile_obj_Checked"/>
                         <RadioButton x:Name="model_compile_all" Content="All" Margin="297,78,14,0" VerticalAlignment="Top" RenderTransformOrigin="-0.026,0.467" IsChecked="True" Checked="model_compile_all_Checked"/>
