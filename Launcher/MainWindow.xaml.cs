@@ -17,6 +17,7 @@ using System.Threading;
 using System.IO;
 using System.Reflection;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using static System.Environment;
 using static System.Object;
 using static System.Diagnostics.Process;
@@ -79,6 +80,13 @@ namespace Halo2CodezLauncher
             creature
         }
 
+        enum patch_status
+        {
+            bad_version,
+            unpatched,
+            patched
+        }
+
         public MainWindow()
         {
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
@@ -105,13 +113,22 @@ namespace Halo2CodezLauncher
                 }
             }
             new Thread(delegate ()
+
             {
+                patch_status file_check = check_files();
                 string h2codez_version = wc.DownloadString(Settings.Default.h2codez_version_url);
-                if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || h2codez_version != Settings.Default.h2codez_dll_version)
+
+                if (file_check == patch_status.bad_version)
+                    MessageBox.Show("You are using a version of the Toolkit not supported by H2Codez, Features added by H2Codez will not be available.",
+                     "Version Error!");
+                if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || h2codez_version != Settings.Default.h2codez_dll_version || file_check == patch_status.unpatched)
                 {
                     MessageBoxResult user_answer = MessageBox.Show("Your have not installed H2Codez or your version is outdated.\nDo you want to installed H2Codez?",
                      "H2Codez Install", MessageBoxButton.YesNo);
                     if (user_answer == MessageBoxResult.No) return;
+
+                    if (file_check == patch_status.unpatched)
+                        ApplyPatches();
 
                     wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
                     Settings.Default.h2codez_dll_version = h2codez_version;
@@ -141,6 +158,47 @@ namespace Halo2CodezLauncher
         private void RunHalo2(object sender, RoutedEventArgs e)
         {
             Start(Halo_install_path + "halo2.exe");
+        }
+
+        static string CalculateMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
+        private patch_status check_files()
+        {
+            patch_status status = patch_status.patched;
+            string h2tool = CalculateMD5(H2Ek_install_path + "h2tool.exe");
+            if (h2tool == "dc221ca8c917a1975d6b3dd035d2f862")
+                status = patch_status.unpatched;
+            else if (h2tool != "f81c24da93ce8d114caa8ba0a21c7a63")
+                return patch_status.bad_version;
+
+            string h2sapien = CalculateMD5(H2Ek_install_path + "h2sapien.exe");
+            if (h2sapien == "d86c488b7c8f64b86f90c732af01bf50")
+                status = patch_status.unpatched;
+            else if (h2sapien != "975c0d0ad45c1687d11d7d3fdfb778b8")
+                return patch_status.bad_version;
+
+            string h2guerilla = CalculateMD5(H2Ek_install_path + "h2guerilla.exe");
+            if (h2guerilla == "ce3803cc90e260b3dc59854d89b3ea88")
+                status = patch_status.unpatched;
+            else if (h2guerilla != "55b09d5a6c8ecd86988a5c0f4d59d7ea")
+                return patch_status.bad_version;
+
+            return status;
+        }
+
+        private void ApplyPatches()
+        {
+            // TODO
         }
 
         private void ResetSapienDisplay(object sender, RoutedEventArgs e)
