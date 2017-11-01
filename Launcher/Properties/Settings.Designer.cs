@@ -22,5 +22,56 @@ namespace H2CodezLauncher.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string h2codez_dll_version {
+            get {
+                return ((string)(this["h2codez_dll_version"]));
+            }
+            set {
+                this["h2codez_dll_version"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/versio" +
+            "n")]
+        public string version_url {
+            get {
+                return ((string)(this["version_url"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/Launch" +
+            "er/bin/Release/H2CodezLauncher.exe")]
+        public string launcher_update_url {
+            get {
+                return ((string)(this["launcher_update_url"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/Release/H2Codez.dl" +
+            "l")]
+        public string h2codez_update_url {
+            get {
+                return ((string)(this["h2codez_update_url"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/version")]
+        public string h2codez_version_url {
+            get {
+                return ((string)(this["h2codez_version_url"]));
+            }
+        }
     }
 }

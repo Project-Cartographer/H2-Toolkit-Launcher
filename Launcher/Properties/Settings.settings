@@ -1,7 +1,21 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="H2CodezLauncher.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="h2codez_dll_version" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="version_url" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/version</Value>
+    </Setting>
+    <Setting Name="launcher_update_url" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/Launcher/bin/Release/H2CodezLauncher.exe</Value>
+    </Setting>
+    <Setting Name="h2codez_update_url" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/Release/H2Codez.dll</Value>
+    </Setting>
+    <Setting Name="h2codez_version_url" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/version</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>

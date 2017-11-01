@@ -20,6 +20,7 @@ using System.Diagnostics;
 using static System.Environment;
 using static System.Object;
 using static System.Diagnostics.Process;
+using H2CodezLauncher.Properties;
 
 namespace Halo2CodezLauncher
 {
@@ -89,20 +90,34 @@ namespace Halo2CodezLauncher
             Assembly assembly = Assembly.GetExecutingAssembly();
             var wc = new System.Net.WebClient();
             string our_version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
-            string latest_version = wc.DownloadString("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/version");
+            string latest_version = wc.DownloadString(Settings.Default.version_url);
             if (latest_version != our_version)
             {
                 MessageBoxResult user_answer = MessageBox.Show("Latest version is: " + latest_version + " You are using: " + our_version + " \nDo you want to update?",
                      "Outdated Version!", MessageBoxButton.YesNo);
                 if (user_answer == MessageBoxResult.Yes)
                 {
-                    wc.DownloadFile("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/Launcher/bin/Release/H2CodezLauncher.exe", "H2CodezLauncher.exe.new");
+                    wc.DownloadFile(Settings.Default.launcher_update_url, "H2CodezLauncher.exe.new");
                     ForceMove("H2CodezLauncher.exe", "H2CodezLauncher.exe.old");
                     ForceMove("H2CodezLauncher.exe.new", "H2CodezLauncher.exe");
                     Start("H2CodezLauncher.exe", "--update");
                     Exit(0);
                 }
             }
+            new Thread(delegate ()
+            {
+                string h2codez_version = wc.DownloadString(Settings.Default.h2codez_version_url);
+                if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || h2codez_version != Settings.Default.h2codez_dll_version)
+                {
+                    MessageBoxResult user_answer = MessageBox.Show("Your have not installed H2Codez or your version is outdated.\nDo you want to installed H2Codez?",
+                     "H2Codez Install", MessageBoxButton.YesNo);
+                    if (user_answer == MessageBoxResult.No) return;
+
+                    wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
+                    Settings.Default.h2codez_dll_version = h2codez_version;
+                    Settings.Default.Save();
+                }
+            }).Start();
 #endif
         }
 
