@@ -269,7 +269,7 @@ namespace Halo2CodezLauncher
             if (levelCompileType.HasFlag(level_compile_type.compile))
             {
                 string command = (level_path .Contains(".ass") ? "structure-new-from-ass" : "structure-new-from-jms");
-                var proc = Start(H2Ek_install_path + "h2tool.exe", command + " \"" + level_path + "\" yes");
+                var proc = Start(H2Ek_install_path + "h2tool.exe", command + " \"" + level_path + "\" yes pause_after_run");
                 proc.WaitForExit(-1);
             }
             if (levelCompileType.HasFlag(level_compile_type.light))
@@ -279,7 +279,7 @@ namespace Halo2CodezLauncher
                 level_path = level_path.Replace("\\data\\", "\\tags\\");
                 level_path = level_path.Replace("\\structure\\", "\\");
                 Start(H2Ek_install_path + "h2tool.exe", "lightmaps \"" + level_path + "\" " 
-                    + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality);
+                    + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality + " pause_after_run");
                 System.IO.Path.GetFileNameWithoutExtension(level_path);
             }
         }
@@ -304,7 +304,7 @@ namespace Halo2CodezLauncher
             if (File.Exists(image_path))
             {
                 string path = new FileInfo(image_path).Directory.FullName;
-                Start(H2Ek_install_path + "h2tool.exe", "bitmaps \"" + path + "\"");
+                Start(H2Ek_install_path + "h2tool.exe", "bitmaps \"" + path + "\" pause_after_run");
             }
             else
             {
@@ -318,7 +318,7 @@ namespace Halo2CodezLauncher
             if (File.Exists(level_path))
             {
                 level_path = level_path.Replace(".scenario", "");
-                Start(H2Ek_install_path + "h2tool.exe", "build-cache-file \"" + level_path + "\"");
+                Start(H2Ek_install_path + "h2tool.exe", "build-cache-file \"" + level_path + "\" pause_after_run");
             }
             else
             {
@@ -407,7 +407,7 @@ namespace Halo2CodezLauncher
         private void custom_run_Click(object sender, RoutedEventArgs e)
         {
             Custom_Command.Visibility = Visibility.Collapsed;
-            Start(H2Ek_install_path + "h2tool.exe", custom_command_text.Text);
+            Start(H2Ek_install_path + "h2tool.exe", custom_command_text.Text + " pause_after_run");
             custom_command_text.Text = "";
         }
 
