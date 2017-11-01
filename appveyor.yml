@@ -10,7 +10,7 @@ assembly_info:
 build:
   verbosity: minimal
 before_package:
-- cmd: echo %APPVEYOR_BUILD_VERSION% > version
+- cmd: echo|set /p=%APPVEYOR_BUILD_VERSION% > version
 
 artifacts:
 - path: '\Launcher\bin\Release\*'

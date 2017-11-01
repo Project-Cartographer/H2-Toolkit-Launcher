@@ -70,6 +70,14 @@ namespace Halo2CodezLauncher
         {
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
             InitializeComponent();
+#if !DEBUG
+            string our_version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            string latest_version;
+            using (var wc = new System.Net.WebClient())
+                latest_version = wc.DownloadString("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/version");
+            if (latest_version != our_version)
+                MessageBox.Show("Outdated Version! Latest version is: " + latest_version);
+#endif
         }
         private void RunHalo2Sapien(object sender, RoutedEventArgs e)
         {
