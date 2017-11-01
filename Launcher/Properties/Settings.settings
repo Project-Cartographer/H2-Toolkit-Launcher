@@ -17,5 +17,8 @@
     <Setting Name="h2codez_version_url" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/version</Value>
     </Setting>
+    <Setting Name="patch_fetch_url" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/Patches/</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

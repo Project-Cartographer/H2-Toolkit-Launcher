@@ -73,5 +73,14 @@ namespace H2CodezLauncher.Properties {
                 return ((string)(this["h2codez_version_url"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/Patches/")]
+        public string patch_fetch_url {
+            get {
+                return ((string)(this["patch_fetch_url"]));
+            }
+        }
     }
 }
