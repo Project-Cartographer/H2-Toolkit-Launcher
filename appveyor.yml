@@ -9,5 +9,9 @@ assembly_info:
   assembly_informational_version: '{version}'
 build:
   verbosity: minimal
+before_package:
+- cmd: echo %APPVEYOR_BUILD_VERSION% > version
+
 artifacts:
 - path: '\Launcher\bin\Release\*'
+- path: '\version'
