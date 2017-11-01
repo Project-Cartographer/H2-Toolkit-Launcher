@@ -51,6 +51,16 @@ namespace Halo2CodezLauncher
             super
         }
 
+        [Flags]
+        enum model_compile : Byte
+        {
+            none = 0,
+            render = 2,
+            physics = 4,
+            obj = 8,
+        }
+        model_compile model_compile_type;
+
         enum object_type
         {
             biped,
@@ -218,16 +228,19 @@ namespace Halo2CodezLauncher
         private void CompileOnly_Checked(object sender, RoutedEventArgs e)
         {
             levelCompileType = level_compile_type.compile;
+            light_quality_select_box.IsEnabled = false;
         }
 
         private void LightOnly_Checked(object sender, RoutedEventArgs e)
         {
             levelCompileType = level_compile_type.light;
+            light_quality_select_box.IsEnabled = true;
         }
 
         private void CompileAndLight_Checked(object sender, RoutedEventArgs e)
         {
             levelCompileType = level_compile_type.compile | level_compile_type.light;
+            light_quality_select_box.IsEnabled = true;
         }
 
         private void browse_level_compile_Click(object sender, RoutedEventArgs e)
@@ -305,6 +318,30 @@ namespace Halo2CodezLauncher
         private void browse_model_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Annoy num0005#8646 on discord if you want this to work.");
+        }
+
+        private void model_compile_render_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.render;
+            model_compile_obj_type.IsEnabled = false;
+        }
+
+        private void model_compile_physics_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.physics;
+            model_compile_obj_type.IsEnabled = false;
+        }
+
+        private void model_compile_obj_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.obj;
+            model_compile_obj_type.IsEnabled = true;
+        }
+
+        private void model_compile_all_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.render | model_compile.physics | model_compile.obj;
+            model_compile_obj_type.IsEnabled = true;
         }
     }
 
