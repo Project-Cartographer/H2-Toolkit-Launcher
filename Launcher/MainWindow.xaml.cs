@@ -103,7 +103,7 @@ namespace Halo2CodezLauncher
             Settings.Default.Save();
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
             InitializeComponent();
-#if DEBUG
+#if !DEBUG
             var cmd_args = GetCommandLineArgs();
             if (cmd_args.Length > 1 && cmd_args[1] == "--update")
                 File.Delete("H2CodezLauncher.exe.old");
