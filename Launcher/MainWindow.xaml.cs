@@ -103,7 +103,6 @@ namespace Halo2CodezLauncher
             Settings.Default.Save();
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
             InitializeComponent();
-#if !DEBUG
             var cmd_args = GetCommandLineArgs();
             if (cmd_args.Length > 1 && cmd_args[1] == "--update")
                 File.Delete("H2CodezLauncher.exe.old");
@@ -156,7 +155,6 @@ namespace Halo2CodezLauncher
                         wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
                 }
             }).Start();
-#endif
         }
 
         private void ForceMove(string sourceFilename, string destinationFilename)
