@@ -103,7 +103,7 @@ namespace Halo2CodezLauncher
             Settings.Default.Save();
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
             InitializeComponent();
-#if !DEBUG
+#if DEBUG
             var cmd_args = GetCommandLineArgs();
             if (cmd_args.Length > 1 && cmd_args[1] == "--update")
                 File.Delete("H2CodezLauncher.exe.old");
@@ -128,15 +128,14 @@ namespace Halo2CodezLauncher
 
             {
                 file_list files_to_patch = file_list.none;
-                string h2codez_version = wc.DownloadString(Settings.Default.h2codez_version_url);
-
                 if (!check_files(ref files_to_patch))
                 {
                     MessageBox.Show("You are using a version of the Toolkit not supported by H2Codez, Features added by H2Codez will not be available.",
                      "Version Error!");
                     return;
                 }
-                if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || h2codez_version != Settings.Default.h2codez_dll_version || files_to_patch != file_list.none)
+
+                if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || files_to_patch != file_list.none)
                 {
                     MessageBoxResult user_answer = MessageBox.Show("Your have not installed H2Codez or your version is outdated.\nDo you want to installed H2Codez?",
                      "H2Codez Install", MessageBoxButton.YesNo);
@@ -144,8 +143,17 @@ namespace Halo2CodezLauncher
 
                     ApplyPatches(files_to_patch, wc);
                     wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
-                    Settings.Default.h2codez_dll_version = h2codez_version;
-                    Settings.Default.Save();
+                    return;
+                }
+
+                string h2codez_latest_hash = wc.DownloadString(Settings.Default.h2codez_lastest_hash);
+                string our_h2codes_hash = CalculateMD5(H2Ek_install_path + "H2Codez.dll");
+                if (our_h2codes_hash != h2codez_latest_hash.ToLower())
+                {
+                    MessageBoxResult user_answer = MessageBox.Show("You version of H2Codez is outdated, do you want to updated?",
+                     "H2Codez Update", MessageBoxButton.YesNo);
+                    if (user_answer == MessageBoxResult.Yes)
+                        wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
                 }
             }).Start();
 #endif
@@ -175,6 +183,8 @@ namespace Halo2CodezLauncher
 
         static string CalculateMD5(string filename)
         {
+            if (!File.Exists(filename))
+                return "";
             using (var md5 = MD5.Create())
             {
                 using (var stream = File.OpenRead(filename))

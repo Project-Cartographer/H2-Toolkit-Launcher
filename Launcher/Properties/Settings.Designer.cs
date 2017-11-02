@@ -82,5 +82,14 @@ namespace H2CodezLauncher.Properties {
                 return ((string)(this["patch_fetch_url"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/hash")]
+        public string h2codez_lastest_hash {
+            get {
+                return ((string)(this["h2codez_lastest_hash"]));
+            }
+        }
     }
 }

@@ -20,5 +20,8 @@
     <Setting Name="patch_fetch_url" Type="System.String" Scope="Application">
       <Value Profile="(Default)">https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/Patches/</Value>
     </Setting>
+    <Setting Name="h2codez_lastest_hash" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/hash</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
