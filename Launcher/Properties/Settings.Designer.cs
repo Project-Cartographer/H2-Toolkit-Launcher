@@ -57,8 +57,8 @@ namespace H2CodezLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/Release/H2Codez.dl" +
-            "l")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/Release/H2Code" +
+            "z.dll")]
         public string h2codez_update_url {
             get {
                 return ((string)(this["h2codez_update_url"]));
@@ -67,7 +67,7 @@ namespace H2CodezLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/version")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/version")]
         public string h2codez_version_url {
             get {
                 return ((string)(this["h2codez_version_url"]));
@@ -76,7 +76,7 @@ namespace H2CodezLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2codez/artifacts/Patches/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/Patches/")]
         public string patch_fetch_url {
             get {
                 return ((string)(this["patch_fetch_url"]));
