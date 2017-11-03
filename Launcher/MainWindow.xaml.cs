@@ -130,7 +130,7 @@ namespace Halo2CodezLauncher
                 file_list files_to_patch = file_list.none;
                 if (!check_files(ref files_to_patch))
                 {
-                    MessageBox.Show("You are using a version of the Toolkit not supported by H2Codez, Features added by H2Codez will not be available.",
+                    MessageBox.Show("You are using a version of the toolkit not supported by H2Codez, features added by H2Codez will not be available.\nPlease install the orginal version of the toolkit that was distributed on the DVD, as that's the only version H2Codez can patch.",
                      "Version Error!");
                     return;
                 }
