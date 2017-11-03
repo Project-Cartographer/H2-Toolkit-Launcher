@@ -127,6 +127,7 @@ namespace Halo2CodezLauncher
             new Thread(delegate ()
 
             {
+                ForceMove(H2Ek_install_path + "Halo_2_Map_Editor_Launcher.exe", H2Ek_install_path + "backup\\Halo_2_Map_Editor_Launcher.exe");
                 file_list files_to_patch = file_list.none;
                 if (!check_files(ref files_to_patch))
                 {
@@ -160,6 +161,8 @@ namespace Halo2CodezLauncher
 
         private void ForceMove(string sourceFilename, string destinationFilename)
         {
+            if (!File.Exists(sourceFilename))
+                return;
             if (File.Exists(destinationFilename))
             {
                 System.IO.File.Delete(destinationFilename);
