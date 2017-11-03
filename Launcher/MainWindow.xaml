@@ -5,29 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Halo2CodezLauncher"
         mc:Ignorable="d"
-        Title="Halo 2 Editing Toolkit" Height="449.667" Width="454.667"
+        Title="Halo 2 Editing Toolkit" Height="398.667" Width="546.667"
         ResizeMode="CanMinimize">
     <Window.Resources>
         <Visibility x:Key="show_light_slider">Visible</Visibility>
     </Window.Resources>
-    <Grid Height="388" VerticalAlignment="Top">
+    <Grid Height="381" VerticalAlignment="Top" Margin="0,0,0,-29">
         <Grid.RowDefinitions>
-            <RowDefinition Height="325*"/>
-            <RowDefinition Height="63*"/>
-            <RowDefinition Height="0*"/>
+            <RowDefinition Height="224*"/>
+            <RowDefinition Height="177*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Run Programs" Margin="32,10,32,217" RenderTransformOrigin="0.946,0.575">
-            <Grid HorizontalAlignment="Left" Height="76" Margin="10,0,0,0" VerticalAlignment="Top" Width="350" RenderTransformOrigin="-0.2,0.108">
-                <Button Content="Run H2Sapien" Click="RunHalo2Sapien" HorizontalAlignment="Left" Margin="10,20,0,0" VerticalAlignment="Top" Width="92"/>
-                <Button Content="Run H2Guerilla" Click="RunHalo2Guerilla" HorizontalAlignment="Left" Margin="129,20,0,0" VerticalAlignment="Top" Width="92"/>
-                <Button Content="Run Halo2" Click="RunHalo2" HorizontalAlignment="Left" Margin="248,20,0,0" VerticalAlignment="Top" Width="92"/>
+        <GroupBox Header="Run Programs" Margin="31,10,17,103" RenderTransformOrigin="0.946,0.575">
+            <Grid HorizontalAlignment="Left" Height="76" Margin="10,0,-2,0" VerticalAlignment="Top" Width="473" RenderTransformOrigin="-0.2,0.108">
+                <Button Content="Run H2Sapien" Click="RunHalo2Sapien" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92"/>
+                <Button Content="Run H2Guerilla" Click="RunHalo2Guerilla" HorizontalAlignment="Left" Margin="187,10,0,0" VerticalAlignment="Top" Width="92"/>
+                <Button Content="Run Halo2" Click="RunHalo2" HorizontalAlignment="Left" Margin="347,10,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.587,0.7"/>
                 <Button x:Name="run_cmd" Content="Open CMD in Toolkit folder" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="162" Click="run_cmd_Click"/>
-                <Button x:Name="custom_h2tool_cmd" Content="Custom H2Tool Command" HorizontalAlignment="Left" Margin="193,46,0,0" VerticalAlignment="Top" Width="147" Click="custom_h2tool_cmd_Click"/>
+                <Button x:Name="custom_h2tool_cmd" Content="Custom H2Tool Command" HorizontalAlignment="Left" Margin="292,46,0,0" VerticalAlignment="Top" Width="147" Click="custom_h2tool_cmd_Click"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Tasks" HorizontalAlignment="Left" Margin="32,113,0,-11" Width="380" Grid.RowSpan="3" Height="286" VerticalAlignment="Top">
-            <TabControl HorizontalAlignment="Left" Width="351" Margin="10,10,0,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom">
-                <TabItem Header="Level Compiling">
+        <GroupBox Header="Tasks" Margin="31,113,17,35" Grid.RowSpan="2">
+            <TabControl HorizontalAlignment="Left" Width="456" Margin="10,10,0,9" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" TabStripPlacement="Left">
+                <TabItem Header="Level Compiling" Width="105" Margin="-2,-2,2,-2">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_level_compile" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_level_compile_Click"/>
 
@@ -56,7 +55,7 @@
                         <RadioButton Name="CompileAndLight" Content="Compile and light" HorizontalAlignment="Left" Margin="222,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.429,0.4" Checked="CompileAndLight_Checked"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Text Creation" Margin="-2,0">
+                <TabItem Header="Text Creation" Margin="-2,0,2,0" Width="105" Height="24" VerticalAlignment="Bottom">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="Browse_text" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="Browse_text_Click"/>
                         <Button Content="Compile Text" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileText"/>
@@ -66,7 +65,7 @@
                         <TextBox Name="compile_text_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Bitmap Creation" Margin="-2,0">
+                <TabItem Header="Bitmap Creation" Margin="-2,-1,2,1" Width="105" Height="24">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_bitmap" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_bitmap_Click"/>
                         <Button Content="Compile Image" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileImage"/>
@@ -76,8 +75,8 @@
                         <TextBox Name="compile_image_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Model Compile">
-                    <Grid Background="#FFE5E5E5"  Margin="-2,0,-2,-5">
+                <TabItem Header="Model Compile" Margin="-2,-3,2,0" Width="105" Height="24" VerticalAlignment="Top">
+                    <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_model" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_model_Click"/>
                         <Button x:Name="compile_model" Content="Compile Model" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="compile_model_Click"/>
 
@@ -106,7 +105,7 @@
                         <Label Content="Object Type" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Packaging" Margin="-2,0">
+                <TabItem Header="Packaging" Margin="-2,-3,2,3" Width="105" Height="24">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_package_level" Content="Browse" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_package_level_Click"/>
 
@@ -118,14 +117,14 @@
                         <CheckBox Content="Copy to custom maps folder after packaging." HorizontalAlignment="Left" Margin="24,48,0,0" VerticalAlignment="Top" IsChecked="True"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Settings" Margin="-2,0">
-                    <Grid Background="#FFE5E5E5"  Margin="-2,0,-2,-5">
+                <TabItem Header="Settings" Margin="-2,-3,2,3" Width="105" Height="24">
+                    <Grid Background="#FFE5E5E5">
                         <Button Content="Reset Sapien window layout" Margin="92,15,92,0" VerticalAlignment="Top" Click="ResetSapienDisplay" RenderTransformOrigin="0.509,0.65"/>
                     </Grid>
                 </TabItem>
             </TabControl>
         </GroupBox>
-        <Grid x:Name="Custom_Command" Margin="0,0,0,-32" Grid.RowSpan="3" Visibility="Collapsed" >
+        <Grid x:Name="Custom_Command" Margin="0,0,0,-32" Visibility="Collapsed" Grid.RowSpan="2" >
             <Grid Background="Black" Opacity="0.5"/>
             <Border
             MinWidth="250"
