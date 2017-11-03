@@ -22,6 +22,7 @@ using System.Net;
 using static System.Environment;
 using static System.Object;
 using static System.Diagnostics.Process;
+using Microsoft.WindowsAPICodePack.Dialogs;
 using H2CodezLauncher.Properties;
 
 namespace Halo2CodezLauncher
@@ -474,7 +475,7 @@ namespace Halo2CodezLauncher
                 }
                 if (model_compile_type.HasFlag(model_compile.obj))
                 {
-                    process.Arguments = "model-object \"" + path + "\" " + obj;
+                    process.Arguments = "model-object " + path + "\\ " + obj;
                     process.Arguments += " pause_after_run";
                     Start(process);
                 }
@@ -483,7 +484,21 @@ namespace Halo2CodezLauncher
 
         private void browse_model_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Annoy num0005#8646 on discord if you want this to work.");
+
+            var dlg = new CommonOpenFileDialog();
+            dlg.Title = "Select model folder.";
+            dlg.IsFolderPicker = true;
+
+            dlg.AllowNonFileSystemItems = false;
+            dlg.EnsureFileExists = true;
+            dlg.EnsurePathExists = true;
+            dlg.Multiselect = false;
+            dlg.ShowPlacesList = true;
+
+            if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                compile_model_path.Text = dlg.FileName.Replace(H2Ek_install_path + "data\\", ""); 
+            }
         }
 
         private void model_compile_collision_Checked(object sender, RoutedEventArgs e)
