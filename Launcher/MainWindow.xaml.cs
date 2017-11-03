@@ -168,15 +168,24 @@ namespace Halo2CodezLauncher
         }
         private void RunHalo2Sapien(object sender, RoutedEventArgs e)
         {
-           Start(H2Ek_install_path + "h2sapien.exe");
+            var process = new ProcessStartInfo();
+            process.WorkingDirectory = H2Ek_install_path;
+            process.FileName = "h2sapien.exe";
+            Start(process);
         }
         private void RunHalo2Guerilla(object sender, RoutedEventArgs e)
         {
-            Start(H2Ek_install_path + "h2guerilla.exe");
+            var process = new ProcessStartInfo();
+            process.WorkingDirectory = H2Ek_install_path;
+            process.FileName = "h2guerilla.exe";
+            Start(process);
         }
         private void RunHalo2(object sender, RoutedEventArgs e)
         {
-            Start(Halo_install_path + "halo2.exe");
+            var process = new ProcessStartInfo();
+            process.WorkingDirectory = Halo_install_path;
+            process.FileName = "halo2.exe";
+            Start(process);
         }
 
         static string CalculateMD5(string filename)
@@ -277,7 +286,12 @@ namespace Halo2CodezLauncher
             if (levelCompileType.HasFlag(level_compile_type.compile))
             {
                 string command = (level_path .Contains(".ass") ? "structure-new-from-ass" : "structure-new-from-jms");
-                var proc = Start(H2Ek_install_path + "h2tool.exe", command + " \"" + level_path + "\" yes pause_after_run");
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = "h2tool.exe";
+                process.Arguments = command + " \"" + level_path + "\" yes";
+                process.Arguments +=  " pause_after_run";
+                var proc = Start(process);
                 proc.WaitForExit(-1);
             }
             if (levelCompileType.HasFlag(level_compile_type.light))
@@ -286,9 +300,13 @@ namespace Halo2CodezLauncher
                 level_path = level_path.Replace(".jms", "");
                 level_path = level_path.Replace("\\data\\", "\\tags\\");
                 level_path = level_path.Replace("\\structure\\", "\\");
-                Start(H2Ek_install_path + "h2tool.exe", "lightmaps \"" + level_path + "\" " 
-                    + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality + " pause_after_run");
-                System.IO.Path.GetFileNameWithoutExtension(level_path);
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = "h2tool.exe";
+                process.Arguments = "lightmaps \"" + level_path + "\" "
+                    + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
+                process.Arguments += " pause_after_run";
+                Start(process);
             }
         }
 
@@ -312,7 +330,10 @@ namespace Halo2CodezLauncher
             if (File.Exists(image_path))
             {
                 string path = new FileInfo(image_path).Directory.FullName;
-                Start(H2Ek_install_path + "h2tool.exe", "bitmaps \"" + path + "\" pause_after_run");
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = "h2tool.exe";
+                process.Arguments = "bitmaps \"" + path + "\" pause_after_run";
             }
             else
             {
@@ -325,8 +346,12 @@ namespace Halo2CodezLauncher
             string level_path = package_level_path.Text;
             if (File.Exists(level_path))
             {
-                level_path = level_path.Replace(".scenario", "");
-                Start(H2Ek_install_path + "h2tool.exe", "build-cache-file \"" + level_path + "\" pause_after_run");
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = "h2tool.exe";
+                process.Arguments = "build-cache-file \"" + level_path.Replace(".scenario", "") + "\"";
+                process.Arguments += " pause_after_run";
+                Start(process);
             }
             else
             {
@@ -415,7 +440,12 @@ namespace Halo2CodezLauncher
         private void custom_run_Click(object sender, RoutedEventArgs e)
         {
             Custom_Command.Visibility = Visibility.Collapsed;
-            Start(H2Ek_install_path + "h2tool.exe", custom_command_text.Text + " pause_after_run");
+            var process = new ProcessStartInfo();
+            process.WorkingDirectory = H2Ek_install_path;
+            process.FileName = "h2tool.exe";
+            process.Arguments = custom_command_text.Text;
+            process.Arguments += " pause_after_run";
+            Start(process);
             custom_command_text.Text = "";
         }
 
@@ -425,19 +455,28 @@ namespace Halo2CodezLauncher
             object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
             new Thread(delegate ()
             {
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = "h2tool.exe";
                 if (model_compile_type.HasFlag(model_compile.physics))
                 {
-                    var proc = Start(H2Ek_install_path + "h2tool.exe", "model-physics \"" + path + "\" pause_after_run");
+                    process.Arguments = "model-physics \"" + path + "\"";
+                    process.Arguments += " pause_after_run";
+                    var proc = Start(process);
                     proc.WaitForExit(-1);
                 }
                 if (model_compile_type.HasFlag(model_compile.collision))
                 {
-                    var proc = Start(H2Ek_install_path + "h2tool.exe", "model-collision \"" + path + "\" pause_after_run");
+                    process.Arguments = "model-collision \"" + path + "\"";
+                    process.Arguments += " pause_after_run";
+                    var proc = Start(process);
                     proc.WaitForExit(-1);
                 }
                 if (model_compile_type.HasFlag(model_compile.obj))
                 {
-                    Start(H2Ek_install_path + "h2tool.exe", "model-object \"" + path + "\" " + obj + " pause_after_run");
+                    process.Arguments = "model-object \"" + path + "\" " + obj;
+                    process.Arguments += " pause_after_run";
+                    Start(process);
                 }
             }).Start();
         }
