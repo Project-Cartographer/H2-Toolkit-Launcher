@@ -144,36 +144,43 @@ namespace Halo2CodezLauncher
 
             new Thread(delegate ()
             {
-                file_list files_to_patch = file_list.none;
-                if (!check_files(ref files_to_patch))
+                try
                 {
-                    MessageBox.Show("You are using a version of the toolkit not supported by H2Codez, features added by H2Codez will not be available.\nPlease install the orginal version of the toolkit that was distributed on the DVD, as that's the only version H2Codez can patch.",
-                     "Version Error!");
-                    return;
-                }
-
-                if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || files_to_patch != file_list.none)
-                {
-                    MessageBoxResult user_answer = MessageBox.Show("Your have not installed H2Codez or your version is outdated.\nDo you want to installed H2Codez?",
-                     "H2Codez Install", MessageBoxButton.YesNo);
-                    if (user_answer == MessageBoxResult.No) return;
-
-                    ApplyPatches(files_to_patch, wc);
-                    wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
-                    return;
-                }
-
-                string h2codez_latest_hash = wc.DownloadString(Settings.Default.h2codez_lastest_hash);
-                string our_h2codes_hash = CalculateMD5(H2Ek_install_path + "H2Codez.dll");
-                if (our_h2codes_hash != h2codez_latest_hash.ToLower())
-                {
-                    MessageBoxResult user_answer = MessageBox.Show("You version of H2Codez is outdated, do you want to updated?",
-                     "H2Codez Update", MessageBoxButton.YesNo);
-                    if (user_answer == MessageBoxResult.Yes)
+                    file_list files_to_patch = file_list.none;
+                    if (!check_files(ref files_to_patch))
                     {
-                        wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
-                        AllowReadWrite("H2Codez.dll");
+                        MessageBox.Show("You are using a version of the toolkit not supported by H2Codez, features added by H2Codez will not be available.\nPlease install the orginal version of the toolkit that was distributed on the DVD, as that's the only version H2Codez can patch.",
+                         "Version Error!");
+                        return;
                     }
+
+                    if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || files_to_patch != file_list.none)
+                    {
+                        MessageBoxResult user_answer = MessageBox.Show("Your have not installed H2Codez or your version is outdated.\nDo you want to installed H2Codez?",
+                         "H2Codez Install", MessageBoxButton.YesNo);
+                        if (user_answer == MessageBoxResult.No) return;
+
+                        ApplyPatches(files_to_patch, wc);
+                        wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
+                        return;
+                    }
+
+                    string h2codez_latest_hash = wc.DownloadString(Settings.Default.h2codez_lastest_hash);
+                    string our_h2codes_hash = CalculateMD5(H2Ek_install_path + "H2Codez.dll");
+                    if (our_h2codes_hash != h2codez_latest_hash.ToLower())
+                    {
+                        MessageBoxResult user_answer = MessageBox.Show("You version of H2Codez is outdated, do you want to updated?",
+                         "H2Codez Update", MessageBoxButton.YesNo);
+                        if (user_answer == MessageBoxResult.Yes)
+                        {
+                            wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
+                            AllowReadWrite("H2Codez.dll");
+                        }
+                    }
+                }
+                catch (UnauthorizedAccessException ex)
+                {
+                    RelaunchAsAdmin("");
                 }
             }).Start();
         }
