@@ -24,6 +24,9 @@ using static System.Object;
 using static System.Diagnostics.Process;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using H2CodezLauncher.Properties;
+using System.Security.AccessControl;
+using System.Security.Principal;
+using System.Windows.Threading;
 
 namespace Halo2CodezLauncher
 {
@@ -34,7 +37,8 @@ namespace Halo2CodezLauncher
     {
         private string H2Ek_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2 Map Editor\\";
         private string Halo_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2\\";
-        [Flags] enum level_compile_type : Byte
+        [Flags]
+        enum level_compile_type : Byte
         {
             none = 0,
             compile = 2,
@@ -98,8 +102,19 @@ namespace Halo2CodezLauncher
             guerilla = 8
         }
 
+        void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
+        {
+            if (e.Exception is UnauthorizedAccessException)
+            {
+                e.Handled = true;
+                RelaunchAsAdmin("");
+            }
+
+        }
+
         public MainWindow()
         {
+            Application.Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
             Settings.Default.Upgrade();
             Settings.Default.Save();
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
@@ -120,14 +135,15 @@ namespace Halo2CodezLauncher
                     wc.DownloadFile(Settings.Default.launcher_update_url, "H2CodezLauncher.exe.new");
                     ForceMove("H2CodezLauncher.exe", "H2CodezLauncher.exe.old");
                     ForceMove("H2CodezLauncher.exe.new", "H2CodezLauncher.exe");
+                    AllowReadWrite("H2CodezLauncher.exe");
+                    AllowReadWrite("H2CodezLauncher.exe.old");
                     Start("H2CodezLauncher.exe", "--update");
                     Exit(0);
                 }
             }
+
             new Thread(delegate ()
             {
-                Directory.CreateDirectory(H2Ek_install_path + "backup");
-                ForceMove(H2Ek_install_path + "Halo_2_Map_Editor_Launcher.exe", H2Ek_install_path + "backup\\Halo_2_Map_Editor_Launcher.exe");
                 file_list files_to_patch = file_list.none;
                 if (!check_files(ref files_to_patch))
                 {
@@ -154,7 +170,10 @@ namespace Halo2CodezLauncher
                     MessageBoxResult user_answer = MessageBox.Show("You version of H2Codez is outdated, do you want to updated?",
                      "H2Codez Update", MessageBoxButton.YesNo);
                     if (user_answer == MessageBoxResult.Yes)
+                    {
                         wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
+                        AllowReadWrite("H2Codez.dll");
+                    }
                 }
             }).Start();
         }
@@ -170,6 +189,38 @@ namespace Halo2CodezLauncher
 
             System.IO.File.Move(sourceFilename, destinationFilename);
         }
+        private void RelaunchAsAdmin(string arguments)
+        {
+            ProcessStartInfo proc = new ProcessStartInfo();
+            proc.UseShellExecute = true;
+            proc.WorkingDirectory = CurrentDirectory;
+            proc.FileName = "H2CodezLauncher.exe";
+            proc.Verb = "runas";
+            proc.Arguments = arguments;
+
+            try
+            {
+                Process.Start(proc);
+            }
+            catch
+            {
+            }
+            Exit(0);
+        }
+
+        private void AllowReadWrite(string filename)
+        {
+            FileSecurity sec = File.GetAccessControl(filename);
+
+            SecurityIdentifier everyone = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+            sec.AddAccessRule(new FileSystemAccessRule(
+                    everyone,
+                    FileSystemRights.Write | FileSystemRights.ReadAndExecute,
+                    AccessControlType.Allow));
+
+            File.SetAccessControl(filename, sec);
+        }
+
         private void RunHalo2Sapien(object sender, RoutedEventArgs e)
         {
             var process = new ProcessStartInfo();
@@ -231,6 +282,8 @@ namespace Halo2CodezLauncher
 
         private void ApplyPatches(file_list files_to_patch, WebClient wc)
         {
+            Directory.CreateDirectory(H2Ek_install_path + "backup");
+            ForceMove(H2Ek_install_path + "Halo_2_Map_Editor_Launcher.exe", H2Ek_install_path + "backup\\Halo_2_Map_Editor_Launcher.exe");
             if (files_to_patch.HasFlag(file_list.tool))
                 patch_file("h2tool.exe", wc);
             if (files_to_patch.HasFlag(file_list.guerilla))
@@ -288,12 +341,12 @@ namespace Halo2CodezLauncher
         {
             if (levelCompileType.HasFlag(level_compile_type.compile))
             {
-                string command = (level_path .Contains(".ass") ? "structure-new-from-ass" : "structure-new-from-jms");
+                string command = (level_path.Contains(".ass") ? "structure-new-from-ass" : "structure-new-from-jms");
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = "h2tool.exe";
                 process.Arguments = command + " \"" + level_path + "\" yes";
-                process.Arguments +=  " pause_after_run";
+                process.Arguments += " pause_after_run";
                 var proc = Start(process);
                 proc.WaitForExit(-1);
             }
@@ -499,7 +552,7 @@ namespace Halo2CodezLauncher
 
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                compile_model_path.Text = dlg.FileName.Replace(H2Ek_install_path + "data\\", ""); 
+                compile_model_path.Text = dlg.FileName.Replace(H2Ek_install_path + "data\\", "");
             }
         }
 
