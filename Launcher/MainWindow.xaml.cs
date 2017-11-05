@@ -125,8 +125,8 @@ namespace Halo2CodezLauncher
                 }
             }
             new Thread(delegate ()
-
             {
+                Directory.CreateDirectory(H2Ek_install_path + "backup");
                 ForceMove(H2Ek_install_path + "Halo_2_Map_Editor_Launcher.exe", H2Ek_install_path + "backup\\Halo_2_Map_Editor_Launcher.exe");
                 file_list files_to_patch = file_list.none;
                 if (!check_files(ref files_to_patch))
@@ -231,7 +231,6 @@ namespace Halo2CodezLauncher
 
         private void ApplyPatches(file_list files_to_patch, WebClient wc)
         {
-            Directory.CreateDirectory(H2Ek_install_path + "backup");
             if (files_to_patch.HasFlag(file_list.tool))
                 patch_file("h2tool.exe", wc);
             if (files_to_patch.HasFlag(file_list.guerilla))
