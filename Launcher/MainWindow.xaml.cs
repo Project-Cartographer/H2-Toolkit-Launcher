@@ -174,13 +174,17 @@ namespace Halo2CodezLauncher
                         if (user_answer == MessageBoxResult.Yes)
                         {
                             wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
-                            AllowReadWrite("H2Codez.dll");
+                            AllowReadWrite(H2Ek_install_path + "H2Codez.dll");
                         }
                     }
                 }
                 catch (UnauthorizedAccessException ex)
                 {
                     RelaunchAsAdmin("");
+                }
+                catch (System.Net.WebException ex) when (ex.InnerException is IOException)
+                {
+                    MessageBox.Show("Updating H2Codez failed because the launcher can't write the update data.\nPlease close all currently open modding tools and try again.", "Error!");
                 }
             }).Start();
         }
