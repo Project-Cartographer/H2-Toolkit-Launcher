@@ -122,6 +122,17 @@
                         <Button Content="Reset Sapien window layout" Margin="92,15,92,0" VerticalAlignment="Top" Click="ResetSapienDisplay" RenderTransformOrigin="0.509,0.65"/>
                     </Grid>
                 </TabItem>
+                <TabItem Header="Credits" Margin="-2,-3,2,3" Width="105" Height="24">
+                    <Grid Background="#FFE5E5E5">
+                        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="15" Width="323" FontSize="10"><Run Text="•"/><Run Text=" "/><Run Text="Launcher - Written by Num0005"/><Run Text="."/></TextBlock>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="323" RenderTransformOrigin="0.502,0.457"><Run FontSize="10" Text="• H2Codez - Originally written by Himanshu01, support for "/><Run FontSize="10" Text="H2S"/><Run FontSize="10" Text="apien and"/><LineBreak FontSize="10"/><Run FontSize="10" Text="H2Guerrila added by Num0005."/></TextBlock>
+                        <TextBlock Margin="10,118,237,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.535,0.479"><Run Text="Special "/><Run Text="t"/><Run Text="hanks to"/><Run Text=" "/><Run Text=":"/></TextBlock>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.499,0.522" Width="310"><Run Text="•"/><Run Text=" Alpha"/><Run Text="/"/><Run Text="Beta"/><Run Text=" "/><Run Text="Testing"/><Run Text=" -"/><Run Text=" "/><Run Text="General-101 and Twinreaper."/></TextBlock>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.638,-0.927" Height="27"><Run Text="•"/><Run Text=" "/><Run Text="Research"/><Run Text=" -"/><Run Text=" Original"/><Run Text=" "/><Run Text="research into "/><Run Text="H2"/><Run Text="tool"/><Run Text=" and H2Guerrila "/><Run Text="carried "/><Run Text="out by Kornmann00"/><Run Text=" as part of the opensauce project"/><Run Text="."/><LineBreak/><Run/><Run Text=" "/></TextBlock>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.496,0.326" Width="323"><Run Text="•"/><Run Text=" "/><Run Text="Bungie / "/><Run Text="H"/><Run Text="ired "/><Run Text="G"/><Run Text="un"/><Run Text=" -"/><Run Text=" "/><Run Text="For creating the game and porting it."/></TextBlock>
+                        <TextBlock HorizontalAlignment="Left" Margin="10,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.499,0.522" Width="316"><Run Text="•"/><Run Text=" "/><Run Text="Everyone else working on Project Cartographer. "/><Run Text=" "/></TextBlock>
+                    </Grid>
+                </TabItem>
             </TabControl>
         </GroupBox>
         <Grid x:Name="Custom_Command" Margin="0,0,0,-32" Visibility="Collapsed" Grid.RowSpan="2" >
