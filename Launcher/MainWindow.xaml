@@ -114,7 +114,7 @@
                         <TextBox Name="package_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
 
                         <Button Content="Package Level" HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="PackageLevel"/>
-                        <CheckBox Content="Copy to custom maps folder after packaging." HorizontalAlignment="Left" Margin="24,48,0,0" VerticalAlignment="Top" IsChecked="True"/>
+                        <CheckBox x:Name="copy_map" Content="Copy to custom maps folder after packaging." HorizontalAlignment="Left" Margin="24,48,0,0" VerticalAlignment="Top" IsChecked="True"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Settings" Margin="-2,-3,2,3" Width="105" Height="24">

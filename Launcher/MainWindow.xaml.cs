@@ -19,6 +19,7 @@ using System.Reflection;
 using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Net;
+using Microsoft.VisualBasic.FileIO;
 using static System.Environment;
 using static System.Object;
 using static System.Diagnostics.Process;
@@ -200,6 +201,7 @@ namespace Halo2CodezLauncher
 
             System.IO.File.Move(sourceFilename, destinationFilename);
         }
+
         private void RelaunchAsAdmin(string arguments)
         {
             ProcessStartInfo proc = new ProcessStartInfo();
@@ -383,7 +385,12 @@ namespace Halo2CodezLauncher
             if (File.Exists(text_path))
             {
                 string path = new FileInfo(text_path).Directory.FullName;
-                Start(H2Ek_install_path + "h2tool.exe", "new-strings \"" + path + "\"");
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = "h2tool.exe";
+                process.Arguments = "new-strings \"" + path + "\"";
+                process.Arguments += " pause_after_run";
+                Start(process);
             }
             else
             {
@@ -400,7 +407,9 @@ namespace Halo2CodezLauncher
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = "h2tool.exe";
-                process.Arguments = "bitmaps \"" + path + "\" pause_after_run";
+                process.Arguments = "bitmaps \"" + path + "\"";
+                process.Arguments += " pause_after_run";
+                Start(process);
             }
             else
             {
@@ -413,12 +422,32 @@ namespace Halo2CodezLauncher
             string level_path = package_level_path.Text;
             if (File.Exists(level_path))
             {
-                var process = new ProcessStartInfo();
-                process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = "h2tool.exe";
-                process.Arguments = "build-cache-file \"" + level_path.Replace(".scenario", "") + "\"";
-                process.Arguments += " pause_after_run";
-                Start(process);
+                bool is_check = (bool)copy_map.IsChecked;
+                new Thread(delegate ()
+                {
+                    var process = new ProcessStartInfo();
+                    process.WorkingDirectory = H2Ek_install_path;
+                    process.FileName = "h2tool.exe";
+                    process.Arguments = "build-cache-file \"" + level_path.Replace(".scenario", "") + "\"";
+                    process.Arguments += " pause_after_run";
+                    var proc = Start(process);
+                    if (!is_check) return;
+
+                    proc.WaitForExit();
+
+                    string map_name = new FileInfo(level_path).Name;
+                    map_name = map_name.Replace(".scenario", ".map");
+
+                    string copy_to = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Halo 2\\Maps" + map_name;
+                    string copy_from = H2Ek_install_path + "Maps\\" + map_name;
+                    try
+                    {
+                        File.Delete(copy_to);
+                        FileSystem.CopyFile(
+                            copy_from, copy_to, UIOption.AllDialogs, UICancelOption.DoNothing);
+                    }
+                    catch { };
+                }).Start();
             }
             else
             {
