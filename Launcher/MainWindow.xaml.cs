@@ -422,16 +422,17 @@ namespace Halo2CodezLauncher
             string level_path = package_level_path.Text;
             if (File.Exists(level_path))
             {
-                bool is_check = (bool)copy_map.IsChecked;
+                bool copy_map = (bool)this.copy_map.IsChecked;
+                bool remove_shared_tags = (bool)shared_tag_removal.IsChecked;
                 new Thread(delegate ()
                 {
                     var process = new ProcessStartInfo();
                     process.WorkingDirectory = H2Ek_install_path;
                     process.FileName = "h2tool.exe";
-                    process.Arguments = "build-cache-file \"" + level_path.Replace(".scenario", "") + "\"";
-                    process.Arguments += " pause_after_run";
+                    process.Arguments = "build-cache-file \"" + level_path.Replace(".scenario", "") + "\" ";
+                    process.Arguments += remove_shared_tags ? "shared_tag_removal pause_after_run" : "pause_after_run";
                     var proc = Start(process);
-                    if (!is_check) return;
+                    if (!copy_map) return;
 
                     proc.WaitForExit();
 
