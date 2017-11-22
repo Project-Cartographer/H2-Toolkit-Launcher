@@ -439,7 +439,7 @@ namespace Halo2CodezLauncher
                     string map_name = new FileInfo(level_path).Name;
                     map_name = map_name.Replace(".scenario", ".map");
 
-                    string copy_to = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Halo 2\\Maps" + map_name;
+                    string copy_to = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Halo 2\\Maps\\" + map_name;
                     string copy_from = H2Ek_install_path + "Maps\\" + map_name;
                     try
                     {
