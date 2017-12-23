@@ -98,11 +98,12 @@
                             <ComboBoxItem Content="Crate"/>
                             <ComboBoxItem Content="Creature"/>
                         </ComboBox>
-                        <RadioButton x:Name="model_compile_render" Content="Collision" HorizontalAlignment="Left" Margin="10,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.25,0.333" Checked="model_compile_collision_Checked" />
-                        <RadioButton x:Name="model_compile_physics" Content="Physics" HorizontalAlignment="Left" Margin="103,78,0,0" VerticalAlignment="Top" Checked="model_compile_physics_Checked"/>
-                        <RadioButton x:Name="model_compile_obj" Content="Object" HorizontalAlignment="Left" Margin="197,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Checked="model_compile_obj_Checked"/>
-                        <RadioButton x:Name="model_compile_all" Content="All" Margin="297,78,14,0" VerticalAlignment="Top" RenderTransformOrigin="-0.026,0.467" IsChecked="True" Checked="model_compile_all_Checked"/>
+                        <RadioButton x:Name="model_compile_collision" Content="Collision" Margin="10,78,269,0" VerticalAlignment="Top" RenderTransformOrigin="0.25,0.333" Checked="model_compile_collision_Checked" />
+                        <RadioButton x:Name="model_compile_physics" Content="Physics" Margin="87,78,199,0" VerticalAlignment="Top" Checked="model_compile_physics_Checked"/>
+                        <RadioButton x:Name="model_compile_obj" Content="Object" HorizontalAlignment="Left" Margin="230,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Checked="model_compile_obj_Checked"/>
+                        <RadioButton x:Name="model_compile_all" Content="All" Margin="301,78,10,0" VerticalAlignment="Top" RenderTransformOrigin="-0.026,0.467" IsChecked="True" Checked="model_compile_all_Checked"/>
                         <Label Content="Object Type" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top"/>
+                        <RadioButton x:Name="model_compile_render" Content="Render" HorizontalAlignment="Left" Margin="159,78,0,0" VerticalAlignment="Top" Checked="model_compile_render_Checked"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Packaging" Margin="-2,-3,2,3" Width="105" Height="24">
@@ -144,10 +145,10 @@
             BorderBrush="Black" 
             BorderThickness="1" 
             HorizontalAlignment="Center" 
-            VerticalAlignment="Center" RenderTransformOrigin="0.508,-0.635" Margin="92,42,107,304">
+            VerticalAlignment="Center" RenderTransformOrigin="0.508,-0.635" Margin="138,42,153,291" Height="80">
                 <StackPanel>
                     <TextBlock Margin="5" Text="Run Custom Command" FontWeight="Bold" FontFamily="Cambria" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.351,0.429" />
-                    <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="custom_command_text"/>
+                    <TextBox MinWidth="150" HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="custom_command_text" Height="21" Width="215"/>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                         <Button x:Name="custom_run" Margin="5" Content="Run" Background="{x:Null}" RenderTransformOrigin="0.24,0.45" Click="custom_run_Click"/>
                         <Button x:Name="custom_cancel" Margin="5" Content="Cancel" Background="{x:Null}" Click="custom_cancel_Click"/>

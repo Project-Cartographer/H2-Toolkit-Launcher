@@ -66,7 +66,8 @@ namespace Halo2CodezLauncher
             none = 0,
             collision = 2,
             physics = 4,
-            obj = 8,
+            render = 8,
+            obj = 16,
         }
         model_compile model_compile_type;
 
@@ -569,6 +570,13 @@ namespace Halo2CodezLauncher
                     var proc = Start(process);
                     proc.WaitForExit(-1);
                 }
+                if (model_compile_type.HasFlag(model_compile.render))
+                {
+                    process.Arguments = "model-render \"" + path + "\"";
+                    process.Arguments += " pause_after_run";
+                    var proc = Start(process);
+                    proc.WaitForExit(-1);
+                }
                 if (model_compile_type.HasFlag(model_compile.obj))
                 {
                     process.Arguments = "model-object " + path + "\\ " + obj;
@@ -617,8 +625,14 @@ namespace Halo2CodezLauncher
 
         private void model_compile_all_Checked(object sender, RoutedEventArgs e)
         {
-            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj;
+            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render;
             model_compile_obj_type.IsEnabled = true;
+        }
+
+        private void model_compile_render_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.render;
+            model_compile_obj_type.IsEnabled = false;
         }
     }
 
