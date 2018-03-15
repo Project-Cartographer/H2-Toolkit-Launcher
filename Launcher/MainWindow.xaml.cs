@@ -114,6 +114,30 @@ namespace Halo2CodezLauncher
 
         }
 
+        void updateLaucherCheck(WebClient wc)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+            string our_version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
+            string latest_version = wc.DownloadString(Settings.Default.version_url);
+            if (latest_version != our_version)
+            {
+                MessageBoxResult user_answer = MessageBox.Show("Latest version is: " + latest_version + " You are using: " + our_version + " \nDo you want to update?",
+                     "Outdated Version!", MessageBoxButton.YesNo);
+                if (user_answer == MessageBoxResult.Yes)
+                {
+                    AllowReadWriteFile("H2CodezLauncher.exe");
+
+                    wc.DownloadFile(Settings.Default.launcher_update_url, "H2CodezLauncher.exe.new");
+                    ForceMove("H2CodezLauncher.exe", "H2CodezLauncher.exe.old");
+                    ForceMove("H2CodezLauncher.exe.new", "H2CodezLauncher.exe");
+                    AllowReadWriteFile("H2CodezLauncher.exe");
+                    AllowReadWriteFile("H2CodezLauncher.exe.old");
+                    Start("H2CodezLauncher.exe", "--update");
+                    Exit(0);
+                }
+            }
+        }
+
         public MainWindow()
         {
             Application.Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -124,30 +148,14 @@ namespace Halo2CodezLauncher
             var cmd_args = GetCommandLineArgs();
             if (cmd_args.Length > 1 && cmd_args[1] == "--update")
                 File.Delete("H2CodezLauncher.exe.old");
-            Assembly assembly = Assembly.GetExecutingAssembly();
+
             var wc = new WebClient();
-            string our_version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
-            string latest_version = wc.DownloadString(Settings.Default.version_url);
-            if (latest_version != our_version)
-            {
-                MessageBoxResult user_answer = MessageBox.Show("Latest version is: " + latest_version + " You are using: " + our_version + " \nDo you want to update?",
-                     "Outdated Version!", MessageBoxButton.YesNo);
-                if (user_answer == MessageBoxResult.Yes)
-                {
-                    wc.DownloadFile(Settings.Default.launcher_update_url, "H2CodezLauncher.exe.new");
-                    ForceMove("H2CodezLauncher.exe", "H2CodezLauncher.exe.old");
-                    ForceMove("H2CodezLauncher.exe.new", "H2CodezLauncher.exe");
-                    AllowReadWrite("H2CodezLauncher.exe");
-                    AllowReadWrite("H2CodezLauncher.exe.old");
-                    Start("H2CodezLauncher.exe", "--update");
-                    Exit(0);
-                }
-            }
 
             new Thread(delegate ()
             {
                 try
                 {
+                    updateLaucherCheck(wc);
                     file_list files_to_patch = file_list.none;
                     if (!check_files(ref files_to_patch))
                     {
@@ -162,8 +170,10 @@ namespace Halo2CodezLauncher
                          "H2Codez Install", MessageBoxButton.YesNo);
                         if (user_answer == MessageBoxResult.No) return;
 
+                        AllowReadWriteDir(H2Ek_install_path); // wipe permissions for install path and let all users access it
                         ApplyPatches(files_to_patch, wc);
                         wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
+                        AllowReadWriteFile(H2Ek_install_path + "H2Codez.dll");
                         return;
                     }
 
@@ -175,18 +185,28 @@ namespace Halo2CodezLauncher
                          "H2Codez Update", MessageBoxButton.YesNo);
                         if (user_answer == MessageBoxResult.Yes)
                         {
+                            AllowReadWriteDir(H2Ek_install_path); // wipe permissions for install path and let all users access it
+                            AllowReadWriteFile(H2Ek_install_path + "H2Codez.dll");
                             wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
-                            AllowReadWrite(H2Ek_install_path + "H2Codez.dll");
+                            MessageBox.Show("Successfully finished updating H2Codez!", "H2Codez Update");
                         }
                     }
                 }
-                catch (UnauthorizedAccessException ex)
+                catch (UnauthorizedAccessException)
                 {
                     RelaunchAsAdmin("");
                 }
-                catch (System.Net.WebException ex) when (ex.InnerException is IOException)
+                catch (WebException ex) when (ex.InnerException is IOException)
                 {
                     MessageBox.Show("Updating H2Codez failed because the launcher can't write the update data.\nPlease close all currently open modding tools and try again.", "Error!");
+                }
+                catch (WebException ex) when (ex.InnerException is UnauthorizedAccessException)
+                {
+                    RelaunchAsAdmin("");
+                }
+                catch (WebException)
+                {
+                    MessageBox.Show("Check your internet connection and try again,\nif the problem presists fill a bug report.", "Update check failed!");
                 }
             }).Start();
         }
@@ -222,7 +242,7 @@ namespace Halo2CodezLauncher
             Exit(0);
         }
 
-        private void AllowReadWrite(string filename)
+        private void AllowReadWriteFile(string filename)
         {
             FileSecurity sec = File.GetAccessControl(filename);
 
@@ -233,6 +253,19 @@ namespace Halo2CodezLauncher
                     AccessControlType.Allow));
 
             File.SetAccessControl(filename, sec);
+        }
+
+        private void AllowReadWriteDir(string filename)
+        {
+            DirectorySecurity sec = Directory.GetAccessControl(filename);
+
+            SecurityIdentifier everyone = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
+            sec.AddAccessRule(new FileSystemAccessRule(
+                    everyone,
+                    FileSystemRights.Write | FileSystemRights.ReadAndExecute,
+                    AccessControlType.Allow));
+
+            Directory.SetAccessControl(filename, sec);
         }
 
         private void RunHalo2Sapien(object sender, RoutedEventArgs e)
