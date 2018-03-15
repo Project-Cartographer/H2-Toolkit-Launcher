@@ -175,10 +175,11 @@ namespace Halo2CodezLauncher
                          "H2Codez Install", MessageBoxButton.YesNo);
                         if (user_answer == MessageBoxResult.No) return;
 
-                        AllowReadWriteDir(H2Ek_install_path); // wipe permissions for install path and let all users access it
+                        AllowReadWriteDir(H2Ek_install_path, true); // wipe permissions for install path and let all users access it
                         ApplyPatches(files_to_patch, wc);
                         wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
                         AllowReadWriteFile(H2Ek_install_path + "H2Codez.dll");
+                        MessageBox.Show("Successfully finished installing H2Codez!", "H2codez Install");
                         return;
                     }
 
@@ -190,7 +191,7 @@ namespace Halo2CodezLauncher
                          "H2Codez Update", MessageBoxButton.YesNo);
                         if (user_answer == MessageBoxResult.Yes)
                         {
-                            AllowReadWriteDir(H2Ek_install_path); // wipe permissions for install path and let all users access it
+                            AllowReadWriteDir(H2Ek_install_path, true); // wipe permissions for install path and let all users access it
                             AllowReadWriteFile(H2Ek_install_path + "H2Codez.dll");
                             wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
                             MessageBox.Show("Successfully finished updating H2Codez!", "H2Codez Update");
@@ -254,23 +255,49 @@ namespace Halo2CodezLauncher
             SecurityIdentifier everyone = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
             sec.AddAccessRule(new FileSystemAccessRule(
                     everyone,
-                    FileSystemRights.Write | FileSystemRights.ReadAndExecute,
+                    FileSystemRights.FullControl,
                     AccessControlType.Allow));
 
             File.SetAccessControl(filename, sec);
         }
 
-        private void AllowReadWriteDir(string filename)
+        private void AllowReadWriteDir(string filename, bool recursive = true, int depth_limit = 10, int depth_count = 0)
         {
+            if (depth_count > depth_limit)
+                return;
             DirectorySecurity sec = Directory.GetAccessControl(filename);
 
+            // stop new inheriate rules and remove existing ones
+            sec.SetAccessRuleProtection(true, false);
+
+            // setup new access rules letting everyone access the directory
             SecurityIdentifier everyone = new SecurityIdentifier(WellKnownSidType.WorldSid, null);
             sec.AddAccessRule(new FileSystemAccessRule(
                     everyone,
-                    FileSystemRights.Write | FileSystemRights.ReadAndExecute,
+                    FileSystemRights.FullControl,
+                    InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
+                    PropagationFlags.None,
                     AccessControlType.Allow));
 
             Directory.SetAccessControl(filename, sec);
+
+            if (!recursive)
+                return;
+
+            string[] files;
+            string[] directories;
+
+            files = Directory.GetFiles(filename);
+            foreach (string file in files)
+            {
+                AllowReadWriteFile(file);
+            }
+
+            directories = Directory.GetDirectories(filename);
+            foreach (string directory in directories)
+            {
+                AllowReadWriteDir(directory, true, depth_limit, depth_count++);
+            }
         }
 
         private void RunHalo2Sapien(object sender, RoutedEventArgs e)

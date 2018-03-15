@@ -37,8 +37,7 @@ namespace H2CodezLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/versio" +
-            "n")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/version")]
         public string version_url {
             get {
                 return ((string)(this["version_url"]));
