@@ -1,0 +1,3 @@
+[submodule "packages/PETools"]
+	path = packages/PETools
+	url = https://github.com/num0005/PETools.git

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Halo2CodezLauncher", "Launcher\Halo2CodezLauncher.csproj", "{EE9D5075-A31E-4393-BD62-59A3AD5C3FC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PETools", "packages\PETools\PETools.csproj", "{B3B5FCAC-3F15-4839-BB20-81DDF6047794}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,14 @@ Global
 		{EE9D5075-A31E-4393-BD62-59A3AD5C3FC5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EE9D5075-A31E-4393-BD62-59A3AD5C3FC5}.Release|x86.ActiveCfg = Release|Any CPU
 		{EE9D5075-A31E-4393-BD62-59A3AD5C3FC5}.Release|x86.Build.0 = Release|Any CPU
+		{B3B5FCAC-3F15-4839-BB20-81DDF6047794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3B5FCAC-3F15-4839-BB20-81DDF6047794}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3B5FCAC-3F15-4839-BB20-81DDF6047794}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B3B5FCAC-3F15-4839-BB20-81DDF6047794}.Debug|x86.Build.0 = Debug|Any CPU
+		{B3B5FCAC-3F15-4839-BB20-81DDF6047794}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3B5FCAC-3F15-4839-BB20-81DDF6047794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3B5FCAC-3F15-4839-BB20-81DDF6047794}.Release|x86.ActiveCfg = Release|Any CPU
+		{B3B5FCAC-3F15-4839-BB20-81DDF6047794}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

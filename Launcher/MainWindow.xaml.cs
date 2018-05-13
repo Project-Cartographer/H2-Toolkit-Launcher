@@ -28,6 +28,7 @@ using H2CodezLauncher.Properties;
 using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Windows.Threading;
+using PETools;
 
 namespace Halo2CodezLauncher
 {
@@ -138,6 +139,23 @@ namespace Halo2CodezLauncher
             }
         }
 
+        void patch_exes_for_large_address_support()
+        {
+            List<string> files_to_patch = new List<string> { "h2tool", "h2sapien" };
+            PETool pe = new PETool();
+
+            foreach (string file in files_to_patch)
+            {
+                if (!File.Exists(H2Ek_install_path + file + ".large_address.exe") && File.Exists(H2Ek_install_path + file + ".exe"))
+                {
+                    pe.Read(H2Ek_install_path + file + ".exe");
+                    pe.fileHeader.Characteristics |= PECharacteristics.IMAGE_FILE_LARGE_ADDRESS_AWARE;
+                    pe.UpdateHeader();
+                    pe.WriteFile(H2Ek_install_path + file + ".large_address.exe");
+                }
+            }
+        }
+
         public MainWindow()
         {
             Application.Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -177,12 +195,14 @@ namespace Halo2CodezLauncher
 
                         AllowReadWriteDir(H2Ek_install_path, true); // wipe permissions for install path and let all users access it
                         ApplyPatches(files_to_patch, wc);
+                        patch_exes_for_large_address_support();
                         wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
                         AllowReadWriteFile(H2Ek_install_path + "H2Codez.dll");
                         MessageBox.Show("Successfully finished installing H2Codez!", "H2codez Install");
                         return;
                     }
 
+                    patch_exes_for_large_address_support();
                     string h2codez_latest_hash = wc.DownloadString(Settings.Default.h2codez_lastest_hash);
                     string our_h2codes_hash = CalculateMD5(H2Ek_install_path + "H2Codez.dll");
                     if (our_h2codes_hash != h2codez_latest_hash.ToLower())
