@@ -9,6 +9,8 @@ assembly_info:
   assembly_informational_version: '{version}'
 build:
   verbosity: minimal
+before_build:
+- cmd: git submodule update --init --recursive
 before_package:
 - ps: Add-Content version $env:APPVEYOR_BUILD_VERSION -NoNewLine
 
