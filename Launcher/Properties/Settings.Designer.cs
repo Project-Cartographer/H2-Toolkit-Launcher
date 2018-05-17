@@ -90,5 +90,17 @@ namespace H2CodezLauncher.Properties {
                 return ((string)(this["h2codez_lastest_hash"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool large_address_support {
+            get {
+                return ((bool)(this["large_address_support"]));
+            }
+            set {
+                this["large_address_support"] = value;
+            }
+        }
     }
 }

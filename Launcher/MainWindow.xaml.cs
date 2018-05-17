@@ -105,6 +105,36 @@ namespace Halo2CodezLauncher
             guerilla = 8
         }
 
+        enum tool_type
+        {
+            tool,
+            sapien,
+            guerilla
+        }
+
+        string GetToolExeName(tool_type type)
+        {
+            string name;
+            switch (type)
+            {
+                case tool_type.tool:
+                    name = "h2tool";
+                    break;
+                case tool_type.sapien:
+                    name = "h2sapien";
+                    break;
+                case tool_type.guerilla:
+                    name = "h2guerilla";
+                    break;
+                default:
+                    name = "";
+                    break;
+            }
+            if (type != tool_type.guerilla && Settings.Default.large_address_support)
+                name += ".large_address";
+            return name + ".exe";
+        }
+
         void App_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
             if (e.Exception is UnauthorizedAccessException)
@@ -163,6 +193,7 @@ namespace Halo2CodezLauncher
             Settings.Default.Save();
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
             InitializeComponent();
+            large_addr_enabled.IsChecked = Settings.Default.large_address_support;
             // Delete any left over update files.
             try
             {
@@ -324,14 +355,14 @@ namespace Halo2CodezLauncher
         {
             var process = new ProcessStartInfo();
             process.WorkingDirectory = H2Ek_install_path;
-            process.FileName = "h2sapien.exe";
+            process.FileName = GetToolExeName(tool_type.sapien);
             Start(process);
         }
         private void RunHalo2Guerilla(object sender, RoutedEventArgs e)
         {
             var process = new ProcessStartInfo();
             process.WorkingDirectory = H2Ek_install_path;
-            process.FileName = "h2guerilla.exe";
+            process.FileName = GetToolExeName(tool_type.guerilla);
             Start(process);
         }
         private void RunHalo2(object sender, RoutedEventArgs e)
@@ -443,7 +474,7 @@ namespace Halo2CodezLauncher
                 string command = (level_path.Contains(".ass") ? "structure-new-from-ass" : "structure-new-from-jms");
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = "h2tool.exe";
+                process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = command + " \"" + level_path + "\" yes";
                 process.Arguments += " pause_after_run";
                 var proc = Start(process);
@@ -457,7 +488,7 @@ namespace Halo2CodezLauncher
                 level_path = level_path.Replace("\\structure\\", "\\");
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = "h2tool.exe";
+                process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = "lightmaps \"" + level_path + "\" "
                     + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
                 process.Arguments += " pause_after_run";
@@ -473,7 +504,7 @@ namespace Halo2CodezLauncher
                 string path = new FileInfo(text_path).Directory.FullName;
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = "h2tool.exe";
+                process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = "new-strings \"" + path + "\"";
                 process.Arguments += " pause_after_run";
                 Start(process);
@@ -492,7 +523,7 @@ namespace Halo2CodezLauncher
                 string path = new FileInfo(image_path).Directory.FullName;
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = "h2tool.exe";
+                process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = "bitmaps \"" + path + "\"";
                 process.Arguments += " pause_after_run";
                 Start(process);
@@ -514,7 +545,7 @@ namespace Halo2CodezLauncher
                 {
                     var process = new ProcessStartInfo();
                     process.WorkingDirectory = H2Ek_install_path;
-                    process.FileName = "h2tool.exe";
+                    process.FileName = GetToolExeName(tool_type.tool);
                     process.Arguments = "build-cache-file \"" + level_path.Replace(".scenario", "") + "\" ";
                     process.Arguments += remove_shared_tags ? "shared_tag_removal pause_after_run" : "pause_after_run";
                     var proc = Start(process);
@@ -625,7 +656,7 @@ namespace Halo2CodezLauncher
             Custom_Command.Visibility = Visibility.Collapsed;
             var process = new ProcessStartInfo();
             process.WorkingDirectory = H2Ek_install_path;
-            process.FileName = "h2tool.exe";
+            process.FileName = GetToolExeName(tool_type.tool);
             process.Arguments = custom_command_text.Text;
             process.Arguments += " pause_after_run";
             Start(process);
@@ -640,7 +671,7 @@ namespace Halo2CodezLauncher
             {
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = "h2tool.exe";
+                process.FileName = GetToolExeName(tool_type.tool);
                 if (model_compile_type.HasFlag(model_compile.physics))
                 {
                     process.Arguments = "model-physics \"" + path + "\"";
@@ -718,6 +749,12 @@ namespace Halo2CodezLauncher
         {
             model_compile_type = model_compile.render;
             model_compile_obj_type.IsEnabled = false;
+        }
+
+        private void large_addr_enabled_Checked(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.large_address_support = (bool)large_addr_enabled.IsChecked;
+            Settings.Default.Save();
         }
     }
 
