@@ -12,16 +12,16 @@
       <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2-toolkit-launcher/artifacts/Launcher/bin/Release/H2CodezLauncher.exe</Value>
     </Setting>
     <Setting Name="h2codez_update_url" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/Release/H2Codez.dll</Value>
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2codez-0w3n8/artifacts/Release/H2Codez.dll</Value>
     </Setting>
     <Setting Name="h2codez_version_url" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/version</Value>
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2codez-0w3n8/artifacts/version</Value>
     </Setting>
     <Setting Name="patch_fetch_url" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/Patches/</Value>
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2codez-0w3n8/artifacts/Patches/</Value>
     </Setting>
     <Setting Name="h2codez_lastest_hash" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/Himanshu-01/h2codez/artifacts/hash</Value>
+      <Value Profile="(Default)">https://ci.appveyor.com/api/projects/num0005/h2codez-0w3n8/artifacts/hash</Value>
     </Setting>
     <Setting Name="large_address_support" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
