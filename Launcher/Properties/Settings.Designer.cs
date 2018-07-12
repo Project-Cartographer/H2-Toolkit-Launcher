@@ -76,7 +76,7 @@ namespace H2CodezLauncher.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("https://ci.appveyor.com/api/projects/num0005/h2codez-0w3n8/artifacts/Patches/")]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://github.com/Project-Cartographer/H2Codez/raw/H2OS_EK/Patches/")]
         public string patch_fetch_url {
             get {
                 return ((string)(this["patch_fetch_url"]));
