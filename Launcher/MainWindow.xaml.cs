@@ -112,6 +112,23 @@ namespace Halo2CodezLauncher
             guerilla
         }
 
+        void RunProcess(ProcessStartInfo info, bool wait = false)
+        {
+            try
+            {
+                Process proc = Start(info);
+                if (wait)
+                    proc.WaitForExit();
+            } catch (FileNotFoundException ex)
+            {
+                MessageBox.Show("Can't find \"" + ex.FileName + "\"", "Error Lauching!");
+            }
+            catch (System.ComponentModel.Win32Exception ex)
+            {
+                MessageBox.Show(ex.ToString(), "Error Lauching!");
+            }
+        }
+
         string GetToolExeName(tool_type type)
         {
             string name;
@@ -356,21 +373,21 @@ namespace Halo2CodezLauncher
             var process = new ProcessStartInfo();
             process.WorkingDirectory = H2Ek_install_path;
             process.FileName = GetToolExeName(tool_type.sapien);
-            Start(process);
+            RunProcess(process);
         }
         private void RunHalo2Guerilla(object sender, RoutedEventArgs e)
         {
             var process = new ProcessStartInfo();
             process.WorkingDirectory = H2Ek_install_path;
             process.FileName = GetToolExeName(tool_type.guerilla);
-            Start(process);
+            RunProcess(process);
         }
         private void RunHalo2(object sender, RoutedEventArgs e)
         {
             var process = new ProcessStartInfo();
             process.WorkingDirectory = Halo_install_path;
             process.FileName = "halo2.exe";
-            Start(process);
+            RunProcess(process);
         }
 
         static string CalculateMD5(string filename)
@@ -477,8 +494,7 @@ namespace Halo2CodezLauncher
                 process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = command + " \"" + level_path + "\" yes";
                 process.Arguments += " pause_after_run";
-                var proc = Start(process);
-                proc.WaitForExit(-1);
+                RunProcess(process, true);
             }
             if (levelCompileType.HasFlag(level_compile_type.light))
             {
@@ -492,7 +508,7 @@ namespace Halo2CodezLauncher
                 process.Arguments = "lightmaps \"" + level_path + "\" "
                     + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
                 process.Arguments += " pause_after_run";
-                Start(process);
+                RunProcess(process);
             }
         }
 
@@ -507,7 +523,7 @@ namespace Halo2CodezLauncher
                 process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = "new-strings \"" + path + "\"";
                 process.Arguments += " pause_after_run";
-                Start(process);
+                RunProcess(process);
             }
             else
             {
@@ -526,7 +542,7 @@ namespace Halo2CodezLauncher
                 process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = "bitmaps \"" + path + "\"";
                 process.Arguments += " pause_after_run";
-                Start(process);
+                RunProcess(process);
             }
             else
             {
@@ -548,10 +564,9 @@ namespace Halo2CodezLauncher
                     process.FileName = GetToolExeName(tool_type.tool);
                     process.Arguments = "build-cache-file \"" + level_path.Replace(".scenario", "") + "\" ";
                     process.Arguments += remove_shared_tags ? "shared_tag_removal pause_after_run" : "pause_after_run";
-                    var proc = Start(process);
-                    if (!copy_map) return;
-
-                    proc.WaitForExit();
+                    RunProcess(process, copy_map);
+                    if (!copy_map)
+                        return;
 
                     string map_name = new FileInfo(level_path).Name;
                     map_name = map_name.Replace(".scenario", ".map");
@@ -637,7 +652,10 @@ namespace Halo2CodezLauncher
 
         private void run_cmd_Click(object sender, RoutedEventArgs e)
         {
-            Start("cmd", "/K \"cd /d \"" + H2Ek_install_path + "\"");
+            var process = new ProcessStartInfo();
+            process.FileName = "cmd";
+            process.Arguments = "/K \"cd /d \"" + H2Ek_install_path + "\"";
+            RunProcess(process);
         }
 
         private void custom_h2tool_cmd_Click(object sender, RoutedEventArgs e)
@@ -659,7 +677,7 @@ namespace Halo2CodezLauncher
             process.FileName = GetToolExeName(tool_type.tool);
             process.Arguments = custom_command_text.Text;
             process.Arguments += " pause_after_run";
-            Start(process);
+            RunProcess(process);
             custom_command_text.Text = "";
         }
 
@@ -676,28 +694,25 @@ namespace Halo2CodezLauncher
                 {
                     process.Arguments = "model-physics \"" + path + "\"";
                     process.Arguments += " pause_after_run";
-                    var proc = Start(process);
-                    proc.WaitForExit(-1);
+                    RunProcess(process, true);
                 }
                 if (model_compile_type.HasFlag(model_compile.collision))
                 {
                     process.Arguments = "model-collision \"" + path + "\"";
                     process.Arguments += " pause_after_run";
-                    var proc = Start(process);
-                    proc.WaitForExit(-1);
+                    RunProcess(process, true);
                 }
                 if (model_compile_type.HasFlag(model_compile.render))
                 {
                     process.Arguments = "model-render \"" + path + "\"";
                     process.Arguments += " pause_after_run";
-                    var proc = Start(process);
-                    proc.WaitForExit(-1);
+                    RunProcess(process, true);
                 }
                 if (model_compile_type.HasFlag(model_compile.obj))
                 {
                     process.Arguments = "model-object " + path + "\\ " + obj;
                     process.Arguments += " pause_after_run";
-                    Start(process);
+                    RunProcess(process);
                 }
             }).Start();
         }
