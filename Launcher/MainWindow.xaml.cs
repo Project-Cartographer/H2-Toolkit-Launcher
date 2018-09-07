@@ -67,8 +67,9 @@ namespace Halo2CodezLauncher
             none = 0,
             collision = 2,
             physics = 4,
-            render = 8,
-            obj = 16,
+            bsp_render = 8,
+            dae_render = 16,
+            obj = 32,
         }
         model_compile model_compile_type;
 
@@ -102,14 +103,16 @@ namespace Halo2CodezLauncher
             none = 0,
             tool = 2,
             sapien = 4,
-            guerilla = 8
+            guerilla = 8,
+            daeconverter = 16
         }
 
         enum tool_type
         {
             tool,
             sapien,
-            guerilla
+            guerilla,
+            daeconverter
         }
 
         void RunProcess(ProcessStartInfo info, bool wait = false)
@@ -142,6 +145,9 @@ namespace Halo2CodezLauncher
                     break;
                 case tool_type.guerilla:
                     name = "h2guerilla";
+                    break;
+                case tool_type.daeconverter:
+                    name = "daeconverter";
                     break;
                 default:
                     name = "";
@@ -702,9 +708,16 @@ namespace Halo2CodezLauncher
                     process.Arguments += " pause_after_run";
                     RunProcess(process, true);
                 }
-                if (model_compile_type.HasFlag(model_compile.render))
+                if (model_compile_type.HasFlag(model_compile.bsp_render))
                 {
                     process.Arguments = "model-render \"" + path + "\"";
+                    process.Arguments += " pause_after_run";
+                    RunProcess(process, true);
+                }
+                if (model_compile_type.HasFlag(model_compile.dae_render))
+                {
+                    process.FileName = GetToolExeName(tool_type.daeconverter);
+                    process.Arguments = "-compile " + "data\\" + path;
                     process.Arguments += " pause_after_run";
                     RunProcess(process, true);
                 }
@@ -756,13 +769,19 @@ namespace Halo2CodezLauncher
 
         private void model_compile_all_Checked(object sender, RoutedEventArgs e)
         {
-            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render;
+            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.bsp_render;
             model_compile_obj_type.IsEnabled = true;
         }
 
-        private void model_compile_render_Checked(object sender, RoutedEventArgs e)
+        private void model_compile_bsp_render_Checked(object sender, RoutedEventArgs e)
         {
-            model_compile_type = model_compile.render;
+            model_compile_type = model_compile.bsp_render;
+            model_compile_obj_type.IsEnabled = false;
+        }
+
+        private void model_compile_dae_render_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.dae_render;
             model_compile_obj_type.IsEnabled = false;
         }
 
