@@ -83,7 +83,7 @@
                         <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select model to compile." Foreground="{StaticResource brushWatermarkForeground}" 
                        Visibility="{Binding ElementName=compile_model_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
                         <TextBox Name="compile_model_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
-                        <ComboBox x:Name="model_compile_obj_type" HorizontalAlignment="Left" Margin="150,110,0,0" VerticalAlignment="Top" Width="172" Height="26" SelectedIndex="11">
+                        <ComboBox x:Name="model_compile_obj_type" HorizontalAlignment="Left" Margin="230,110,0,0" VerticalAlignment="Top" Width="92" Height="26" SelectedIndex="11">
                             <ComboBoxItem Content="Biped"/>
                             <ComboBoxItem Content="Vehicle"/>
                             <ComboBoxItem Content="Weapon"/>
@@ -98,11 +98,16 @@
                             <ComboBoxItem Content="Crate"/>
                             <ComboBoxItem Content="Creature"/>
                         </ComboBox>
+                        <ComboBox x:Name="model_compile_render_type" HorizontalAlignment="Left" Margin="11,110,0,0" VerticalAlignment="Top" Width="50" Height="26" SelectedIndex="0">
+                            <ComboBoxItem Content="BSP"/>
+                            <ComboBoxItem Content="DAE"/>
+                        </ComboBox>
                         <RadioButton x:Name="model_compile_collision" Content="Collision" Margin="10,78,269,0" VerticalAlignment="Top" RenderTransformOrigin="0.25,0.333" Checked="model_compile_collision_Checked" />
                         <RadioButton x:Name="model_compile_physics" Content="Physics" Margin="87,78,199,0" VerticalAlignment="Top" Checked="model_compile_physics_Checked"/>
                         <RadioButton x:Name="model_compile_obj" Content="Object" HorizontalAlignment="Left" Margin="230,78,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Checked="model_compile_obj_Checked"/>
                         <RadioButton x:Name="model_compile_all" Content="All" Margin="301,78,10,0" VerticalAlignment="Top" RenderTransformOrigin="-0.026,0.467" IsChecked="True" Checked="model_compile_all_Checked"/>
-                        <Label Content="Object Type" HorizontalAlignment="Left" Margin="40,110,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Object Type" HorizontalAlignment="Left" Margin="156,110,0,0" VerticalAlignment="Top"/>
+                        <Label Content="Render Type" HorizontalAlignment="Left" Margin="62,110,0,0" VerticalAlignment="Top"/>
                         <RadioButton x:Name="model_compile_render" Content="Render" HorizontalAlignment="Left" Margin="159,78,0,0" VerticalAlignment="Top" Checked="model_compile_render_Checked"/>
                     </Grid>
                 </TabItem>

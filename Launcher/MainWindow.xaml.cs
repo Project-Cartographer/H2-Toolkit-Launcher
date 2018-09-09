@@ -109,7 +109,8 @@ namespace Halo2CodezLauncher
         {
             tool,
             sapien,
-            guerilla
+            guerilla,
+            daeconverter
         }
 
         void RunProcess(ProcessStartInfo info, bool wait = false)
@@ -142,6 +143,9 @@ namespace Halo2CodezLauncher
                     break;
                 case tool_type.guerilla:
                     name = "h2guerilla";
+                    break;
+                case tool_type.daeconverter:
+                    name = "daeconverter";
                     break;
                 default:
                     name = "";
@@ -683,38 +687,77 @@ namespace Halo2CodezLauncher
 
         private void compile_model_Click(object sender, RoutedEventArgs e)
         {
-            string path = compile_model_path.Text;
-            object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
-            new Thread(delegate ()
+            if (model_compile_render_type.SelectedIndex == 0)
             {
-                var process = new ProcessStartInfo();
-                process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = GetToolExeName(tool_type.tool);
-                if (model_compile_type.HasFlag(model_compile.physics))
+                string path = compile_model_path.Text;
+                object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
+                new Thread(delegate ()
                 {
-                    process.Arguments = "model-physics \"" + path + "\"";
-                    process.Arguments += " pause_after_run";
-                    RunProcess(process, true);
-                }
-                if (model_compile_type.HasFlag(model_compile.collision))
+                    var process = new ProcessStartInfo();
+                    process.WorkingDirectory = H2Ek_install_path;
+                    process.FileName = GetToolExeName(tool_type.tool);
+                    if (model_compile_type.HasFlag(model_compile.physics))
+                    {
+                        process.Arguments = "model-physics \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
+                    if (model_compile_type.HasFlag(model_compile.collision))
+                    {
+                        process.Arguments = "model-collision \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
+                    if (model_compile_type.HasFlag(model_compile.render))
+                    {
+                        process.Arguments = "model-render \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
+                    if (model_compile_type.HasFlag(model_compile.obj))
+                    {
+                        process.Arguments = "model-object " + path + "\\ " + obj;
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process);
+                    }
+                }).Start();
+            }
+            if (model_compile_render_type.SelectedIndex == 1)
+            {
+                string path = compile_model_path.Text;
+                object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
+                new Thread(delegate ()
                 {
-                    process.Arguments = "model-collision \"" + path + "\"";
-                    process.Arguments += " pause_after_run";
-                    RunProcess(process, true);
-                }
-                if (model_compile_type.HasFlag(model_compile.render))
-                {
-                    process.Arguments = "model-render \"" + path + "\"";
-                    process.Arguments += " pause_after_run";
-                    RunProcess(process, true);
-                }
-                if (model_compile_type.HasFlag(model_compile.obj))
-                {
-                    process.Arguments = "model-object " + path + "\\ " + obj;
-                    process.Arguments += " pause_after_run";
-                    RunProcess(process);
-                }
-            }).Start();
+                    var process = new ProcessStartInfo();
+                    process.WorkingDirectory = H2Ek_install_path;
+                    process.FileName = GetToolExeName(tool_type.tool);
+                    if (model_compile_type.HasFlag(model_compile.physics))
+                    {
+                        process.Arguments = "model-physics \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
+                    if (model_compile_type.HasFlag(model_compile.collision))
+                    {
+                        process.Arguments = "model-collision \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
+                    if (model_compile_type.HasFlag(model_compile.render))
+                    {
+                        process.FileName = GetToolExeName(tool_type.daeconverter);
+                        process.Arguments = "-compile " + "data\\" + path;
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
+                    if (model_compile_type.HasFlag(model_compile.obj))
+                    {
+                        process.Arguments = "model-object " + path + "\\ " + obj;
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process);
+                    }
+                }).Start();
+            }
         }
 
         private void browse_model_Click(object sender, RoutedEventArgs e)
@@ -740,30 +783,35 @@ namespace Halo2CodezLauncher
         {
             model_compile_type = model_compile.collision;
             model_compile_obj_type.IsEnabled = false;
+            model_compile_render_type.IsEnabled = false;
         }
 
         private void model_compile_physics_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.physics;
             model_compile_obj_type.IsEnabled = false;
+            model_compile_render_type.IsEnabled = false;
         }
 
         private void model_compile_obj_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.obj;
             model_compile_obj_type.IsEnabled = true;
+            model_compile_render_type.IsEnabled = false;
         }
 
         private void model_compile_all_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render;
             model_compile_obj_type.IsEnabled = true;
+            model_compile_render_type.IsEnabled = true;
         }
 
         private void model_compile_render_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.render;
             model_compile_obj_type.IsEnabled = false;
+            model_compile_render_type.IsEnabled = true;
         }
 
         private void large_addr_enabled_Checked(object sender, RoutedEventArgs e)
