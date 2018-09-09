@@ -783,30 +783,35 @@ namespace Halo2CodezLauncher
         {
             model_compile_type = model_compile.collision;
             model_compile_obj_type.IsEnabled = false;
+            model_compile_render_type.IsEnabled = false;
         }
 
         private void model_compile_physics_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.physics;
             model_compile_obj_type.IsEnabled = false;
+            model_compile_render_type.IsEnabled = false;
         }
 
         private void model_compile_obj_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.obj;
             model_compile_obj_type.IsEnabled = true;
+            model_compile_render_type.IsEnabled = false;
         }
 
         private void model_compile_all_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render;
             model_compile_obj_type.IsEnabled = true;
+            model_compile_render_type.IsEnabled = true;
         }
 
         private void model_compile_render_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.render;
             model_compile_obj_type.IsEnabled = false;
+            model_compile_render_type.IsEnabled = true;
         }
 
         private void large_addr_enabled_Checked(object sender, RoutedEventArgs e)
