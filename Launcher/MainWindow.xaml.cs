@@ -475,12 +475,13 @@ namespace Halo2CodezLauncher
         private void HandleClickCompile(object sender, RoutedEventArgs e)
         {
             string level_path = compile_level_path.Text;
+            string instance_text = instance_value.Text;
             if (File.Exists(level_path))
             {
                 light_quality light_level = (light_quality)light_quality_level.SelectedIndex;
                 new Thread(delegate ()
                 {
-                    CompileLevel(level_path.ToLower(), light_level);
+                    CompileLevel(level_path.ToLower(), light_level, instance_text);
                 }).Start();
             }
             else
@@ -489,7 +490,7 @@ namespace Halo2CodezLauncher
             }
         }
 
-        private void CompileLevel(string level_path, light_quality lightQuality)
+        private void CompileLevel(string level_path, light_quality lightQuality, string instance_text)
         {
             if (levelCompileType.HasFlag(level_compile_type.compile))
             {
@@ -503,19 +504,34 @@ namespace Halo2CodezLauncher
             }
             if (levelCompileType.HasFlag(level_compile_type.light))
             {
-                level_path = level_path.Replace(".ass", "");
-                level_path = level_path.Replace(".jms", "");
-                level_path = level_path.Replace("\\data\\", "\\tags\\");
-                level_path = level_path.Replace("\\structure\\", "\\");
-                string scenario_path = new FileInfo(level_path).Directory.FullName;
-                string value = instance_value.Text;
-                var process = new ProcessStartInfo();
-                process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = GetToolExeName(tool_type.tool);
-                process.Arguments = "lightmaps-local-multi-process \"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality + " " + value;
-                //process.Arguments = "lightmaps \"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
-                process.Arguments += " pause_after_run";
-                RunProcess(process);
+                Int32 instance_count;
+                if (Int32.TryParse(instance_text, out instance_count))
+                {
+                    level_path = level_path.Replace(".ass", "");
+                    level_path = level_path.Replace(".jms", "");
+                    level_path = level_path.Replace("\\data\\", "\\tags\\");
+                    level_path = level_path.Replace("\\structure\\", "\\");
+                    string scenario_path = new FileInfo(level_path).Directory.FullName;
+
+                    string common_args = "\"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
+
+                    var process = new ProcessStartInfo();
+                    process.WorkingDirectory = H2Ek_install_path;
+                    process.FileName = GetToolExeName(tool_type.tool);
+
+                    if (instance_count >= 2)
+                    {
+                        process.Arguments = "lightmaps-local-multi-process " + common_args + " " + instance_count; 
+                    } else
+                    {
+                        process.Arguments = "lightmaps " + common_args;
+                    }
+                    process.Arguments += " pause_after_run";
+                    RunProcess(process);
+                } else
+                {
+                    MessageBox.Show("Invalid instance count!");
+                }
             }
         }
 
