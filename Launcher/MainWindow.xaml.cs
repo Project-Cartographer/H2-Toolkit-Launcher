@@ -508,10 +508,12 @@ namespace Halo2CodezLauncher
                 level_path = level_path.Replace("\\data\\", "\\tags\\");
                 level_path = level_path.Replace("\\structure\\", "\\");
                 string scenario_path = new FileInfo(level_path).Directory.FullName;
+                string value = instance_value.Text;
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = GetToolExeName(tool_type.tool);
-                process.Arguments = "lightmaps \"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
+                process.Arguments = "lightmaps-local-multi-process \"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality + " " + value;
+                //process.Arguments = "lightmaps \"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
                 process.Arguments += " pause_after_run";
                 RunProcess(process);
             }
@@ -536,16 +538,29 @@ namespace Halo2CodezLauncher
             }
         }
 
+        class BitmapCompile
+        {
+            public static List<string> bitmapType = new List<string>()
+            {
+                "2d",
+                "3d",
+                "cubemaps",
+                "sprites",
+                "inteface"
+            };
+        }
+
         private void CompileImage(object sender, RoutedEventArgs e)
         {
             string image_path = compile_image_path.Text;
             if (File.Exists(image_path))
             {
+                string listEntry = BitmapCompile.bitmapType[bitmap_compile_type.SelectedIndex];
                 string path = new FileInfo(image_path).Directory.FullName;
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = GetToolExeName(tool_type.tool);
-                process.Arguments = "bitmaps \"" + path + "\"";
+                process.Arguments = "bitmaps-with-type \"" + path + "\"" + " " + listEntry;
                 process.Arguments += " pause_after_run";
                 RunProcess(process);
             }

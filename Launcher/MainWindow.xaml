@@ -33,7 +33,7 @@
                         <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select level file to compile." Foreground="{StaticResource brushWatermarkForeground}" 
                        Visibility="{Binding ElementName=compile_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
                         <TextBox Name="compile_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
-                        <GroupBox x:Name="light_quality_select_box" Header="Light Quality" HorizontalAlignment="Left" Height="63" Margin="10,80,0,0" VerticalAlignment="Top" Width="325" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
+                        <GroupBox x:Name="light_quality_select_box" Header="Light Quality" HorizontalAlignment="Left" Height="63" Margin="10,80,0,0" VerticalAlignment="Top" Width="189" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
                             <GroupBox.BindingGroup>
                                 <BindingGroup/>
                             </GroupBox.BindingGroup>
@@ -48,6 +48,12 @@
                                 <ComboBoxItem Content="High"/>
                                 <ComboBoxItem Content="Super"/>
                             </ComboBox>
+                        </GroupBox>
+                        <GroupBox x:Name="instance_number" Header="Instance Count" HorizontalAlignment="Left" Height="63" Margin="222,81,0,0" VerticalAlignment="Top" Width="107" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
+                            <GroupBox.BindingGroup>
+                                <BindingGroup/>
+                            </GroupBox.BindingGroup>
+                            <TextBox Name="instance_value" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="24" Margin="24,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Background="Transparent" RenderTransformOrigin="0.249,0.696" Text="1"/>
                         </GroupBox>
                         <Button Content="Compile Level" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="HandleClickCompile"/>
                         <RadioButton Name="CompileOnly" Content="Compile Only" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,-1.4" IsChecked="True" Checked="CompileOnly_Checked"/>
@@ -69,6 +75,18 @@
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_bitmap" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_bitmap_Click"/>
                         <Button Content="Compile Image" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileImage"/>
+                        <GroupBox x:Name="bitmap_select_box" Header="Bitmap Type" HorizontalAlignment="Left" Height="63" Margin="10,80,0,0" VerticalAlignment="Top" Width="325" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
+                            <GroupBox.BindingGroup>
+                                <BindingGroup/>
+                            </GroupBox.BindingGroup>
+                            <ComboBox x:Name="bitmap_compile_type" HorizontalAlignment="Left" Margin="0,10,-2,0" VerticalAlignment="Top" Width="315" Height="26" SelectedIndex="0">
+                                <ComboBoxItem Content="2D Textures"/>
+                                <ComboBoxItem Content="3D Textures"/>
+                                <ComboBoxItem Content="Cubemaps"/>
+                                <ComboBoxItem Content="Sprites"/>
+                                <ComboBoxItem Content="Interface"/>
+                            </ComboBox>
+                        </GroupBox>
 
                         <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select image to compile." Foreground="{StaticResource brushWatermarkForeground}" 
                        Visibility="{Binding ElementName=compile_image_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
