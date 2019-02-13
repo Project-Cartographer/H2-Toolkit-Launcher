@@ -53,7 +53,7 @@
                             <GroupBox.BindingGroup>
                                 <BindingGroup/>
                             </GroupBox.BindingGroup>
-                            <TextBox Name="instance_value" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="24" Margin="24,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Background="Transparent" RenderTransformOrigin="0.249,0.696" Text="1"/>
+                            <TextBox Name="instance_value" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="24" Margin="24,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Background="Transparent" RenderTransformOrigin="0.249,0.696" Text="1" MaxLines="1" MaxLength="4" PreviewTextInput="numbers_only"/>
                         </GroupBox>
                         <Button Content="Compile Level" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="HandleClickCompile"/>
                         <RadioButton Name="CompileOnly" Content="Compile Only" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,-1.4" IsChecked="True" Checked="CompileOnly_Checked"/>

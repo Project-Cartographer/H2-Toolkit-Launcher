@@ -856,6 +856,12 @@ namespace Halo2CodezLauncher
             Settings.Default.ignore_updates = (bool)ignore_updates_enabled.IsChecked;
             Settings.Default.Save();
         }
+
+        private void numbers_only(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            e.Handled = System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^0-9]+");
+        }
     }
 
     public class TextInputToVisibilityConverter : IMultiValueConverter
