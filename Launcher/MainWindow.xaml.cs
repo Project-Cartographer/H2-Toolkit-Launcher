@@ -171,7 +171,7 @@ namespace Halo2CodezLauncher
             Assembly assembly = Assembly.GetExecutingAssembly();
             string our_version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
             string latest_version = wc.DownloadString(Settings.Default.version_url);
-            if (latest_version != our_version)
+            if (latest_version != our_version && !Settings.Default.ignore_updates)
             {
                 MessageBoxResult user_answer = MessageBox.Show("Latest version is: " + latest_version + " You are using: " + our_version + " \nDo you want to update?",
                      "Outdated Version!", MessageBoxButton.YesNo);
@@ -215,6 +215,7 @@ namespace Halo2CodezLauncher
             H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
             InitializeComponent();
             large_addr_enabled.IsChecked = Settings.Default.large_address_support;
+            ignore_updates_enabled.IsChecked = Settings.Default.ignore_updates;
             // Delete any left over update files.
             try
             {
@@ -257,9 +258,9 @@ namespace Halo2CodezLauncher
                     patch_exes_for_large_address_support();
                     string h2codez_latest_hash = wc.DownloadString(Settings.Default.h2codez_lastest_hash);
                     string our_h2codes_hash = CalculateMD5(H2Ek_install_path + "H2Codez.dll");
-                    if (our_h2codes_hash != h2codez_latest_hash.ToLower())
+                    if (our_h2codes_hash != h2codez_latest_hash.ToLower() && !Settings.Default.ignore_updates)
                     {
-                        MessageBoxResult user_answer = MessageBox.Show("You version of H2Codez is outdated, do you want to updated?",
+                        MessageBoxResult user_answer = MessageBox.Show("You version of H2Codez is outdated, do you want to update?",
                          "H2Codez Update", MessageBoxButton.YesNo);
                         if (user_answer == MessageBoxResult.Yes)
                         {
@@ -506,11 +507,11 @@ namespace Halo2CodezLauncher
                 level_path = level_path.Replace(".jms", "");
                 level_path = level_path.Replace("\\data\\", "\\tags\\");
                 level_path = level_path.Replace("\\structure\\", "\\");
+                string scenario_path = new FileInfo(level_path).Directory.FullName;
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = GetToolExeName(tool_type.tool);
-                process.Arguments = "lightmaps \"" + level_path + "\" "
-                    + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
+                process.Arguments = "lightmaps \"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
                 process.Arguments += " pause_after_run";
                 RunProcess(process);
             }
@@ -817,6 +818,11 @@ namespace Halo2CodezLauncher
         private void large_addr_enabled_Checked(object sender, RoutedEventArgs e)
         {
             Settings.Default.large_address_support = (bool)large_addr_enabled.IsChecked;
+            Settings.Default.Save();
+        }
+        private void ignore_updates_enabled_Checked(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.ignore_updates = (bool)ignore_updates_enabled.IsChecked;
             Settings.Default.Save();
         }
     }
