@@ -235,14 +235,14 @@ namespace Halo2CodezLauncher
                     file_list files_to_patch = file_list.none;
                     if (!check_files(ref files_to_patch))
                     {
-                        MessageBox.Show("You are using a version of the toolkit not supported by H2Codez, features added by H2Codez will not be available.\nPlease install the orginal version of the toolkit that was distributed on the DVD, as that's the only version H2Codez can patch.",
+                        MessageBox.Show("You are using a version of the toolkit that is not supported by H2Codez, features added by H2Codez will not be available.\nPlease install the orginal version of the toolkit that was distributed on the DVD, as that's the only version H2Codez can patch.",
                          "Version Error!");
                         return;
                     }
 
                     if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || files_to_patch != file_list.none)
                     {
-                        MessageBoxResult user_answer = MessageBox.Show("Your have not installed H2Codez or your version is outdated.\nDo you want to installed H2Codez?",
+                        MessageBoxResult user_answer = MessageBox.Show("You have not installed H2Codez or your version is outdated.\nDo you want to install H2Codez?",
                          "H2Codez Install", MessageBoxButton.YesNo);
                         if (user_answer == MessageBoxResult.No) return;
 
@@ -260,7 +260,7 @@ namespace Halo2CodezLauncher
                     string our_h2codes_hash = CalculateMD5(H2Ek_install_path + "H2Codez.dll");
                     if (our_h2codes_hash != h2codez_latest_hash.ToLower() && !Settings.Default.ignore_updates)
                     {
-                        MessageBoxResult user_answer = MessageBox.Show("You version of H2Codez is outdated, do you want to update?",
+                        MessageBoxResult user_answer = MessageBox.Show("Your version of H2Codez is outdated, do you want to update it?",
                          "H2Codez Update", MessageBoxButton.YesNo);
                         if (user_answer == MessageBoxResult.Yes)
                         {
@@ -277,7 +277,7 @@ namespace Halo2CodezLauncher
                 }
                 catch (WebException ex) when (ex.InnerException is IOException)
                 {
-                    MessageBox.Show("Updating H2Codez failed because the launcher can't write the update data.\nPlease close all currently open modding tools and try again.", "Error!");
+                    MessageBox.Show("Updating H2Codez failed because the launcher can't write to the update data.\nPlease close all currently open modding tools and try again.", "Error!");
                 }
                 catch (WebException ex) when (ex.InnerException is UnauthorizedAccessException)
                 {
