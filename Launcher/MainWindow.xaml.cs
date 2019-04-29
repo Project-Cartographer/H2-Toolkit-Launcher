@@ -277,7 +277,7 @@ namespace Halo2CodezLauncher
                 }
                 catch (WebException ex) when (ex.InnerException is IOException)
                 {
-                    MessageBox.Show("Updating H2Codez failed because the launcher can't write to the update data.\nPlease close all currently open modding tools and try again.", "Error!");
+                    MessageBox.Show("Updating H2Codez failed because the launcher can't save the update data to disk.\nPlease close all currently open H2EK related programs and try again.", "Error!");
                 }
                 catch (WebException ex) when (ex.InnerException is UnauthorizedAccessException)
                 {
