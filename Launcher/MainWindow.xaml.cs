@@ -242,7 +242,7 @@ namespace Halo2CodezLauncher
 
                     if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || files_to_patch != file_list.none)
                     {
-                        MessageBoxResult user_answer = MessageBox.Show("You have not installed H2Codez or your version is outdated.\nDo you want to install H2Codez?",
+                        MessageBoxResult user_answer = MessageBox.Show("You have not installed H2Codez or the installation process is incomplete.\nDo you want to install H2Codez?",
                          "H2Codez Install", MessageBoxButton.YesNo);
                         if (user_answer == MessageBoxResult.No) return;
 
