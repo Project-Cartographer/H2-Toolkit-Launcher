@@ -68,7 +68,8 @@ namespace Halo2CodezLauncher
             collision = 2,
             physics = 4,
             render = 8,
-            obj = 16,
+            animations = 16,
+            obj = 32,
         }
         model_compile model_compile_type;
 
@@ -746,6 +747,12 @@ namespace Halo2CodezLauncher
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
+                    if (model_compile_type.HasFlag(model_compile.animations))
+                    {
+                        process.Arguments = "append-animations \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
                     if (model_compile_type.HasFlag(model_compile.obj))
                     {
                         process.Arguments = "model-object " + path + "\\ " + obj;
@@ -825,6 +832,13 @@ namespace Halo2CodezLauncher
             model_compile_render_type.IsEnabled = false;
         }
 
+        private void model_compile_animations_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.animations;
+            model_compile_obj_type.IsEnabled = false;
+            model_compile_render_type.IsEnabled = false;
+        }
+
         private void model_compile_obj_Checked(object sender, RoutedEventArgs e)
         {
             model_compile_type = model_compile.obj;
@@ -834,7 +848,7 @@ namespace Halo2CodezLauncher
 
         private void model_compile_all_Checked(object sender, RoutedEventArgs e)
         {
-            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render;
+            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render | model_compile.animations;
             model_compile_obj_type.IsEnabled = true;
             model_compile_render_type.IsEnabled = true;
         }
