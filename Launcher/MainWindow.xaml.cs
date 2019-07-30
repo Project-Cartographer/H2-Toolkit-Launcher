@@ -848,7 +848,7 @@ namespace Halo2CodezLauncher
 
         private void model_compile_all_Checked(object sender, RoutedEventArgs e)
         {
-            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render;
+            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render | model_compile.animations;
             model_compile_obj_type.IsEnabled = true;
             model_compile_render_type.IsEnabled = true;
         }
