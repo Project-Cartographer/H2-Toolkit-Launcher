@@ -58,7 +58,8 @@ namespace Halo2CodezLauncher
             low,
             medium,
             high,
-            super
+            super,
+            custom
         }
 
         [Flags]
