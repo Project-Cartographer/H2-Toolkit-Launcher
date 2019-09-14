@@ -47,6 +47,7 @@
                                 <ComboBoxItem Content="Medium"/>
                                 <ComboBoxItem Content="High"/>
                                 <ComboBoxItem Content="Super"/>
+                                <ComboBoxItem Content="Custom"/>
                             </ComboBox>
                         </GroupBox>
                         <GroupBox x:Name="instance_number" Header="Instance Count" HorizontalAlignment="Left" Height="63" Margin="222,81,0,0" VerticalAlignment="Top" Width="107" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">

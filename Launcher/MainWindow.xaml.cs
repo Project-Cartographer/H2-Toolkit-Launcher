@@ -58,7 +58,8 @@ namespace Halo2CodezLauncher
             low,
             medium,
             high,
-            super
+            super,
+            custom
         }
 
         [Flags]
@@ -514,7 +515,7 @@ namespace Halo2CodezLauncher
                     level_path = level_path.Replace("\\structure\\", "\\");
                     string scenario_path = new FileInfo(level_path).Directory.FullName;
 
-                    string common_args = "\"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + System.IO.Path.GetFileNameWithoutExtension(level_path) + " " + lightQuality;
+                    string common_args = "\"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + "\"" + System.IO.Path.GetFileNameWithoutExtension(level_path) + "\" " + lightQuality;
 
                     var process = new ProcessStartInfo();
                     process.WorkingDirectory = H2Ek_install_path;
