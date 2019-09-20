@@ -55,6 +55,7 @@ namespace Halo2CodezLauncher
             draft_low,
             draft_medium,
             draft_high,
+            draft_super,
             low,
             medium,
             high,
