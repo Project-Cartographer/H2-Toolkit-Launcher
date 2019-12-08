@@ -794,6 +794,12 @@ namespace Halo2CodezLauncher
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
+                    if (model_compile_type.HasFlag(model_compile.animations))
+                    {
+                        process.Arguments = "append-animations \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
                     if (model_compile_type.HasFlag(model_compile.obj))
                     {
                         process.Arguments = "model-object " + path + "\\ " + obj;
