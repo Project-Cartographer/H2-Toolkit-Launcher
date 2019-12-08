@@ -650,6 +650,7 @@ namespace Halo2CodezLauncher
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Uncompiled level";
             dlg.Filter = "Uncompiled map geometry|*.ASS;*.JMS";
+            dlg.InitialDirectory = H2Ek_install_path + "data\\";
             if (dlg.ShowDialog() == true)
             {
                 compile_level_path.Text = dlg.FileName;
@@ -661,6 +662,7 @@ namespace Halo2CodezLauncher
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select unicode encoded .txt file to compile.";
             dlg.Filter = "Unicode encoded .txt files|*.txt";
+            dlg.InitialDirectory = H2Ek_install_path + "data\\";
             if (dlg.ShowDialog() == true)
             {
                 compile_text_path.Text = dlg.FileName;
@@ -672,6 +674,7 @@ namespace Halo2CodezLauncher
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Image File";
             dlg.Filter = "Supported image files|*.tif;*.tga;*.jpg;*.bmp";
+            dlg.InitialDirectory = H2Ek_install_path + "data\\";
             if (dlg.ShowDialog() == true)
             {
                 compile_image_path.Text = dlg.FileName;
@@ -683,6 +686,7 @@ namespace Halo2CodezLauncher
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Scenario";
             dlg.Filter = "Unpackaged Map|*.scenario";
+            dlg.InitialDirectory = H2Ek_install_path +"tags\\";
             if (dlg.ShowDialog() == true)
             {
                 package_level_path.Text = dlg.FileName;
@@ -791,6 +795,12 @@ namespace Halo2CodezLauncher
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
+                    if (model_compile_type.HasFlag(model_compile.animations))
+                    {
+                        process.Arguments = "append-animations \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
                     if (model_compile_type.HasFlag(model_compile.obj))
                     {
                         process.Arguments = "model-object " + path + "\\ " + obj;
@@ -813,6 +823,7 @@ namespace Halo2CodezLauncher
             dlg.EnsurePathExists = true;
             dlg.Multiselect = false;
             dlg.ShowPlacesList = true;
+            dlg.InitialDirectory = H2Ek_install_path + "data\\";
 
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
