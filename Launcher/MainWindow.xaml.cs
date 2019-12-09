@@ -725,89 +725,57 @@ namespace Halo2CodezLauncher
 
         private void compile_model_Click(object sender, RoutedEventArgs e)
         {
-            if (model_compile_render_type.SelectedIndex == 0)
+            string path = compile_model_path.Text;
+            object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
+            int render_type = model_compile_render_type.SelectedIndex;
+            new Thread(delegate ()
             {
-                string path = compile_model_path.Text;
-                object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
-                new Thread(delegate ()
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = GetToolExeName(tool_type.tool);
+                if (model_compile_type.HasFlag(model_compile.physics))
                 {
-                    var process = new ProcessStartInfo();
-                    process.WorkingDirectory = H2Ek_install_path;
-                    process.FileName = GetToolExeName(tool_type.tool);
-                    if (model_compile_type.HasFlag(model_compile.physics))
+                    process.Arguments = "model-physics \"" + path + "\"";
+                    process.Arguments += " pause_after_run";
+                    RunProcess(process, true);
+                }
+                if (model_compile_type.HasFlag(model_compile.collision))
+                {
+                    process.Arguments = "model-collision \"" + path + "\"";
+                    process.Arguments += " pause_after_run";
+                    RunProcess(process, true);
+                }
+                if (model_compile_type.HasFlag(model_compile.render))
+                {
+                    if (render_type == 0)
                     {
-                        process.Arguments = "model-physics \"" + path + "\"";
-                        process.Arguments += " pause_after_run";
-                        RunProcess(process, true);
-                    }
-                    if (model_compile_type.HasFlag(model_compile.collision))
-                    {
-                        process.Arguments = "model-collision \"" + path + "\"";
-                        process.Arguments += " pause_after_run";
-                        RunProcess(process, true);
-                    }
-                    if (model_compile_type.HasFlag(model_compile.render))
-                    {
+                        process.FileName = GetToolExeName(tool_type.tool);
                         process.Arguments = "model-render \"" + path + "\"";
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
-                    if (model_compile_type.HasFlag(model_compile.animations))
-                    {
-                        process.Arguments = "append-animations \"" + path + "\"";
-                        process.Arguments += " pause_after_run";
-                        RunProcess(process, true);
-                    }
-                    if (model_compile_type.HasFlag(model_compile.obj))
-                    {
-                        process.Arguments = "model-object " + path + "\\ " + obj;
-                        process.Arguments += " pause_after_run";
-                        RunProcess(process);
-                    }
-                }).Start();
-            }
-            if (model_compile_render_type.SelectedIndex == 1)
-            {
-                string path = compile_model_path.Text;
-                object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
-                new Thread(delegate ()
-                {
-                    var process = new ProcessStartInfo();
-                    process.WorkingDirectory = H2Ek_install_path;
-                    process.FileName = GetToolExeName(tool_type.tool);
-                    if (model_compile_type.HasFlag(model_compile.physics))
-                    {
-                        process.Arguments = "model-physics \"" + path + "\"";
-                        process.Arguments += " pause_after_run";
-                        RunProcess(process, true);
-                    }
-                    if (model_compile_type.HasFlag(model_compile.collision))
-                    {
-                        process.Arguments = "model-collision \"" + path + "\"";
-                        process.Arguments += " pause_after_run";
-                        RunProcess(process, true);
-                    }
-                    if (model_compile_type.HasFlag(model_compile.render))
+                    else
                     {
                         process.FileName = GetToolExeName(tool_type.daeconverter);
-                        process.Arguments = "-compile " + "data\\" + path;
+                        process.Arguments = "-compile " + "data\\" + path.Replace(H2Ek_install_path + "data\\", "");
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
-                    if (model_compile_type.HasFlag(model_compile.animations))
-                    {
-                        process.Arguments = "append-animations \"" + path + "\"";
-                        process.Arguments += " pause_after_run";
-                        RunProcess(process, true);
-                    }
-                    if (model_compile_type.HasFlag(model_compile.obj))
-                    {
-                        process.Arguments = "model-object " + path + "\\ " + obj;
-                        process.Arguments += " pause_after_run";
-                        RunProcess(process);
-                    }
-                }).Start();
-            }
+
+                }
+                if (model_compile_type.HasFlag(model_compile.animations))
+                {
+                    process.Arguments = "append-animations \"" + path + "\"";
+                    process.Arguments += " pause_after_run";
+                    RunProcess(process, true);
+                }
+                if (model_compile_type.HasFlag(model_compile.obj))
+                {
+                    process.Arguments = "model-object " + path + "\\ " + obj;
+                    process.Arguments += " pause_after_run";
+                    RunProcess(process);
+                }
+            }).Start();
         }
 
         private void browse_model_Click(object sender, RoutedEventArgs e)
@@ -826,7 +794,7 @@ namespace Halo2CodezLauncher
 
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                compile_model_path.Text = dlg.FileName.Replace(H2Ek_install_path + "data\\", "");
+                compile_model_path.Text = dlg.FileName;
             }
         }
 
