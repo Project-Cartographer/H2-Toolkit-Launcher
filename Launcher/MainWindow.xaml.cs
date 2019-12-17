@@ -750,14 +750,14 @@ namespace Halo2CodezLauncher
                     if (render_type == 0)
                     {
                         process.FileName = GetToolExeName(tool_type.tool);
-                        process.Arguments = "model-render \"" + path.Replace(H2Ek_install_path + "data\\", "") + "\"";
+                        process.Arguments = "model-render \"" + path.Replace(H2Ek_install_path + "data\\", "") + "\""; //Doesn't like a full path?
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
                     else
                     {
                         process.FileName = GetToolExeName(tool_type.daeconverter);
-                        process.Arguments = "-compile \"" + path.Replace(H2Ek_install_path, "") + "\"";
+                        process.Arguments = "-compile \"" + path.Replace(H2Ek_install_path, "") + "\""; //DAEConverter adds exe path to the path the user enters.
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
@@ -771,7 +771,7 @@ namespace Halo2CodezLauncher
                 }
                 if (model_compile_type.HasFlag(model_compile.obj))
                 {
-                    process.Arguments = "model-object " + path + "\\ " + obj;
+                    process.Arguments = "model-object " + path.Replace(H2Ek_install_path + "data\\", "") + "\\ " + obj; //Doesn't like quotes or a full path?
                     process.Arguments += " pause_after_run";
                     RunProcess(process);
                 }
