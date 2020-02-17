@@ -221,34 +221,27 @@ namespace Halo2CodezLauncher
             try
             {
                 Microsoft.Win32.RegistryKey H2EK_Install_Path_key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Microsoft Games\\Halo 2\\1.0");
-                Microsoft.Win32.RegistryKey Guerilla_Tag_key_64bit = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Halo 2");
-                Microsoft.Win32.RegistryKey Guerilla_Tag_key_32bit = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Halo 2");
+                Microsoft.Win32.RegistryKey Guerilla_Tag_key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Halo 2");
 
                 RegistryKey Test_Write_Access = RegistryKey
                     .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
                     .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
 
                 bool H2EK_key = true;
-                bool Guerilla_64key = true;
-                bool Guerilla_32key = true;
+                bool Guerilla_key = true;
 
                 if (H2EK_Install_Path_key == null)
                 {
                     H2EK_key = false;
                 }
 
-                if (Guerilla_Tag_key_64bit == null)
+                if (Guerilla_Tag_key == null)
                 {
-                    Guerilla_64key = false;
-                }
-
-                if (Guerilla_Tag_key_32bit == null)
-                {
-                    Guerilla_32key = false;
+                    Guerilla_key = false;
                 }
 
 
-                if (H2EK_key == Guerilla_64key == Guerilla_32key)
+                if (H2EK_key == Guerilla_key)
                 {
                     MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
                     OpenFileDialog dlg = new OpenFileDialog();
@@ -269,14 +262,7 @@ namespace Halo2CodezLauncher
                         .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
                     registryKey32.SetValue("ToolsInstallDir", H2Ek_install_path_user_set + "\\");
                 }
-                if (Guerilla_Tag_key_64bit == null)
-                {
-                    RegistryKey registryKey64 = RegistryKey
-                        .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64)
-                        .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
-                    registryKey64.SetValue("tools_directory", H2Ek_install_path_user_set + "\\");
-                }
-                if (Guerilla_Tag_key_32bit == null)
+                if (Guerilla_Tag_key == null)
                 {
                     RegistryKey registryKey32 = RegistryKey
                         .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
