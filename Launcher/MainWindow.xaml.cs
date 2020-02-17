@@ -227,21 +227,7 @@ namespace Halo2CodezLauncher
                     .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
                     .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
 
-                bool H2EK_key = true;
-                bool Guerilla_key = true;
-
-                if (H2EK_Install_Path_key == null)
-                {
-                    H2EK_key = false;
-                }
-
-                if (Guerilla_Tag_key == null)
-                {
-                    Guerilla_key = false;
-                }
-
-
-                if (H2EK_key == false && Guerilla_key == false)
+                if (H2EK_Install_Path_key is null || Guerilla_Tag_key is null)
                 {
                     MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
                     OpenFileDialog dlg = new OpenFileDialog();
@@ -255,14 +241,14 @@ namespace Halo2CodezLauncher
                     H2Ek_install_path_user_set = new FileInfo(H2Tool_path).Directory.FullName;
                 }
 
-                if (H2EK_Install_Path_key == null)
+                if (H2EK_Install_Path_key is null)
                 {
                     RegistryKey registryKey32 = RegistryKey
                         .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
                         .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
                     registryKey32.SetValue("ToolsInstallDir", H2Ek_install_path_user_set + "\\");
                 }
-                if (Guerilla_Tag_key == null)
+                if (Guerilla_Tag_key is null)
                 {
                     RegistryKey registryKey32 = RegistryKey
                         .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
