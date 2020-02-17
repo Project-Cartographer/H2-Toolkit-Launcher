@@ -163,9 +163,8 @@
                 <TabItem Header="Settings" Margin="-2,-3,2,3" Width="105" Height="24">
                     <Grid Background="#FFE5E5E5">
                         <Button Content="Reset Sapien window layout" Margin="32,10,152,0" VerticalAlignment="Top" Click="ResetSapienDisplay" RenderTransformOrigin="0.509,0.65"/>
-                        <Button Content="Repair registry" Margin="32,40,152,0" VerticalAlignment="Top" Click="RepairRegistry" RenderTransformOrigin="0.509,0.65"/>
-                        <CheckBox x:Name="large_addr_enabled" Content="Use executables with large address support" HorizontalAlignment="Left" Margin="32,65,0,0" VerticalAlignment="Top" Width="265" Checked="large_addr_enabled_Checked" Unchecked="large_addr_enabled_Checked"/>
-                        <CheckBox x:Name="ignore_updates_enabled" Content="Ignore Updates" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="265" Checked="ignore_updates_enabled_Checked" Unchecked="ignore_updates_enabled_Checked"/>
+                        <CheckBox x:Name="large_addr_enabled" Content="Use executables with large address support" HorizontalAlignment="Left" Margin="32,35,0,0" VerticalAlignment="Top" Width="265" Checked="large_addr_enabled_Checked" Unchecked="large_addr_enabled_Checked"/>
+                        <CheckBox x:Name="ignore_updates_enabled" Content="Ignore Updates" HorizontalAlignment="Left" Margin="32,55,0,0" VerticalAlignment="Top" Width="265" Checked="ignore_updates_enabled_Checked" Unchecked="ignore_updates_enabled_Checked"/>
                     </Grid>
                 </TabItem>
                 <TabItem Header="Credits" Margin="-2,-3,2,3" Width="105" Height="24">
