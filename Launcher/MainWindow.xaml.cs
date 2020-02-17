@@ -39,6 +39,7 @@ namespace Halo2CodezLauncher
     {
         private string H2Ek_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2 Map Editor\\";
         private string Halo_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2\\";
+        private string H2Ek_install_path_user_set; 
         [Flags]
         enum level_compile_type : Byte
         {
@@ -215,7 +216,45 @@ namespace Halo2CodezLauncher
             Application.Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
             Settings.Default.Upgrade();
             Settings.Default.Save();
-            H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
+
+            try
+            {
+                Microsoft.Win32.RegistryKey key1 = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Microsoft Games\\Halo 2\\1.0");
+                Microsoft.Win32.RegistryKey key2 = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Halo 2");
+                Microsoft.Win32.RegistryKey key3 = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Halo 2");
+
+                H2Ek_install_path_user_set = "C:\\Program Files (x86)\\Microsoft Games\\Halo 2 Map Editor\\";
+
+                Microsoft.Win32.RegistryKey key1_set;
+                Microsoft.Win32.RegistryKey key2_set;
+                Microsoft.Win32.RegistryKey key3_set;
+
+                if (key1 == null)
+                {
+                    key1_set = Microsoft.Win32.Registry.LocalMachine.CreateSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Microsoft Games\\Halo 2\\1.0");
+                    key1_set.SetValue("ToolsInstallDir", H2Ek_install_path_user_set);
+                    key1_set.Close();
+                }
+                if (key2 == null)
+                {
+                    key2_set = Microsoft.Win32.Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\Halo 2");
+                    key2_set.SetValue("tools_directory", H2Ek_install_path_user_set);
+                    key2_set.Close();
+                }
+                if (key3 == null)
+                {
+                    key3_set = Microsoft.Win32.Registry.LocalMachine.CreateSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Halo 2");
+                    key3_set.SetValue("tools_directory", H2Ek_install_path_user_set);
+                    key3_set.Close();
+                }
+
+                H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                RelaunchAsAdmin("");
+            }            
+
             InitializeComponent();
             large_addr_enabled.IsChecked = Settings.Default.large_address_support;
             ignore_updates_enabled.IsChecked = Settings.Default.ignore_updates;
@@ -779,6 +818,28 @@ namespace Halo2CodezLauncher
             }).Start();
         }
 
+        private void import_sound_Click(object sender, RoutedEventArgs e)
+        {
+            string sound_path_text = import_sound_path.Text;
+            string ltf_path_text = import_lipsync_path.Text;
+            if (File.Exists(sound_path_text) && File.Exists(ltf_path_text))
+            {
+                string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sound_path_text), System.IO.Path.GetFileNameWithoutExtension(sound_path_text));
+                string ltf_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(ltf_path_text),System.IO.Path.GetFileNameWithoutExtension(ltf_path_text));
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = GetToolExeName(tool_type.tool);
+                process.Arguments = "import-lipsync \"" + sound_path + "\" " + "\"" + ltf_path + "\"";
+                MessageBox.Show("import-lipsync \"" + sound_path + "\" " + "\"" + ltf_path + "\"");
+                process.Arguments += " pause_after_run";
+                RunProcess(process);
+            }
+            else
+            {
+                MessageBox.Show("Error: No such file!");
+            }
+        }
+
         private void browse_model_Click(object sender, RoutedEventArgs e)
         {
 
@@ -856,6 +917,34 @@ namespace Halo2CodezLauncher
         {
             var textBox = sender as TextBox;
             e.Handled = System.Text.RegularExpressions.Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
+        private void browse_sound_Click(object sender, RoutedEventArgs e)
+        {
+
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Select sound file.";
+            dlg.Filter = "Halo Sound Tag|*.sound";
+            dlg.InitialDirectory = H2Ek_install_path + "tags\\";
+
+            if (dlg.ShowDialog() == true)
+            {
+                import_sound_path.Text = dlg.FileName;
+            }
+        }
+
+        private void browse_ltf_Click(object sender, RoutedEventArgs e)
+        {
+
+            OpenFileDialog dlg = new OpenFileDialog();
+            dlg.Title = "Select ltf file.";
+            dlg.Filter = "Lipsync Tweak File|*.ltf";
+            dlg.InitialDirectory = H2Ek_install_path + "data\\";
+
+            if (dlg.ShowDialog() == true)
+            {
+                import_lipsync_path.Text = dlg.FileName;
+            }
         }
     }
 

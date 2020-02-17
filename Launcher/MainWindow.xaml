@@ -26,7 +26,7 @@
         </GroupBox>
         <GroupBox Header="Tasks" Margin="31,113,17,35" Grid.RowSpan="2">
             <TabControl HorizontalAlignment="Left" Width="456" Margin="10,10,0,9" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" TabStripPlacement="Left">
-                <TabItem Header="Level Compiling" Width="105" Margin="-2,-2,2,-2">
+                <TabItem Header="Level Compile" Width="105" Margin="-2,-2,2,-2">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_level_compile" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_level_compile_Click"/>
 
@@ -63,7 +63,7 @@
                         <RadioButton Name="CompileAndLight" Content="Compile and light" HorizontalAlignment="Left" Margin="222,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.429,0.4" Checked="CompileAndLight_Checked"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Text Creation" Margin="-2,0,2,0" Width="105" Height="24" VerticalAlignment="Bottom">
+                <TabItem Header="Text Compile" Margin="-2,0,2,0" Width="105" Height="24" VerticalAlignment="Bottom">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="Browse_text" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="Browse_text_Click"/>
                         <Button Content="Compile Text" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileText"/>
@@ -73,7 +73,7 @@
                         <TextBox Name="compile_text_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Bitmap Creation" Margin="-2,-1,2,1" Width="105" Height="24">
+                <TabItem Header="Bitmap Compile" Margin="-2,-1,2,1" Width="105" Height="24">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_bitmap" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_bitmap_Click"/>
                         <Button Content="Compile Image" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileImage"/>
@@ -132,6 +132,21 @@
                         <RadioButton x:Name="model_compile_render" Content="Render" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Checked="model_compile_render_Checked"/>
                     </Grid>
                 </TabItem>
+                <TabItem Header="Sound Compile" Margin="-2,-3,2,3" Width="105" Height="24">
+                    <Grid Background="#FFE5E5E5">
+                        <Button x:Name="browse_sound" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_sound_Click"/>
+                        <Button x:Name="browse_ltf" Content="Browse" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_ltf_Click"/>
+                        <Button x:Name="import_lipsync" Content="Import Sound" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="import_sound_Click"/>
+
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select sound to add lipsync data to." Foreground="{StaticResource brushWatermarkForeground}" 
+                       Visibility="{Binding ElementName=import_sound_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
+                        <TextBox Name="import_sound_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
+
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select ltf to generate lipsync data from." Foreground="{StaticResource brushWatermarkForeground}" 
+                       Visibility="{Binding ElementName=import_lipsync_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
+                        <TextBox Name="import_lipsync_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
+                    </Grid>
+                </TabItem>                
                 <TabItem Header="Packaging" Margin="-2,-3,2,3" Width="105" Height="24">
                     <Grid Background="#FFE5E5E5">
                         <Button x:Name="browse_package_level" Content="Browse" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_package_level_Click"/>
