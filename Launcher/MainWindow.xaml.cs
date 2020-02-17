@@ -223,12 +223,13 @@ namespace Halo2CodezLauncher
                 Microsoft.Win32.RegistryKey H2EK_Install_Path_key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Microsoft Games\\Halo 2\\1.0");
                 Microsoft.Win32.RegistryKey Guerilla_Tag_key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Halo 2");
 
-                RegistryKey Test_Write_Access = RegistryKey
-                    .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                    .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
 
                 if (H2EK_Install_Path_key is null || Guerilla_Tag_key is null)
                 {
+                    RegistryKey Test_Write_Access = RegistryKey
+                        .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                        .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
+
                     MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
                     OpenFileDialog dlg = new OpenFileDialog();
                     dlg.Title = "Selet H2Tool.exe";
