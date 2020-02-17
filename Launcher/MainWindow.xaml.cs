@@ -39,7 +39,8 @@ namespace Halo2CodezLauncher
     {
         private string H2Ek_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2 Map Editor\\";
         private string Halo_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2\\";
-        private string H2Ek_install_path_user_set; 
+        private string H2Tool_path;
+        private string H2Ek_install_path_user_set;
         [Flags]
         enum level_compile_type : Byte
         {
@@ -223,29 +224,41 @@ namespace Halo2CodezLauncher
                 Microsoft.Win32.RegistryKey key2 = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Halo 2");
                 Microsoft.Win32.RegistryKey key3 = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Halo 2");
 
-                H2Ek_install_path_user_set = "C:\\Program Files (x86)\\Microsoft Games\\Halo 2 Map Editor\\";
+                if (key3 == null)
+                {
+                    MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
+                    OpenFileDialog dlg = new OpenFileDialog();
+                    dlg.Title = "Selet H2Tool.exe";
+                    dlg.Filter = "H2Tool|*.exe";
+                    if (dlg.ShowDialog() == true)
+                    {
+                        H2Tool_path = dlg.FileName;
+                    }
 
-                Microsoft.Win32.RegistryKey key1_set;
-                Microsoft.Win32.RegistryKey key2_set;
-                Microsoft.Win32.RegistryKey key3_set;
+                    H2Ek_install_path_user_set = new FileInfo(H2Tool_path).Directory.FullName;
+                }
+
 
                 if (key1 == null)
                 {
-                    key1_set = Microsoft.Win32.Registry.LocalMachine.CreateSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Microsoft Games\\Halo 2\\1.0");
-                    key1_set.SetValue("ToolsInstallDir", H2Ek_install_path_user_set);
-                    key1_set.Close();
+                    RegistryKey registryKey32 = RegistryKey
+                        .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                        .CreateSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
+                    registryKey32.SetValue("ToolsInstallDir", H2Ek_install_path_user_set + "\\");
                 }
                 if (key2 == null)
                 {
-                    key2_set = Microsoft.Win32.Registry.LocalMachine.CreateSubKey("SOFTWARE\\Microsoft\\Halo 2");
-                    key2_set.SetValue("tools_directory", H2Ek_install_path_user_set);
-                    key2_set.Close();
+                    RegistryKey registryKey64 = RegistryKey
+                        .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64)
+                        .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
+                    registryKey64.SetValue("tools_directory", H2Ek_install_path_user_set + "\\");
                 }
                 if (key3 == null)
                 {
-                    key3_set = Microsoft.Win32.Registry.LocalMachine.CreateSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Halo 2");
-                    key3_set.SetValue("tools_directory", H2Ek_install_path_user_set);
-                    key3_set.Close();
+                    RegistryKey registryKey32 = RegistryKey
+                        .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                        .CreateSubKey("SOFTWARE\\WOW6432Node\\Microsoft\\Halo 2", true);
+                    registryKey32.SetValue("tools_directory", H2Ek_install_path_user_set + "\\");
                 }
 
                 H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
@@ -830,7 +843,6 @@ namespace Halo2CodezLauncher
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = "import-lipsync \"" + sound_path + "\" " + "\"" + ltf_path + "\"";
-                MessageBox.Show("import-lipsync \"" + sound_path + "\" " + "\"" + ltf_path + "\"");
                 process.Arguments += " pause_after_run";
                 RunProcess(process);
             }
