@@ -241,7 +241,7 @@ namespace Halo2CodezLauncher
                 }
 
 
-                if (H2EK_key == Guerilla_key)
+                if (H2EK_key == false && Guerilla_key == false)
                 {
                     MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
                     OpenFileDialog dlg = new OpenFileDialog();
