@@ -39,6 +39,12 @@ namespace Halo2CodezLauncher
     {
         private string H2Ek_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2 Map Editor\\";
         private string Halo_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2\\";
+        private string Launcher_Directory = AppDomain.CurrentDomain.BaseDirectory;
+        private string H2EK_key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Halo 2\1.0";
+        private string Guerilla_key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Halo 2";
+        private string Tools_Install_Directory = "ToolsInstallDir";
+        private string Tools_Directory = "tools_directory";
+
         [Flags]
         enum level_compile_type : Byte
         {
@@ -210,14 +216,62 @@ namespace Halo2CodezLauncher
             }
         }
 
+        void repair_registry(bool force_repair, bool use_launcher_path)
+        {
+            string H2Tool_Path = AppDomain.CurrentDomain.BaseDirectory;
+
+            if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair is true)
+            {
+                RegistryKey H2EK_Install_Path_key = RegistryKey
+                    .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                    .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
+
+                RegistryKey Guerilla_Tag_key = RegistryKey
+                    .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                    .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
+
+                if (force_repair == true)
+                {
+                    MessageBox.Show("Please select H2Tool.exe");
+                }
+                else
+                {
+                    MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
+                }
+
+                OpenFileDialog dlg = new OpenFileDialog();
+                dlg.Title = "Selet H2Tool.exe";
+                dlg.Filter = "H2Tool|H2Tool.exe";
+
+                if (dlg.ShowDialog() == true)
+                {
+                    H2Tool_Path = dlg.FileName;
+                }
+                else
+                {
+                    MessageBox.Show("Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder");
+                    use_launcher_path = true;
+                }
+
+                H2Ek_install_path = new FileInfo(H2Tool_Path).Directory.FullName;
+
+                if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair == true && use_launcher_path == false)
+                {
+                    H2EK_Install_Path_key.SetValue("ToolsInstallDir", H2Ek_install_path + "\\");
+                    H2EK_Install_Path_key.Close();
+                    Guerilla_Tag_key.SetValue("tools_directory", H2Ek_install_path + "\\");
+                    Guerilla_Tag_key.Close();
+                    MessageBox.Show("Repairs completed");
+                }
+                force_repair = false;
+            }
+        }
+
         public MainWindow()
         {
             Application.Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
             Settings.Default.Upgrade();
             Settings.Default.Save();
-
-            string Launcher_Directory = AppDomain.CurrentDomain.BaseDirectory;
-            bool Use_Launcher_Path = true;
 
             InitializeComponent();
             large_addr_enabled.IsChecked = Settings.Default.large_address_support;
@@ -237,6 +291,17 @@ namespace Halo2CodezLauncher
             {
                 try
                 {
+                    repair_registry(false, false);
+
+                    if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null)
+                    {
+                        H2Ek_install_path = new FileInfo(Launcher_Directory).Directory.FullName;
+                    }
+                    else
+                    {
+                        H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
+                    }
+
                     updateLaucherCheck(wc);
                     file_list files_to_patch = file_list.none;
                     if (!check_files(ref files_to_patch))
@@ -245,71 +310,6 @@ namespace Halo2CodezLauncher
                          "Version Error!");
                         return;
                     }
-                    string H2Tool_Path = AppDomain.CurrentDomain.BaseDirectory;
-
-                    Microsoft.Win32.RegistryKey H2EK_Install_Path_key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0");
-                    Microsoft.Win32.RegistryKey Guerilla_Tag_key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Halo 2");
-
-                    if (H2EK_Install_Path_key is null || Guerilla_Tag_key is null)
-                    {
-                        RegistryKey Test_Write_Access = RegistryKey
-                            .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                            .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
-
-                        MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
-                        OpenFileDialog dlg = new OpenFileDialog();
-                        dlg.Title = "Selet H2Tool.exe";
-                        dlg.Filter = "H2Tool|*.exe";
-                        if (dlg.ShowDialog() == true)
-                        {
-                            H2Tool_Path = dlg.FileName;
-                            Use_Launcher_Path = false;
-                        }
-                        else
-                        {
-                            MessageBox.Show("Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder");
-                            Use_Launcher_Path = true;
-                        }
-
-                        H2Ek_install_path = new FileInfo(H2Tool_Path).Directory.FullName;
-                    }
-
-                    if (H2EK_Install_Path_key is null && Use_Launcher_Path == false)
-                    {
-                        RegistryKey registryKey32 = RegistryKey
-                            .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                            .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
-                        registryKey32.SetValue("ToolsInstallDir", H2Ek_install_path + "\\");
-                    }
-
-                    if (Guerilla_Tag_key is null && Use_Launcher_Path == false)
-                    {
-                        RegistryKey registryKey32 = RegistryKey
-                            .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                            .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
-                        registryKey32.SetValue("tools_directory", H2Ek_install_path + "\\");
-                    }
-
-                    if (Use_Launcher_Path == false)
-                    {
-                        MessageBox.Show("Repairs completed");
-                    }
-
-                    Microsoft.Win32.RegistryKey H2EK_Install_Path_key2 = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0");
-                    Microsoft.Win32.RegistryKey Guerilla_Tag_key2 = Microsoft.Win32.Registry.LocalMachine.OpenSubKey("SOFTWARE\\Microsoft\\Halo 2");
-
-                    if (H2EK_Install_Path_key2 is null || Guerilla_Tag_key2 is null)
-                    {
-                        MessageBox.Show("You are missing required registry keys to run H2EK. Defaulting to launcher path");
-                        H2Ek_install_path = new FileInfo(Launcher_Directory).Directory.FullName;
-                        Use_Launcher_Path = true;
-                    }
-                    else
-                    {
-                        H2Ek_install_path = Registry.GetValue("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Halo 2", "tools_directory", H2Ek_install_path).ToString();
-                        Use_Launcher_Path = false;
-                    }
-
 
                     if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || files_to_patch != file_list.none)
                     {
@@ -540,6 +540,18 @@ namespace Halo2CodezLauncher
                 myKey.DeleteValue("main_window_rect", false);
                 myKey.DeleteValue("type_list_rect", false);
                 myKey.Close();
+            }
+        }
+
+        private void RepairRegistry(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                repair_registry(true, false);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                RelaunchAsAdmin("");
             }
         }
 
