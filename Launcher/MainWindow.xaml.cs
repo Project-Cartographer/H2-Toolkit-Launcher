@@ -289,6 +289,7 @@ namespace Halo2CodezLauncher
 
             new Thread(delegate ()
             {
+                Thread.CurrentThread.IsBackground = true;
                 try
                 {
                     repair_registry(false, false);
@@ -545,14 +546,18 @@ namespace Halo2CodezLauncher
 
         private void RepairRegistry(object sender, RoutedEventArgs e)
         {
-            try
+            new Thread(delegate ()
             {
-                repair_registry(true, false);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                RelaunchAsAdmin("");
-            }
+                Thread.CurrentThread.IsBackground = true;
+                try
+                {
+                    repair_registry(true, false);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    RelaunchAsAdmin("");
+                }
+            }).Start();
         }
 
         private void HandleClickCompile(object sender, RoutedEventArgs e)
