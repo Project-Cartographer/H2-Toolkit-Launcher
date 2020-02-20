@@ -221,7 +221,7 @@ namespace Halo2CodezLauncher
         {
             string H2Tool_Path = AppDomain.CurrentDomain.BaseDirectory;
 
-            if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair is true)
+            if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair is true && Settings.Default.portable_install != true)
             {
                 RegistryKey H2EK_Install_Path_key = RegistryKey
                     .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
@@ -231,14 +231,7 @@ namespace Halo2CodezLauncher
                     .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
                     .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
 
-                if (force_repair == true)
-                {
-                    MessageBox.Show("Please select H2Tool.exe");
-                }
-                else
-                {
-                    MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
-                }
+                MessageBox.Show("Please select H2Tool.exe");
 
                 OpenFileDialog dlg = new OpenFileDialog();
                 dlg.Title = "Selet H2Tool.exe";
@@ -256,7 +249,7 @@ namespace Halo2CodezLauncher
 
                 H2Ek_install_path = new FileInfo(H2Tool_Path).Directory.FullName;
 
-                if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair == true && use_launcher_path == false)
+                if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair == true && use_launcher_path != true)
                 {
                     H2EK_Install_Path_key.SetValue("ToolsInstallDir", H2Ek_install_path + "\\");
                     H2EK_Install_Path_key.Close();
@@ -277,6 +270,7 @@ namespace Halo2CodezLauncher
             InitializeComponent();
             large_addr_enabled.IsChecked = Settings.Default.large_address_support;
             ignore_updates_enabled.IsChecked = Settings.Default.ignore_updates;
+            portable_install_enabled.IsChecked = Settings.Default.portable_install;
             // Delete any left over update files.
             try
             {
@@ -293,9 +287,23 @@ namespace Halo2CodezLauncher
                 Thread.CurrentThread.IsBackground = true;
                 try
                 {
-                    repair_registry(false, false);
+                    if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null && Settings.Default.portable_install != true)
+                    {
+                        if (MessageBox.Show("Is this a portable install?", "Missing Registry Keys", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        {
+                            MessageBox.Show("Using launcher path as install location. Please ensure it is inside of your map editor folder.", "Portable Install Confirmed");
+                            Settings.Default.portable_install = true;
+                            Settings.Default.Save();
+                        }
+                        else
+                        {
+                            repair_registry(false, false);
+                        }
 
-                    if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null)
+                    }
+
+
+                    if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null && Settings.Default.portable_install == true)
                     {
                         H2Ek_install_path = new FileInfo(Launcher_Directory).Directory.FullName;
                     }
@@ -954,9 +962,16 @@ namespace Halo2CodezLauncher
             Settings.Default.large_address_support = (bool)large_addr_enabled.IsChecked;
             Settings.Default.Save();
         }
+
         private void ignore_updates_enabled_Checked(object sender, RoutedEventArgs e)
         {
             Settings.Default.ignore_updates = (bool)ignore_updates_enabled.IsChecked;
+            Settings.Default.Save();
+        }
+
+        private void portable_install_enabled_checked(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.portable_install = (bool)portable_install_enabled.IsChecked;
             Settings.Default.Save();
         }
 
