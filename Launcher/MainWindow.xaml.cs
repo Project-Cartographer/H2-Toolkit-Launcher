@@ -302,7 +302,6 @@ namespace Halo2CodezLauncher
 
                     }
 
-
                     if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null && Settings.Default.portable_install == true)
                     {
                         H2Ek_install_path = new FileInfo(Launcher_Directory).Directory.FullName;
