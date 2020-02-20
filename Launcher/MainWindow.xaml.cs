@@ -29,6 +29,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Windows.Threading;
 using PETools;
+using System.Text.RegularExpressions;
 
 namespace Halo2CodezLauncher
 {
@@ -160,8 +161,9 @@ namespace Halo2CodezLauncher
                     name = "";
                     break;
             }
-            if (type != tool_type.guerilla && Settings.Default.large_address_support)
-                name += ".large_address";
+            if (type !=  tool_type.guerilla && Settings.Default.large_address_support)
+                if (type != tool_type.daeconverter && Settings.Default.large_address_support)
+                    name += ".large_address";
             return name + ".exe";
         }
 
@@ -696,7 +698,8 @@ namespace Halo2CodezLauncher
                     map_name = map_name.Replace(".scenario", ".map");
 
                     string copy_to = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Halo 2\\Maps\\" + map_name;
-                    string copy_from = H2Ek_install_path + "Maps\\" + map_name;
+                    String[] tags_path = Regex.Split(level_path, "tags");
+                    string copy_from = tags_path[0] + "Maps\\" + map_name;
                     try
                     {
                         File.Delete(copy_to);
