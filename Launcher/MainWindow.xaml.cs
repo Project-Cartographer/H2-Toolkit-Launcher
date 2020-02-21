@@ -798,7 +798,7 @@ namespace Halo2CodezLauncher
 
         private void browse_package_level_Click(object sender, RoutedEventArgs e)
         {
-            string path = H2Ek_install_path + "data\\";
+            string path = H2Ek_install_path + "tags\\";
             if (!string.IsNullOrWhiteSpace(package_level_path.Text))
             {
                 path = System.IO.Path.GetDirectoryName(package_level_path.Text) + "\\";
