@@ -741,17 +741,16 @@ namespace Halo2CodezLauncher
 
         private void browse_level_compile_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(compile_level_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(compile_level_path.Text) + "\\";
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Uncompiled level";
             dlg.Filter = "Uncompiled map geometry|*.ASS;*.JMS";
-            if(string.IsNullOrWhiteSpace(compile_level_path.Text))
-            {
-                dlg.InitialDirectory = H2Ek_install_path + "data\\";
-            }
-            else
-            {
-                dlg.InitialDirectory = compile_level_path.Text;
-            }
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
             {
@@ -761,17 +760,16 @@ namespace Halo2CodezLauncher
 
         private void Browse_text_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(compile_text_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(compile_text_path.Text) + "\\";
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select unicode encoded .txt file to compile.";
             dlg.Filter = "Unicode encoded .txt files|*.txt";
-            if (string.IsNullOrWhiteSpace(compile_text_path.Text))
-            {
-                dlg.InitialDirectory = H2Ek_install_path + "data\\";
-            }
-            else
-            {
-                dlg.InitialDirectory = compile_text_path.Text;
-            }
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
             {
@@ -781,17 +779,16 @@ namespace Halo2CodezLauncher
 
         private void browse_bitmap_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(compile_image_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(compile_image_path.Text) + "\\";
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Image File";
             dlg.Filter = "Supported image files|*.tif;*.tga;*.jpg;*.bmp";
-            if (string.IsNullOrWhiteSpace(compile_image_path.Text))
-            {
-                dlg.InitialDirectory = H2Ek_install_path + "data\\";
-            }
-            else
-            {
-                dlg.InitialDirectory = compile_image_path.Text;
-            }
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
             {
@@ -801,17 +798,16 @@ namespace Halo2CodezLauncher
 
         private void browse_package_level_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(package_level_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(package_level_path.Text) + "\\";
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Scenario";
             dlg.Filter = "Unpackaged Map|*.scenario";
-            if (string.IsNullOrWhiteSpace(package_level_path.Text))
-            {
-                dlg.InitialDirectory = H2Ek_install_path + "data\\";
-            }
-            else
-            {
-                dlg.InitialDirectory = package_level_path.Text;
-            }
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
             {
@@ -928,6 +924,11 @@ namespace Halo2CodezLauncher
 
         private void browse_model_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(compile_model_path.Text))
+            {
+                path = System.IO.Path.GetFileName(compile_model_path.Text) + "\\";
+            }
 
             var dlg = new CommonOpenFileDialog();
             dlg.Title = "Select model folder.";
@@ -938,14 +939,7 @@ namespace Halo2CodezLauncher
             dlg.EnsurePathExists = true;
             dlg.Multiselect = false;
             dlg.ShowPlacesList = true;
-            if (string.IsNullOrWhiteSpace(compile_model_path.Text))
-            {
-                dlg.InitialDirectory = H2Ek_install_path + "data\\";
-            }
-            else
-            {
-                dlg.InitialDirectory = compile_model_path.Text;
-            }
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
@@ -1021,18 +1015,16 @@ namespace Halo2CodezLauncher
 
         private void browse_sound_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(import_sound_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(import_sound_path.Text) + "\\";
+            }
 
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select sound file.";
             dlg.Filter = "Halo Sound Tag|*.sound";
-            if (string.IsNullOrWhiteSpace(import_sound_path.Text))
-            {
-                dlg.InitialDirectory = H2Ek_install_path + "data\\";
-            }
-            else
-            {
-                dlg.InitialDirectory = import_sound_path.Text;
-            }
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
             {
@@ -1042,18 +1034,16 @@ namespace Halo2CodezLauncher
 
         private void browse_ltf_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(import_lipsync_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(import_lipsync_path.Text) + "\\";
+            }
 
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select ltf file.";
             dlg.Filter = "Lipsync Tweak File|*.ltf";
-            if (string.IsNullOrWhiteSpace(import_lipsync_path.Text))
-            {
-                dlg.InitialDirectory = H2Ek_install_path + "data\\";
-            }
-            else
-            {
-                dlg.InitialDirectory = import_lipsync_path.Text;
-            }
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
             {
