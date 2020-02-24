@@ -903,22 +903,31 @@ namespace Halo2CodezLauncher
 
         private void import_sound_Click(object sender, RoutedEventArgs e)
         {
-            string sound_path_text = import_sound_path.Text;
-            string ltf_path_text = import_lipsync_path.Text;
-            if (File.Exists(sound_path_text) && File.Exists(ltf_path_text))
+            /* For the future person looking through this. I hail you modder, curious onlooker, 343 employee, whomever. You may see this and be interested in trying it out for yourself.
+               Due to the nature of the code in H2Codez any sound files you try to compile must be in documents and should not be given a filename for reasons.
+               They also can't be given the path that comes  before the tags directory. Good fortune in your hunt*/
+            if (!string.IsNullOrWhiteSpace(import_sound_path.Text) && string.IsNullOrWhiteSpace(import_lipsync_path.Text))
             {
-                string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sound_path_text), System.IO.Path.GetFileNameWithoutExtension(sound_path_text));
-                string ltf_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(ltf_path_text),System.IO.Path.GetFileNameWithoutExtension(ltf_path_text));
+                string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_sound_path.Text).Replace(H2Ek_install_path + "data\\", ""));
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = GetToolExeName(tool_type.tool);
+                process.Arguments = "import-sound \"" + sound_path + "\"";
+                process.Arguments += " pause_after_run";
+                RunProcess(process);
+            }
+
+            if (!string.IsNullOrWhiteSpace(import_sound_path.Text) && !string.IsNullOrWhiteSpace(import_lipsync_path.Text))
+            {
+                string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_sound_path.Text));
+                string ltf_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_lipsync_path.Text), System.IO.Path.GetFileNameWithoutExtension(import_lipsync_path.Text));
+                sound_path = sound_path.Replace("\\data\\", "\\tags\\");
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = GetToolExeName(tool_type.tool);
                 process.Arguments = "import-lipsync \"" + sound_path + "\" " + "\"" + ltf_path + "\"";
                 process.Arguments += " pause_after_run";
                 RunProcess(process);
-            }
-            else
-            {
-                MessageBox.Show("Error: No such file!");
             }
         }
 
@@ -1022,8 +1031,8 @@ namespace Halo2CodezLauncher
             }
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select sound file.";
-            dlg.Filter = "Halo Sound Tag|*.sound";
+            dlg.Title = "Select sound file";
+            dlg.Filter = "Sound File|*.AIFF;*.WAV";
             dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
