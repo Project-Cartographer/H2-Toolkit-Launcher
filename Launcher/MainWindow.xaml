@@ -138,11 +138,11 @@
                         <Button x:Name="browse_ltf" Content="Browse" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_ltf_Click"/>
                         <Button x:Name="import_lipsync" Content="Import Sound" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="import_sound_Click"/>
 
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select sound to add lipsync data to." Foreground="{StaticResource brushWatermarkForeground}" 
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select .WAV or .AIFF file" Foreground="{StaticResource brushWatermarkForeground}" 
                        Visibility="{Binding ElementName=import_sound_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
                         <TextBox Name="import_sound_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
 
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select ltf to generate lipsync data from." Foreground="{StaticResource brushWatermarkForeground}" 
+                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select .LTF file" Foreground="{StaticResource brushWatermarkForeground}" 
                        Visibility="{Binding ElementName=import_lipsync_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
                         <TextBox Name="import_lipsync_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
                     </Grid>
