@@ -161,9 +161,8 @@ namespace Halo2CodezLauncher
                     name = "";
                     break;
             }
-            if (type != tool_type.guerilla && Settings.Default.large_address_support)
-                if (type != tool_type.daeconverter && Settings.Default.large_address_support)
-                    name += ".large_address";
+            if (type != tool_type.guerilla && type != tool_type.daeconverter && Settings.Default.large_address_support)
+                name += ".large_address";
             return name + ".exe";
         }
 
@@ -918,7 +917,7 @@ namespace Halo2CodezLauncher
                 RunProcess(process);
             }
 
-            if (!string.IsNullOrWhiteSpace(import_sound_path.Text) && !string.IsNullOrWhiteSpace(import_lipsync_path.Text))
+            else if (!string.IsNullOrWhiteSpace(import_sound_path.Text) && !string.IsNullOrWhiteSpace(import_lipsync_path.Text))
             {
                 string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_sound_path.Text));
                 string ltf_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_lipsync_path.Text), System.IO.Path.GetFileNameWithoutExtension(import_lipsync_path.Text));
@@ -929,6 +928,14 @@ namespace Halo2CodezLauncher
                 process.Arguments = "import-lipsync \"" + sound_path + "\" " + "\"" + ltf_path + "\"";
                 process.Arguments += " pause_after_run";
                 RunProcess(process);
+            }
+            else if (string.IsNullOrWhiteSpace(import_sound_path.Text) && !string.IsNullOrWhiteSpace(import_lipsync_path.Text))
+            {
+                MessageBox.Show("Error: No file path in sound textbox!");
+            }
+            else if (string.IsNullOrWhiteSpace(import_sound_path.Text) && string.IsNullOrWhiteSpace(import_lipsync_path.Text))
+            {
+                MessageBox.Show("Error: No file path in sound textbox or ltf textbox!");
             }
         }
 
