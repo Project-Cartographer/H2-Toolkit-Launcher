@@ -161,8 +161,9 @@ namespace Halo2CodezLauncher
                     name = "";
                     break;
             }
-            if (type != tool_type.daeconverter || type != tool_type.guerilla && Settings.Default.large_address_support)
-                name += ".large_address";
+            if (type != tool_type.guerilla && Settings.Default.large_address_support)
+                if (type != tool_type.daeconverter && Settings.Default.large_address_support)
+                    name += ".large_address";
             return name + ".exe";
         }
 
