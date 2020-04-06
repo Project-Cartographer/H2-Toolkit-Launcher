@@ -218,7 +218,7 @@ namespace Halo2CodezLauncher
         void repair_registry(bool force_repair, bool use_launcher_path)
         {
             string H2Tool_Path = AppDomain.CurrentDomain.BaseDirectory;
-            if (Settings.Default.portable_install != true)
+            if (Settings.Default.portable_install != true || force_repair is true)
             {
                 if (Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair is true)
                 {
@@ -254,11 +254,17 @@ namespace Halo2CodezLauncher
                         }
                         force_repair = false;
                     }
+
+                    if (Settings.Default.portable_install == true)
+                    {
+                        Settings.Default.portable_install = false;
+                        Settings.Default.Save();
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            portable_install_enabled.IsChecked = Settings.Default.portable_install;
+                        });
+                    }
                 }
-            }
-            else
-            {
-                MessageBox.Show("Portable install enabled. Please disable first.");
             }
         }
 
