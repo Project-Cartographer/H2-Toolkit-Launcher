@@ -220,44 +220,53 @@ namespace Halo2CodezLauncher
         void repair_registry(bool force_repair, bool use_launcher_path)
         {
             string H2Tool_Path = AppDomain.CurrentDomain.BaseDirectory;
-
-            if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair is true && Settings.Default.portable_install != true)
+            if (Settings.Default.portable_install != true)
             {
-                RegistryKey H2EK_Install_Path_key = RegistryKey
-                    .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                    .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
-
-                RegistryKey Guerilla_Tag_key = RegistryKey
-                    .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                    .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
-
-                MessageBox.Show("Please select H2Tool.exe");
-
-                OpenFileDialog dlg = new OpenFileDialog();
-                dlg.Title = "Selet H2Tool.exe";
-                dlg.Filter = "H2Tool|H2Tool.exe";
-
-                if (dlg.ShowDialog() == true)
+                if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair is true)
                 {
-                    H2Tool_Path = dlg.FileName;
-                }
-                else
-                {
-                    MessageBox.Show("Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder");
-                    use_launcher_path = true;
-                }
+                    RegistryKey H2EK_Install_Path_key = RegistryKey
+                        .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                        .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
 
-                H2Ek_install_path = new FileInfo(H2Tool_Path).Directory.FullName;
+                    RegistryKey Guerilla_Tag_key = RegistryKey
+                        .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                        .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
 
-                if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair == true && use_launcher_path != true)
-                {
-                    H2EK_Install_Path_key.SetValue("ToolsInstallDir", H2Ek_install_path + "\\");
-                    H2EK_Install_Path_key.Close();
-                    Guerilla_Tag_key.SetValue("tools_directory", H2Ek_install_path + "\\");
-                    Guerilla_Tag_key.Close();
-                    MessageBox.Show("Repairs completed");
+                    MessageBox.Show("Please select H2Tool.exe");
+
+                    OpenFileDialog dlg = new OpenFileDialog();
+                    dlg.Title = "Selet H2Tool.exe";
+                    dlg.Filter = "H2Tool|H2Tool.exe";
+
+                    if (dlg.ShowDialog() == true)
+                    {
+                        H2Tool_Path = dlg.FileName;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder");
+                        use_launcher_path = true;
+                    }
+
+                    H2Ek_install_path = new FileInfo(H2Tool_Path).Directory.FullName;
+
+                    if (use_launcher_path != true)
+                    {
+                        if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair == true)
+                        {
+                            H2EK_Install_Path_key.SetValue("ToolsInstallDir", H2Ek_install_path + "\\");
+                            H2EK_Install_Path_key.Close();
+                            Guerilla_Tag_key.SetValue("tools_directory", H2Ek_install_path + "\\");
+                            Guerilla_Tag_key.Close();
+                            MessageBox.Show("Repairs completed");
+                        }
+                        force_repair = false;
+                    }
                 }
-                force_repair = false;
+            }
+            else
+            {
+                MessageBox.Show("Portable install enabled. Please disable first.");
             }
         }
 
@@ -287,24 +296,31 @@ namespace Halo2CodezLauncher
                 Thread.CurrentThread.IsBackground = true;
                 try
                 {
-                    if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null && Settings.Default.portable_install != true)
+                    if (Settings.Default.portable_install != true)
                     {
-                        if (MessageBox.Show("Is this a portable install?", "Missing Registry Keys", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                        if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null)
                         {
-                            MessageBox.Show("Using launcher path as install location. Please ensure it is inside of your map editor folder.", "Portable Install Confirmed");
-                            Settings.Default.portable_install = true;
-                            Settings.Default.Save();
-                        }
-                        else
-                        {
-                            repair_registry(false, false);
-                        }
+                            if (MessageBox.Show("Is this a portable install?", "Missing Registry Keys", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            {
+                                MessageBox.Show("Using launcher path as install location. Please ensure it is inside of your map editor folder.", "Portable Install Confirmed");
+                                Settings.Default.portable_install = true;
+                                Settings.Default.Save();
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    portable_install_enabled.IsChecked = Settings.Default.portable_install;
+                                });
+                            }
+                            else
+                            {
+                                repair_registry(false, false);
+                            }
 
+                        }
                     }
 
-                    if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null && Settings.Default.portable_install == true)
+                    if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null && Settings.Default.portable_install == true || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null && Settings.Default.portable_install == true)
                     {
-                        H2Ek_install_path = new FileInfo(Launcher_Directory).Directory.FullName;
+                        H2Ek_install_path = new FileInfo(Launcher_Directory).Directory.FullName + "\\";
                     }
                     else
                     {
