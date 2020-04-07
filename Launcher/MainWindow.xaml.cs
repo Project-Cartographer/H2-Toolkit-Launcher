@@ -29,6 +29,7 @@ using System.Security.AccessControl;
 using System.Security.Principal;
 using System.Windows.Threading;
 using PETools;
+using System.Text.RegularExpressions;
 
 namespace Halo2CodezLauncher
 {
@@ -40,9 +41,7 @@ namespace Halo2CodezLauncher
         private string H2Ek_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2 Map Editor\\";
         private string Halo_install_path = GetFolderPath(SpecialFolder.ProgramFilesX86) + "\\Microsoft Games\\Halo 2\\";
         private string Launcher_Directory = AppDomain.CurrentDomain.BaseDirectory;
-        private string H2EK_key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Microsoft Games\Halo 2\1.0";
         private string Guerilla_key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Halo 2";
-        private string Tools_Install_Directory = "ToolsInstallDir";
         private string Tools_Directory = "tools_directory";
 
         [Flags]
@@ -160,7 +159,7 @@ namespace Halo2CodezLauncher
                     name = "";
                     break;
             }
-            if (type != tool_type.guerilla && Settings.Default.large_address_support)
+            if (type != tool_type.guerilla && type != tool_type.daeconverter && Settings.Default.large_address_support)
                 name += ".large_address";
             return name + ".exe";
         }
@@ -219,51 +218,53 @@ namespace Halo2CodezLauncher
         void repair_registry(bool force_repair, bool use_launcher_path)
         {
             string H2Tool_Path = AppDomain.CurrentDomain.BaseDirectory;
-
-            if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair is true)
+            if (Settings.Default.portable_install != true || force_repair is true)
             {
-                RegistryKey H2EK_Install_Path_key = RegistryKey
-                    .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                    .CreateSubKey("SOFTWARE\\Microsoft\\Microsoft Games\\Halo 2\\1.0", true);
-
-                RegistryKey Guerilla_Tag_key = RegistryKey
-                    .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                    .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
-
-                if (force_repair == true)
+                if (Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair is true)
                 {
+                    RegistryKey Guerilla_Tag_key = RegistryKey
+                        .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
+                        .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
+
                     MessageBox.Show("Please select H2Tool.exe");
-                }
-                else
-                {
-                    MessageBox.Show("Missing Halo 2 Editing Kit related registry keys. Please select H2Tool.exe");
-                }
 
-                OpenFileDialog dlg = new OpenFileDialog();
-                dlg.Title = "Selet H2Tool.exe";
-                dlg.Filter = "H2Tool|H2Tool.exe";
+                    OpenFileDialog dlg = new OpenFileDialog();
+                    dlg.Title = "Selet H2Tool.exe";
+                    dlg.Filter = "H2Tool|H2Tool.exe";
 
-                if (dlg.ShowDialog() == true)
-                {
-                    H2Tool_Path = dlg.FileName;
-                }
-                else
-                {
-                    MessageBox.Show("Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder");
-                    use_launcher_path = true;
-                }
+                    if (dlg.ShowDialog() == true)
+                    {
+                        H2Tool_Path = dlg.FileName;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder");
+                        use_launcher_path = true;
+                    }
 
-                H2Ek_install_path = new FileInfo(H2Tool_Path).Directory.FullName;
+                    H2Ek_install_path = new FileInfo(H2Tool_Path).Directory.FullName;
 
-                if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair == true && use_launcher_path == false)
-                {
-                    H2EK_Install_Path_key.SetValue("ToolsInstallDir", H2Ek_install_path + "\\");
-                    H2EK_Install_Path_key.Close();
-                    Guerilla_Tag_key.SetValue("tools_directory", H2Ek_install_path + "\\");
-                    Guerilla_Tag_key.Close();
-                    MessageBox.Show("Repairs completed");
+                    if (use_launcher_path != true)
+                    {
+                        if (Registry.GetValue(Guerilla_key, Tools_Directory, null) is null || force_repair == true)
+                        {
+                            Guerilla_Tag_key.SetValue("tools_directory", H2Ek_install_path + "\\");
+                            Guerilla_Tag_key.Close();
+                            MessageBox.Show("Repairs completed");
+                        }
+                        force_repair = false;
+                    }
+
+                    if (Settings.Default.portable_install == true)
+                    {
+                        Settings.Default.portable_install = false;
+                        Settings.Default.Save();
+                        this.Dispatcher.Invoke(() =>
+                        {
+                            portable_install_enabled.IsChecked = Settings.Default.portable_install;
+                        });
+                    }
                 }
-                force_repair = false;
             }
         }
 
@@ -276,6 +277,7 @@ namespace Halo2CodezLauncher
             InitializeComponent();
             large_addr_enabled.IsChecked = Settings.Default.large_address_support;
             ignore_updates_enabled.IsChecked = Settings.Default.ignore_updates;
+            portable_install_enabled.IsChecked = Settings.Default.portable_install;
             // Delete any left over update files.
             try
             {
@@ -289,13 +291,34 @@ namespace Halo2CodezLauncher
 
             new Thread(delegate ()
             {
+                Thread.CurrentThread.IsBackground = true;
                 try
                 {
-                    repair_registry(false, false);
-
-                    if (Registry.GetValue(H2EK_key, Tools_Install_Directory, null) is null || Registry.GetValue(Guerilla_key, Tools_Directory, null) is null)
+                    if (Settings.Default.portable_install != true)
                     {
-                        H2Ek_install_path = new FileInfo(Launcher_Directory).Directory.FullName;
+                        if (Registry.GetValue(Guerilla_key, Tools_Directory, null) is null)
+                        {
+                            if (MessageBox.Show("Is this a portable install?", "Missing Registry Keys", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            {
+                                MessageBox.Show("Using launcher path as install location. Please ensure it is inside of your map editor folder.", "Portable Install Confirmed");
+                                Settings.Default.portable_install = true;
+                                Settings.Default.Save();
+                                this.Dispatcher.Invoke(() =>
+                                {
+                                    portable_install_enabled.IsChecked = Settings.Default.portable_install;
+                                });
+                            }
+                            else
+                            {
+                                repair_registry(false, false);
+                            }
+
+                        }
+                    }
+
+                    if (Registry.GetValue(Guerilla_key, Tools_Directory, null) is null && Settings.Default.portable_install == true)
+                    {
+                        H2Ek_install_path = new FileInfo(Launcher_Directory).Directory.FullName + "\\";
                     }
                     else
                     {
@@ -545,14 +568,18 @@ namespace Halo2CodezLauncher
 
         private void RepairRegistry(object sender, RoutedEventArgs e)
         {
-            try
+            new Thread(delegate ()
             {
-                repair_registry(true, false);
-            }
-            catch (UnauthorizedAccessException)
-            {
-                RelaunchAsAdmin("");
-            }
+                Thread.CurrentThread.IsBackground = true;
+                try
+                {
+                    repair_registry(true, false);
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    RelaunchAsAdmin("");
+                }
+            }).Start();
         }
 
         private void HandleClickCompile(object sender, RoutedEventArgs e)
@@ -691,7 +718,8 @@ namespace Halo2CodezLauncher
                     map_name = map_name.Replace(".scenario", ".map");
 
                     string copy_to = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Halo 2\\Maps\\" + map_name;
-                    string copy_from = H2Ek_install_path + "Maps\\" + map_name;
+                    String[] tags_path = Regex.Split(level_path, "tags");
+                    string copy_from = tags_path[0] + "Maps\\" + map_name;
                     try
                     {
                         File.Delete(copy_to);
@@ -727,10 +755,17 @@ namespace Halo2CodezLauncher
 
         private void browse_level_compile_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(compile_level_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(compile_level_path.Text) + "\\";
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Uncompiled level";
             dlg.Filter = "Uncompiled map geometry|*.ASS;*.JMS";
-            dlg.InitialDirectory = H2Ek_install_path + "data\\";
+            dlg.InitialDirectory = path;
+
             if (dlg.ShowDialog() == true)
             {
                 compile_level_path.Text = dlg.FileName;
@@ -739,10 +774,17 @@ namespace Halo2CodezLauncher
 
         private void Browse_text_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(compile_text_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(compile_text_path.Text) + "\\";
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select unicode encoded .txt file to compile.";
             dlg.Filter = "Unicode encoded .txt files|*.txt";
-            dlg.InitialDirectory = H2Ek_install_path + "data\\";
+            dlg.InitialDirectory = path;
+
             if (dlg.ShowDialog() == true)
             {
                 compile_text_path.Text = dlg.FileName;
@@ -751,10 +793,17 @@ namespace Halo2CodezLauncher
 
         private void browse_bitmap_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(compile_image_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(compile_image_path.Text) + "\\";
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Image File";
             dlg.Filter = "Supported image files|*.tif;*.tga;*.jpg;*.bmp";
-            dlg.InitialDirectory = H2Ek_install_path + "data\\";
+            dlg.InitialDirectory = path;
+
             if (dlg.ShowDialog() == true)
             {
                 compile_image_path.Text = dlg.FileName;
@@ -763,10 +812,17 @@ namespace Halo2CodezLauncher
 
         private void browse_package_level_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "tags\\";
+            if (!string.IsNullOrWhiteSpace(package_level_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(package_level_path.Text) + "\\";
+            }
+
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select Scenario";
             dlg.Filter = "Unpackaged Map|*.scenario";
-            dlg.InitialDirectory = H2Ek_install_path +"tags\\";
+            dlg.InitialDirectory = path;
+
             if (dlg.ShowDialog() == true)
             {
                 package_level_path.Text = dlg.FileName;
@@ -861,12 +917,25 @@ namespace Halo2CodezLauncher
 
         private void import_sound_Click(object sender, RoutedEventArgs e)
         {
-            string sound_path_text = import_sound_path.Text;
-            string ltf_path_text = import_lipsync_path.Text;
-            if (File.Exists(sound_path_text) && File.Exists(ltf_path_text))
+            /* For the future person looking through this. I hail you modder, curious onlooker, 343 employee, whomever. You may see this and be interested in trying it out for yourself.
+               Due to the nature of the code in H2Codez any sound files you try to compile must be in documents and should not be given a filename for reasons.
+               They also can't be given the path that comes  before the tags directory. Good fortune in your hunt*/
+            if (!string.IsNullOrWhiteSpace(import_sound_path.Text) && string.IsNullOrWhiteSpace(import_lipsync_path.Text))
             {
-                string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(sound_path_text), System.IO.Path.GetFileNameWithoutExtension(sound_path_text));
-                string ltf_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(ltf_path_text),System.IO.Path.GetFileNameWithoutExtension(ltf_path_text));
+                string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_sound_path.Text).Replace(H2Ek_install_path + "data\\", ""));
+                var process = new ProcessStartInfo();
+                process.WorkingDirectory = H2Ek_install_path;
+                process.FileName = GetToolExeName(tool_type.tool);
+                process.Arguments = "import-sound \"" + sound_path + "\"";
+                process.Arguments += " pause_after_run";
+                RunProcess(process);
+            }
+
+            else if (!string.IsNullOrWhiteSpace(import_sound_path.Text) && !string.IsNullOrWhiteSpace(import_lipsync_path.Text))
+            {
+                string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_sound_path.Text));
+                string ltf_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_lipsync_path.Text), System.IO.Path.GetFileNameWithoutExtension(import_lipsync_path.Text));
+                sound_path = sound_path.Replace("\\data\\", "\\tags\\");
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = GetToolExeName(tool_type.tool);
@@ -874,14 +943,23 @@ namespace Halo2CodezLauncher
                 process.Arguments += " pause_after_run";
                 RunProcess(process);
             }
-            else
+            else if (string.IsNullOrWhiteSpace(import_sound_path.Text) && !string.IsNullOrWhiteSpace(import_lipsync_path.Text))
             {
-                MessageBox.Show("Error: No such file!");
+                MessageBox.Show("Error: No file path in sound textbox!");
+            }
+            else if (string.IsNullOrWhiteSpace(import_sound_path.Text) && string.IsNullOrWhiteSpace(import_lipsync_path.Text))
+            {
+                MessageBox.Show("Error: No file path in sound textbox or ltf textbox!");
             }
         }
 
         private void browse_model_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(compile_model_path.Text))
+            {
+                path = System.IO.Path.GetFileName(compile_model_path.Text) + "\\";
+            }
 
             var dlg = new CommonOpenFileDialog();
             dlg.Title = "Select model folder.";
@@ -892,7 +970,7 @@ namespace Halo2CodezLauncher
             dlg.EnsurePathExists = true;
             dlg.Multiselect = false;
             dlg.ShowPlacesList = true;
-            dlg.InitialDirectory = H2Ek_install_path + "data\\";
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == CommonFileDialogResult.Ok)
             {
@@ -947,9 +1025,16 @@ namespace Halo2CodezLauncher
             Settings.Default.large_address_support = (bool)large_addr_enabled.IsChecked;
             Settings.Default.Save();
         }
+
         private void ignore_updates_enabled_Checked(object sender, RoutedEventArgs e)
         {
             Settings.Default.ignore_updates = (bool)ignore_updates_enabled.IsChecked;
+            Settings.Default.Save();
+        }
+
+        private void portable_install_enabled_checked(object sender, RoutedEventArgs e)
+        {
+            Settings.Default.portable_install = (bool)portable_install_enabled.IsChecked;
             Settings.Default.Save();
         }
 
@@ -961,11 +1046,16 @@ namespace Halo2CodezLauncher
 
         private void browse_sound_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(import_sound_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(import_sound_path.Text) + "\\";
+            }
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select sound file.";
-            dlg.Filter = "Halo Sound Tag|*.sound";
-            dlg.InitialDirectory = H2Ek_install_path + "tags\\";
+            dlg.Title = "Select sound file";
+            dlg.Filter = "Sound File|*.AIFF;*.WAV";
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
             {
@@ -975,11 +1065,16 @@ namespace Halo2CodezLauncher
 
         private void browse_ltf_Click(object sender, RoutedEventArgs e)
         {
+            string path = H2Ek_install_path + "data\\";
+            if (!string.IsNullOrWhiteSpace(import_lipsync_path.Text))
+            {
+                path = System.IO.Path.GetDirectoryName(import_lipsync_path.Text) + "\\";
+            }
 
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Select ltf file.";
             dlg.Filter = "Lipsync Tweak File|*.ltf";
-            dlg.InitialDirectory = H2Ek_install_path + "data\\";
+            dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
             {
