@@ -124,22 +124,22 @@
     <value>3D Textures</value>
   </data>
   <data name="Bitmap_Compile" xml:space="preserve">
-    <value>Compile Bitmap</value>
+    <value>Compilar Bitmap</value>
   </data>
   <data name="Bitmap_Cubemaps" xml:space="preserve">
     <value>Cubemaps</value>
   </data>
   <data name="Bitmap_Interface" xml:space="preserve">
-    <value>Interface</value>
+    <value>Interfaz</value>
   </data>
   <data name="Bitmap_Sprites" xml:space="preserve">
     <value>Sprites</value>
   </data>
   <data name="Bitmap_Type_Header" xml:space="preserve">
-    <value>Bitmap Type</value>
+    <value>Bitmap Tipo</value>
   </data>
   <data name="Browse" xml:space="preserve">
-    <value>Browse</value>
+    <value>Ver</value>
   </data>
   <data name="BSP" xml:space="preserve">
     <value>BSP</value>
@@ -148,417 +148,419 @@
     <value>Checkerboard</value>
   </data>
   <data name="Compile_And_Light" xml:space="preserve">
-    <value>Compile and Light</value>
+    <value>Compilar y luz</value>
   </data>
   <data name="Compile_Bitmap" xml:space="preserve">
-    <value>Compile Bitmap</value>
+    <value>Compilar bitmap</value>
   </data>
   <data name="Compile_Level" xml:space="preserve">
-    <value>Compile Level</value>
+    <value>Compilar Nivel</value>
   </data>
   <data name="Compile_Model" xml:space="preserve">
-    <value>Compile Model</value>
+    <value>Compilar modelo</value>
   </data>
   <data name="Compile_Only" xml:space="preserve">
-    <value>Compile Only</value>
+    <value>Solo compilar</value>
   </data>
   <data name="Compile_Text" xml:space="preserve">
-    <value>Compile Text</value>
+    <value>Compilar Texto</value>
   </data>
   <data name="Copy_Map" xml:space="preserve">
-    <value>Copy to custom maps folder after packaging.</value>
+    <value>Copie a la carpeta de mapas personalizados después del
+empaquetado.</value>
   </data>
   <data name="Credits" xml:space="preserve">
-    <value>Credits</value>
+    <value>Créditos</value>
   </data>
   <data name="Custom" xml:space="preserve">
     <value>Custom</value>
   </data>
   <data name="Custom_H2Tool_CMD" xml:space="preserve">
-    <value>Custom H2Tool Command</value>
+    <value>Comando H2Tool personalizado</value>
   </data>
   <data name="DAE" xml:space="preserve">
     <value>DAE</value>
   </data>
   <data name="Direct_Only" xml:space="preserve">
-    <value>Direct only</value>
+    <value>Solo directo</value>
   </data>
   <data name="Draft_High" xml:space="preserve">
-    <value>Draft high</value>
+    <value>Borrador alto</value>
   </data>
   <data name="Draft_Low" xml:space="preserve">
-    <value>Draft low</value>
+    <value>Borrador bajo</value>
   </data>
   <data name="Draft_Medium" xml:space="preserve">
-    <value>Draft medium</value>
+    <value>Borrador medio</value>
   </data>
   <data name="Draft_Super" xml:space="preserve">
-    <value>Draft super</value>
+    <value>Borrador super</value>
   </data>
   <data name="High" xml:space="preserve">
-    <value>High</value>
+    <value>Alto</value>
   </data>
   <data name="Ignore_Updates_Enabled" xml:space="preserve">
-    <value>Ignore Updates</value>
+    <value>Ignorar actualizaciones</value>
   </data>
   <data name="Import_Sound" xml:space="preserve">
-    <value>Compile Sound</value>
+    <value>Compilar sonido</value>
   </data>
   <data name="Instance_Count_Header" xml:space="preserve">
-    <value>Instance Count</value>
+    <value>Recuento de instancias</value>
   </data>
   <data name="Large_Address_Enabled" xml:space="preserve">
-    <value>Use executables with large address support</value>
+    <value>Use ejecutables con soporte para grandes direcciones </value>
   </data>
   <data name="Launcher" xml:space="preserve">
-    <value>Launcher:</value>
+    <value>Lanzador:</value>
   </data>
   <data name="Launch_H2Guerilla" xml:space="preserve">
-    <value>Run H2Guerilla</value>
+    <value>Ejecute H2Guerilla</value>
   </data>
   <data name="Launch_H2Sapien" xml:space="preserve">
-    <value>Run H2Sapien</value>
+    <value>Ejecute H2Sapien</value>
   </data>
   <data name="Launch_Halo2" xml:space="preserve">
-    <value>Run Halo 2</value>
+    <value>Ejecute Halo 2</value>
   </data>
   <data name="Level_Compile" xml:space="preserve">
-    <value>Level Compile</value>
+    <value>Compilar Nivel</value>
   </data>
   <data name="Light_Only" xml:space="preserve">
-    <value>Light Only</value>
+    <value>Solo luz</value>
   </data>
   <data name="Light_Quality_Header" xml:space="preserve">
-    <value>Light Quality</value>
+    <value>Calidad de la luz</value>
   </data>
   <data name="Low" xml:space="preserve">
-    <value>Low</value>
+    <value>Bajo</value>
   </data>
   <data name="Medium" xml:space="preserve">
-    <value>Medium</value>
+    <value>Medio</value>
   </data>
   <data name="Model_Compile" xml:space="preserve">
-    <value>Compile Model</value>
+    <value>Compilar Modelo</value>
   </data>
   <data name="Model_Compile_All" xml:space="preserve">
-    <value>All</value>
+    <value>todas</value>
   </data>
   <data name="Model_Compile_Animations" xml:space="preserve">
-    <value>Animations</value>
+    <value>Animaciones</value>
   </data>
   <data name="Model_Compile_Collision" xml:space="preserve">
-    <value>Collision</value>
+    <value>Colisión</value>
   </data>
   <data name="Model_Compile_Object" xml:space="preserve">
-    <value>Object</value>
+    <value>Objeto</value>
   </data>
   <data name="Model_Compile_Physics" xml:space="preserve">
-    <value>Physics</value>
+    <value>Físicas</value>
   </data>
   <data name="Model_Compile_Render" xml:space="preserve">
-    <value>Render</value>
+    <value>Modelo</value>
   </data>
   <data name="Object_Biped" xml:space="preserve">
-    <value>Biped</value>
+    <value>Bipeado</value>
   </data>
   <data name="Object_Control" xml:space="preserve">
     <value>Control</value>
   </data>
   <data name="Object_Crate" xml:space="preserve">
-    <value>Crate</value>
+    <value>Caja</value>
   </data>
   <data name="Object_Creature" xml:space="preserve">
-    <value>Creature</value>
+    <value>Criatura</value>
   </data>
   <data name="Object_Equipment" xml:space="preserve">
-    <value>Equipment</value>
+    <value>Equipado</value>
   </data>
   <data name="Object_Garbage" xml:space="preserve">
-    <value>Garbage</value>
+    <value>Basura</value>
   </data>
   <data name="Object_Light_Fixture" xml:space="preserve">
-    <value>Light Fixture</value>
+    <value>Instancia Luz</value>
   </data>
   <data name="Object_Machine" xml:space="preserve">
-    <value>Machine</value>
+    <value>Maquina</value>
   </data>
   <data name="Object_Projectile" xml:space="preserve">
-    <value>Projectile</value>
+    <value>Proyectil</value>
   </data>
   <data name="Object_Scenery" xml:space="preserve">
-    <value>Scenery</value>
+    <value>Escenario</value>
   </data>
   <data name="Object_Sound_Scenery" xml:space="preserve">
-    <value>Sound Scenery</value>
+    <value>Escenario Sonido</value>
   </data>
   <data name="Object_Type" xml:space="preserve">
-    <value>Object Type</value>
+    <value>Tipo de objeto</value>
   </data>
   <data name="Object_Vehicle" xml:space="preserve">
-    <value>Vehicle</value>
+    <value>Vehiculo</value>
   </data>
   <data name="Object_Weapon" xml:space="preserve">
-    <value>Weapon</value>
+    <value>Arma</value>
   </data>
   <data name="Package_Level" xml:space="preserve">
-    <value>Package Level</value>
+    <value>empacar Nivel</value>
   </data>
   <data name="Packing" xml:space="preserve">
-    <value>Packaging</value>
+    <value>Empaquetado</value>
   </data>
   <data name="Portable_Install_Enabled" xml:space="preserve">
-    <value>Portable Install</value>
+    <value>Instalación portátil</value>
   </data>
   <data name="Render_Type" xml:space="preserve">
-    <value>Render Type</value>
+    <value>Tipo de Modelo</value>
   </data>
   <data name="Repair_Registry" xml:space="preserve">
-    <value>Repair registry</value>
+    <value>Registro de reparación</value>
   </data>
   <data name="Reset_Sapien_Windows" xml:space="preserve">
-    <value>Reset Sapien window layout</value>
+    <value>Restablecer el diseño de la ventana de Sapien</value>
   </data>
   <data name="Run_CMD" xml:space="preserve">
-    <value>Open CMD in Toolkit folder</value>
+    <value>Abra CMD en la carpeta Toolkit</value>
   </data>
   <data name="Run_Programs_Header" xml:space="preserve">
-    <value>Run Programs</value>
+    <value>Ejecutar programas</value>
   </data>
   <data name="Select_Bitmap" xml:space="preserve">
-    <value>Select image to compile.</value>
+    <value>Seleccionar imagen para compilar.</value>
   </data>
   <data name="Select_Level" xml:space="preserve">
-    <value>Select level file to compile.</value>
+    <value>Seleccione el nivel para compilar.</value>
   </data>
   <data name="Select_LTF" xml:space="preserve">
-    <value>Select .LTF file</value>
+    <value>Seleccione el .LTF</value>
   </data>
   <data name="Select_Model" xml:space="preserve">
-    <value>Select model to compile.</value>
+    <value>Seleccionar modelo para compilar.</value>
   </data>
   <data name="Select_Scenario" xml:space="preserve">
-    <value>Select a scenario file to package.</value>
+    <value>Seleccione un escenario para empaquetar.</value>
   </data>
   <data name="Select_Sound" xml:space="preserve">
-    <value>Select .AIFF, .WAV, or .WMA file</value>
+    <value>Seleccione el .AIFF, .WAV o .WMA</value>
   </data>
   <data name="Select_Text" xml:space="preserve">
-    <value>Select unicode encoded .txt file to compile.</value>
+    <value>Seleccione el .txt codificado en Unicode para compilar.</value>
   </data>
   <data name="Settings" xml:space="preserve">
-    <value>Settings</value>
+    <value>Configuraciones</value>
   </data>
   <data name="Set_Permissions" xml:space="preserve">
-    <value>Set permissions</value>
+    <value>Establecer permisos</value>
   </data>
   <data name="Shared_Tag_Removal" xml:space="preserve">
-    <value>Remove shared tags.</value>
+    <value>Eliminar etiquetas compartidas.</value>
   </data>
   <data name="Sound_Compile" xml:space="preserve">
-    <value>Compile Sound</value>
+    <value>Compilar Sonido</value>
   </data>
   <data name="Super" xml:space="preserve">
     <value>Super</value>
   </data>
   <data name="Tasks_Header" xml:space="preserve">
-    <value>Tasks</value>
+    <value>Tareas</value>
   </data>
   <data name="Text_Compile" xml:space="preserve">
-    <value>Compile Text</value>
+    <value>Compilar texto</value>
   </data>
   <data name="Title" xml:space="preserve">
-    <value>Halo 2 Editing Toolkit</value>
+    <value>Kit de herramientas de edición de Halo 2</value>
   </data>
   <data name="Alpha_Beta_Testing" xml:space="preserve">
-    <value>• Alpha/Beta Testing by General-101 and Twinreaper.</value>
+    <value>• Pruebas alfa / beta por General-101 ​​y Twinreaper.</value>
   </data>
   <data name="Ask_Portable" xml:space="preserve">
-    <value>Is this a portable install?</value>
+    <value>Es esta una instalación portátil?</value>
   </data>
   <data name="Ask_Portable_Header" xml:space="preserve">
-    <value>Missing Registry Keys</value>
+    <value>Faltan claves de registro</value>
   </data>
   <data name="Bungie_Hired_Gun" xml:space="preserve">
-    <value>• Bungie / Hired Gun for creating the game and porting it.</value>
+    <value>• Bungie Hired Gun para crear el juego y portarlo.</value>
   </data>
   <data name="Cant_Find_File" xml:space="preserve">
-    <value>Can't find {0}. Error Launching!</value>
+    <value>No puedo encontrar {0}. Error de lanzamiento!</value>
   </data>
   <data name="File_Not_Found" xml:space="preserve">
-    <value>Error: No such file!</value>
+    <value>Error: No existe ese archivo!</value>
   </data>
   <data name="H2Codez" xml:space="preserve">
-    <value>H2Codez:</value>
+    <value>H2Codez::</value>
   </data>
   <data name="H2Codez_Install_Header" xml:space="preserve">
-    <value>H2codez Install</value>
+    <value>Instalar H2codez</value>
   </data>
   <data name="H2Codez_Install_Passed" xml:space="preserve">
-    <value>Successfully finished installing H2Codez!</value>
+    <value>Terminé con éxito la instalación de H2Codez!</value>
   </data>
   <data name="H2Codez_In_Use_Header" xml:space="preserve">
     <value>Error!</value>
   </data>
   <data name="H2Codez_In_Use" xml:space="preserve">
-    <value>Updating H2Codez failed because the launcher can't save the update data to disk.
-Please close all currently open H2EK related programs and try again.</value>
+    <value>La actualización de H2Codez falló porque el iniciador no puede guardar los datos de actualización en el disco.
+Cierre todos los programas relacionados con H2EK actualmente abiertos e intente nuevamente.</value>
   </data>
   <data name="H2Codez_Not_Found_Header" xml:space="preserve">
-    <value>H2Codez Install</value>
+    <value>Instalar H2Codez</value>
   </data>
   <data name="H2Codez_Not_Found" xml:space="preserve">
-    <value>You have not installed H2Codez or the installation process is incomplete.
-Do you want to install H2Codez?</value>
+    <value>No ha instalado H2Codez o el proceso de instalación está incompleto.
+Quieres instalar H2Codez?</value>
   </data>
   <data name="H2Codez_No_Net_Header" xml:space="preserve">
-    <value>Update check failed!</value>
+    <value>La comprobación de actualización falló!</value>
   </data>
   <data name="H2Codez_No_Net" xml:space="preserve">
-    <value>Check your internet connection and try again,
-if the problem presists fill a bug report.</value>
+    <value>Comprueba tu conexión a Internet y vuelve a intentarlo.
+si el problema persiste, complete un informe de error.</value>
   </data>
   <data name="H2Codez_Set_Permissions" xml:space="preserve">
-    <value>Folder permissions set. User should be allowed to write without admin.</value>
+    <value>Conjunto de permisos de carpeta. El usuario debe poder escribir sin administrador.</value>
   </data>
   <data name="H2Codez_Update" xml:space="preserve">
-    <value>Your version of H2Codez is outdated.
-Do you want to update it?</value>
+    <value>Su versión de H2Codez está desactualizada.
+Quieres actualizarla?</value>
   </data>
   <data name="H2Codez_Update_Header" xml:space="preserve">
-    <value>H2Codez Update</value>
+    <value>Actualización de H2Codez</value>
   </data>
   <data name="H2Codez_Update_Passed" xml:space="preserve">
-    <value>Successfully finished updating H2Codez!</value>
+    <value>¡Terminé con éxito la actualización de H2Codez!</value>
   </data>
   <data name="H2Codez_Update_Passed_Header" xml:space="preserve">
-    <value>H2Codez Update</value>
+    <value>Actualización de H2Codez</value>
   </data>
   <data name="Invalid_Instance_Count" xml:space="preserve">
-    <value>Invalid instance count!</value>
+    <value>Número de instancias no válido!</value>
   </data>
   <data name="Invalid_Sound_LTF_Path" xml:space="preserve">
-    <value>Error: No file path in sound textbox or ltf textbox!</value>
+    <value>Error: ¡No hay ruta de archivo en el cuadro de texto de sonido o en el cuadro de texto ltf!</value>
   </data>
   <data name="Invalid_Sound_Path" xml:space="preserve">
-    <value>Error: No file path in sound textbox!</value>
+    <value>Error: ¡No hay ruta de archivo en el cuadro de texto de sonido!</value>
   </data>
   <data name="Launch_Cancelled" xml:space="preserve">
-    <value>Launch cancelled by user!</value>
+    <value>Lanzamiento cancelado por el usuario!</value>
   </data>
   <data name="Outdated_Version" xml:space="preserve">
-    <value>Outdated Version!</value>
+    <value>Versión desactualizada!</value>
   </data>
   <data name="Portable_True" xml:space="preserve">
-    <value>Using launcher path as install location. Please ensure it is inside of your map editor folder.</value>
+    <value>Usando la ruta del iniciador como ubicación de instalación. Asegúrese de que esté dentro de la carpeta del editor de mapas.</value>
   </data>
   <data name="Portable_True_Header" xml:space="preserve">
-    <value>Portable Install Confirmed</value>
+    <value>Instalación portátil confirmada</value>
   </data>
   <data name="Project_Cartographer" xml:space="preserve">
-    <value>• Everyone else working on Project Cartographer.</value>
+    <value>• Todos los demás que trabajan en Project Cartographer.</value>
   </data>
   <data name="Registry_Failed" xml:space="preserve">
-    <value>Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder</value>
+    <value>Error al asignar claves de registro. Por defecto usará la ubicación del iniciador.
+Esto se interrumpirá si el iniciador no se encuentra en la carpeta del editor de mapas</value>
   </data>
   <data name="Registry_Passed" xml:space="preserve">
-    <value>Repairs completed</value>
+    <value>Reparaciones completadas</value>
   </data>
   <data name="Research" xml:space="preserve">
-    <value>• Original research into H2tool and H2Guerrila carried out by Kornmann00 as part of the opensauce project.</value>
+    <value>• investigación original sobre H2tool y H2Guerrila realizada por Kornmann00 como parte del proyecto opensauce.</value>
   </data>
   <data name="Select_H2Tool" xml:space="preserve">
-    <value>Please select H2Tool.exe</value>
+    <value>Por favor seleccione H2Tool.exe</value>
   </data>
   <data name="Special_Thanks" xml:space="preserve">
-    <value>Special thanks to :</value>
+    <value>Agradecimientos especiales a :</value>
   </data>
   <data name="Unsupported_Toolkit_Header" xml:space="preserve">
-    <value>Version Error!</value>
+    <value>Error de versión</value>
   </data>
   <data name="Unsupported_Toolkit" xml:space="preserve">
-    <value>You are using a version of the toolkit that is not supported by H2Codez, features added by H2Codez will not be available.
-Please install the orginal version of the toolkit that was distributed on the DVD, as that's the only version H2Codez can patch.</value>
+    <value>Está utilizando una versión del kit de herramientas que no es compatible con H2Codez, las funciones agregadas por H2Codez no estarán disponibles.
+Instale la versión original del kit de herramientas que se distribuyó en el DVD, ya que esa es la única versión que H2Codez puede parchar.</value>
   </data>
   <data name="File_Dialog_Bitmap" xml:space="preserve">
-    <value>Supported image files|*.tif;*.tga;*.jpg;*.bmp</value>
+    <value>Archivos de imagen compatibles|*.tif;*.tga;*.jpg;*.bmp</value>
   </data>
   <data name="File_Dialog_H2Tool" xml:space="preserve">
     <value>H2Tool|H2Tool.exe</value>
   </data>
   <data name="File_Dialog_Level" xml:space="preserve">
-    <value>Uncompiled map geometry|*.ASS;*.JMS</value>
+    <value>Geometría de mapa sin compilar|*.ASS;*.JMS</value>
   </data>
   <data name="File_Dialog_LTF" xml:space="preserve">
-    <value>Lipsync Tweak File|*.ltf</value>
+    <value>Lipsync Tweak Archivo|*.ltf</value>
   </data>
   <data name="File_Dialog_Scenario" xml:space="preserve">
-    <value>Unpackaged Map|*.scenario</value>
+    <value>Mapa sin embalaje|*.scenario</value>
   </data>
   <data name="File_Dialog_Select_Bitmap" xml:space="preserve">
-    <value>Select Image File</value>
+    <value>Seleccionar archivo de imagen</value>
   </data>
   <data name="File_Dialog_Select_H2Tool" xml:space="preserve">
-    <value>Selet H2Tool.exe</value>
+    <value>Seleccione H2Tool.exe</value>
   </data>
   <data name="File_Dialog_Select_Level" xml:space="preserve">
-    <value>Select Uncompiled level</value>
+    <value>Seleccionar nivel sin compilar</value>
   </data>
   <data name="File_Dialog_Select_LTF" xml:space="preserve">
-    <value>Select ltf file</value>
+    <value>Seleccionar archivo ltf</value>
   </data>
   <data name="File_Dialog_Select_Model" xml:space="preserve">
-    <value>Select model folder</value>
+    <value>Seleccionar carpeta de modelo</value>
   </data>
   <data name="File_Dialog_Select_Scenario" xml:space="preserve">
-    <value>Select Scenario</value>
+    <value>Seleccionar escenario</value>
   </data>
   <data name="File_Dialog_Select_Sound" xml:space="preserve">
-    <value>Select sound file</value>
+    <value>Seleccionar archivo de sonido</value>
   </data>
   <data name="File_Dialog_Select_Text" xml:space="preserve">
-    <value>Select unicode encoded .txt file to compile.</value>
+    <value>Seleccione el archivo .txt codificado en Unicode para compilar.</value>
   </data>
   <data name="File_Dialog_Sound" xml:space="preserve">
-    <value>Sound File|*.AIFF;*.WAV;*.WMA</value>
+    <value>Archivo de sonido|*.AIFF;*.WAV;*.WMA</value>
   </data>
   <data name="File_Dialog_Text" xml:space="preserve">
-    <value>Unicode encoded .txt files|*.txt</value>
+    <value>Archivos .txt codificados en Unicode|*.txt</value>
   </data>
   <data name="Update_Check" xml:space="preserve">
-    <value>Latest version is: {0} You are using: {1}
-Do you want to update?</value>
+    <value>La última versión es: {0} Tu estas usando: {1}  
+Quieres actualizar?</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
   <data name="Yes" xml:space="preserve">
-    <value>Yes</value>
+    <value>Si</value>
   </data>
   <data name="Ok" xml:space="preserve">
-    <value>Ok</value>
+    <value>Okay</value>
   </data>
   <data name="Language" xml:space="preserve">
-    <value>Language</value>
+    <value>Idioma</value>
   </data>
   <data name="Language_Support" xml:space="preserve">
-    <value>Language Support:</value>
+    <value>Ayuda de idioma:</value>
   </data>
   <data name="Misc_Features" xml:space="preserve">
-    <value>• Misc features and QoL fixes added by General_101</value>
+    <value>• Diversas funciones y correcciones de QoL agregadas por General_101</value>
   </data>
   <data name="Spanish_Translation" xml:space="preserve">
-    <value>• Spanish translation by Wonser</value>
+    <value>• Traducción al español por Wonser</value>
   </data>
   <data name="System_Locale" xml:space="preserve">
-    <value>System Locale</value>
+    <value>Configuración regional del sistema</value>
   </data>
   <data name="French_Translation" xml:space="preserve">
-    <value>• French translation by Vizayen</value>
+    <value>• Traducción al francés por Vizayen</value>
   </data>
   <data name="H2Codez_Team" xml:space="preserve">
-    <value>• Originally written by Himanshu01, support for H2Sapien and H2Guerrila added by Num0005.</value>
+    <value>• Escrito originalmente por Himanshu01, soporte para H2Sapien y H2Guerrila agregado por Num0005.</value>
   </data>
   <data name="Num005" xml:space="preserve">
-    <value>• Written by Num0005.</value>
+    <value>• Escrito por Num0005</value>
   </data>
 </root>

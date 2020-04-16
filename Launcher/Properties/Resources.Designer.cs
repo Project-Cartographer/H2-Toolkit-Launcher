@@ -22,7 +22,7 @@ namespace H2CodezLauncher.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace H2CodezLauncher.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("H2CodezLauncher.Properties.Resources", typeof(Resources).Assembly);
@@ -51,12 +51,1332 @@ namespace H2CodezLauncher.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Alpha/Beta Testing by General-101 and Twinreaper..
+        /// </summary>
+        public static string Alpha_Beta_Testing {
+            get {
+                return ResourceManager.GetString("Alpha_Beta_Testing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is this a portable install?.
+        /// </summary>
+        public static string Ask_Portable {
+            get {
+                return ResourceManager.GetString("Ask_Portable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing Registry Keys.
+        /// </summary>
+        public static string Ask_Portable_Header {
+            get {
+                return ResourceManager.GetString("Ask_Portable_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2D Textures.
+        /// </summary>
+        public static string Bitmap_2D_Textures {
+            get {
+                return ResourceManager.GetString("Bitmap_2D_Textures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3D Textures.
+        /// </summary>
+        public static string Bitmap_3D_Textures {
+            get {
+                return ResourceManager.GetString("Bitmap_3D_Textures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Bitmap.
+        /// </summary>
+        public static string Bitmap_Compile {
+            get {
+                return ResourceManager.GetString("Bitmap_Compile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cubemaps.
+        /// </summary>
+        public static string Bitmap_Cubemaps {
+            get {
+                return ResourceManager.GetString("Bitmap_Cubemaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Interface.
+        /// </summary>
+        public static string Bitmap_Interface {
+            get {
+                return ResourceManager.GetString("Bitmap_Interface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sprites.
+        /// </summary>
+        public static string Bitmap_Sprites {
+            get {
+                return ResourceManager.GetString("Bitmap_Sprites", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bitmap Type.
+        /// </summary>
+        public static string Bitmap_Type_Header {
+            get {
+                return ResourceManager.GetString("Bitmap_Type_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        public static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BSP.
+        /// </summary>
+        public static string BSP {
+            get {
+                return ResourceManager.GetString("BSP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Bungie / Hired Gun for creating the game and porting it..
+        /// </summary>
+        public static string Bungie_Hired_Gun {
+            get {
+                return ResourceManager.GetString("Bungie_Hired_Gun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Can&apos;t find {0}. Error Launching!.
+        /// </summary>
+        public static string Cant_Find_File {
+            get {
+                return ResourceManager.GetString("Cant_Find_File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Checkerboard.
+        /// </summary>
+        public static string Checkerboard {
+            get {
+                return ResourceManager.GetString("Checkerboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile and Light.
+        /// </summary>
+        public static string Compile_And_Light {
+            get {
+                return ResourceManager.GetString("Compile_And_Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Bitmap.
+        /// </summary>
+        public static string Compile_Bitmap {
+            get {
+                return ResourceManager.GetString("Compile_Bitmap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Level.
+        /// </summary>
+        public static string Compile_Level {
+            get {
+                return ResourceManager.GetString("Compile_Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Model.
+        /// </summary>
+        public static string Compile_Model {
+            get {
+                return ResourceManager.GetString("Compile_Model", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Only.
+        /// </summary>
+        public static string Compile_Only {
+            get {
+                return ResourceManager.GetString("Compile_Only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Text.
+        /// </summary>
+        public static string Compile_Text {
+            get {
+                return ResourceManager.GetString("Compile_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy to custom maps folder after packaging..
+        /// </summary>
+        public static string Copy_Map {
+            get {
+                return ResourceManager.GetString("Copy_Map", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Credits.
+        /// </summary>
+        public static string Credits {
+            get {
+                return ResourceManager.GetString("Credits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom.
+        /// </summary>
+        public static string Custom {
+            get {
+                return ResourceManager.GetString("Custom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Custom H2Tool Command.
+        /// </summary>
+        public static string Custom_H2Tool_CMD {
+            get {
+                return ResourceManager.GetString("Custom_H2Tool_CMD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DAE.
+        /// </summary>
+        public static string DAE {
+            get {
+                return ResourceManager.GetString("DAE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Direct only.
+        /// </summary>
+        public static string Direct_Only {
+            get {
+                return ResourceManager.GetString("Direct_Only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draft high.
+        /// </summary>
+        public static string Draft_High {
+            get {
+                return ResourceManager.GetString("Draft_High", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draft low.
+        /// </summary>
+        public static string Draft_Low {
+            get {
+                return ResourceManager.GetString("Draft_Low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draft medium.
+        /// </summary>
+        public static string Draft_Medium {
+            get {
+                return ResourceManager.GetString("Draft_Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Draft super.
+        /// </summary>
+        public static string Draft_Super {
+            get {
+                return ResourceManager.GetString("Draft_Super", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supported image files|*.tif;*.tga;*.jpg;*.bmp.
+        /// </summary>
+        public static string File_Dialog_Bitmap {
+            get {
+                return ResourceManager.GetString("File_Dialog_Bitmap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H2Tool|H2Tool.exe.
+        /// </summary>
+        public static string File_Dialog_H2Tool {
+            get {
+                return ResourceManager.GetString("File_Dialog_H2Tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uncompiled map geometry|*.ASS;*.JMS.
+        /// </summary>
+        public static string File_Dialog_Level {
+            get {
+                return ResourceManager.GetString("File_Dialog_Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lipsync Tweak File|*.ltf.
+        /// </summary>
+        public static string File_Dialog_LTF {
+            get {
+                return ResourceManager.GetString("File_Dialog_LTF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unpackaged Map|*.scenario.
+        /// </summary>
+        public static string File_Dialog_Scenario {
+            get {
+                return ResourceManager.GetString("File_Dialog_Scenario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Image File.
+        /// </summary>
+        public static string File_Dialog_Select_Bitmap {
+            get {
+                return ResourceManager.GetString("File_Dialog_Select_Bitmap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selet H2Tool.exe.
+        /// </summary>
+        public static string File_Dialog_Select_H2Tool {
+            get {
+                return ResourceManager.GetString("File_Dialog_Select_H2Tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Uncompiled level.
+        /// </summary>
+        public static string File_Dialog_Select_Level {
+            get {
+                return ResourceManager.GetString("File_Dialog_Select_Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select ltf file.
+        /// </summary>
+        public static string File_Dialog_Select_LTF {
+            get {
+                return ResourceManager.GetString("File_Dialog_Select_LTF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select model folder.
+        /// </summary>
+        public static string File_Dialog_Select_Model {
+            get {
+                return ResourceManager.GetString("File_Dialog_Select_Model", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Scenario.
+        /// </summary>
+        public static string File_Dialog_Select_Scenario {
+            get {
+                return ResourceManager.GetString("File_Dialog_Select_Scenario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select sound file.
+        /// </summary>
+        public static string File_Dialog_Select_Sound {
+            get {
+                return ResourceManager.GetString("File_Dialog_Select_Sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select unicode encoded .txt file to compile..
+        /// </summary>
+        public static string File_Dialog_Select_Text {
+            get {
+                return ResourceManager.GetString("File_Dialog_Select_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound File|*.AIFF;*.WAV;*.WMA.
+        /// </summary>
+        public static string File_Dialog_Sound {
+            get {
+                return ResourceManager.GetString("File_Dialog_Sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unicode encoded .txt files|*.txt.
+        /// </summary>
+        public static string File_Dialog_Text {
+            get {
+                return ResourceManager.GetString("File_Dialog_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: No such file!.
+        /// </summary>
+        public static string File_Not_Found {
+            get {
+                return ResourceManager.GetString("File_Not_Found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • French translation by Vizayen.
+        /// </summary>
+        public static string French_Translation {
+            get {
+                return ResourceManager.GetString("French_Translation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H2Codez:.
+        /// </summary>
+        public static string H2Codez {
+            get {
+                return ResourceManager.GetString("H2Codez", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating H2Codez failed because the launcher can&apos;t save the update data to disk.
+        ///Please close all currently open H2EK related programs and try again..
+        /// </summary>
+        public static string H2Codez_In_Use {
+            get {
+                return ResourceManager.GetString("H2Codez_In_Use", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error!.
+        /// </summary>
+        public static string H2Codez_In_Use_Header {
+            get {
+                return ResourceManager.GetString("H2Codez_In_Use_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H2codez Install.
+        /// </summary>
+        public static string H2Codez_Install_Header {
+            get {
+                return ResourceManager.GetString("H2Codez_Install_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully finished installing H2Codez!.
+        /// </summary>
+        public static string H2Codez_Install_Passed {
+            get {
+                return ResourceManager.GetString("H2Codez_Install_Passed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check your internet connection and try again,
+        ///if the problem presists fill a bug report..
+        /// </summary>
+        public static string H2Codez_No_Net {
+            get {
+                return ResourceManager.GetString("H2Codez_No_Net", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update check failed!.
+        /// </summary>
+        public static string H2Codez_No_Net_Header {
+            get {
+                return ResourceManager.GetString("H2Codez_No_Net_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You have not installed H2Codez or the installation process is incomplete.
+        ///Do you want to install H2Codez?.
+        /// </summary>
+        public static string H2Codez_Not_Found {
+            get {
+                return ResourceManager.GetString("H2Codez_Not_Found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H2Codez Install.
+        /// </summary>
+        public static string H2Codez_Not_Found_Header {
+            get {
+                return ResourceManager.GetString("H2Codez_Not_Found_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Folder permissions set. User should be allowed to write without admin..
+        /// </summary>
+        public static string H2Codez_Set_Permissions {
+            get {
+                return ResourceManager.GetString("H2Codez_Set_Permissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Originally written by Himanshu01, support for H2Sapien and H2Guerrila added by Num0005..
+        /// </summary>
+        public static string H2Codez_Team {
+            get {
+                return ResourceManager.GetString("H2Codez_Team", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Your version of H2Codez is outdated.
+        ///Do you want to update it?.
+        /// </summary>
+        public static string H2Codez_Update {
+            get {
+                return ResourceManager.GetString("H2Codez_Update", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H2Codez Update.
+        /// </summary>
+        public static string H2Codez_Update_Header {
+            get {
+                return ResourceManager.GetString("H2Codez_Update_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Successfully finished updating H2Codez!.
+        /// </summary>
+        public static string H2Codez_Update_Passed {
+            get {
+                return ResourceManager.GetString("H2Codez_Update_Passed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to H2Codez Update.
+        /// </summary>
+        public static string H2Codez_Update_Passed_Header {
+            get {
+                return ResourceManager.GetString("H2Codez_Update_Passed_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High.
+        /// </summary>
+        public static string High {
+            get {
+                return ResourceManager.GetString("High", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ignore Updates.
+        /// </summary>
+        public static string Ignore_Updates_Enabled {
+            get {
+                return ResourceManager.GetString("Ignore_Updates_Enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Sound.
+        /// </summary>
+        public static string Import_Sound {
+            get {
+                return ResourceManager.GetString("Import_Sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Instance Count.
+        /// </summary>
+        public static string Instance_Count_Header {
+            get {
+                return ResourceManager.GetString("Instance_Count_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid instance count!.
+        /// </summary>
+        public static string Invalid_Instance_Count {
+            get {
+                return ResourceManager.GetString("Invalid_Instance_Count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: No file path in sound textbox or ltf textbox!.
+        /// </summary>
+        public static string Invalid_Sound_LTF_Path {
+            get {
+                return ResourceManager.GetString("Invalid_Sound_LTF_Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error: No file path in sound textbox!.
+        /// </summary>
+        public static string Invalid_Sound_Path {
+            get {
+                return ResourceManager.GetString("Invalid_Sound_Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language Support:.
+        /// </summary>
+        public static string Language_Support {
+            get {
+                return ResourceManager.GetString("Language_Support", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use executables with large address support.
+        /// </summary>
+        public static string Large_Address_Enabled {
+            get {
+                return ResourceManager.GetString("Large_Address_Enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Launch cancelled by user!.
+        /// </summary>
+        public static string Launch_Cancelled {
+            get {
+                return ResourceManager.GetString("Launch_Cancelled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run H2Guerilla.
+        /// </summary>
+        public static string Launch_H2Guerilla {
+            get {
+                return ResourceManager.GetString("Launch_H2Guerilla", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run H2Sapien.
+        /// </summary>
+        public static string Launch_H2Sapien {
+            get {
+                return ResourceManager.GetString("Launch_H2Sapien", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run Halo 2.
+        /// </summary>
+        public static string Launch_Halo2 {
+            get {
+                return ResourceManager.GetString("Launch_Halo2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Launcher:.
+        /// </summary>
+        public static string Launcher {
+            get {
+                return ResourceManager.GetString("Launcher", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Level Compile.
+        /// </summary>
+        public static string Level_Compile {
+            get {
+                return ResourceManager.GetString("Level_Compile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light Only.
+        /// </summary>
+        public static string Light_Only {
+            get {
+                return ResourceManager.GetString("Light_Only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light Quality.
+        /// </summary>
+        public static string Light_Quality_Header {
+            get {
+                return ResourceManager.GetString("Light_Quality_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low.
+        /// </summary>
+        public static string Low {
+            get {
+                return ResourceManager.GetString("Low", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Medium.
+        /// </summary>
+        public static string Medium {
+            get {
+                return ResourceManager.GetString("Medium", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Misc features and QoL fixes added by General_101.
+        /// </summary>
+        public static string Misc_Features {
+            get {
+                return ResourceManager.GetString("Misc_Features", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Model.
+        /// </summary>
+        public static string Model_Compile {
+            get {
+                return ResourceManager.GetString("Model_Compile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string Model_Compile_All {
+            get {
+                return ResourceManager.GetString("Model_Compile_All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Animations.
+        /// </summary>
+        public static string Model_Compile_Animations {
+            get {
+                return ResourceManager.GetString("Model_Compile_Animations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collision.
+        /// </summary>
+        public static string Model_Compile_Collision {
+            get {
+                return ResourceManager.GetString("Model_Compile_Collision", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object.
+        /// </summary>
+        public static string Model_Compile_Object {
+            get {
+                return ResourceManager.GetString("Model_Compile_Object", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Physics.
+        /// </summary>
+        public static string Model_Compile_Physics {
+            get {
+                return ResourceManager.GetString("Model_Compile_Physics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Render.
+        /// </summary>
+        public static string Model_Compile_Render {
+            get {
+                return ResourceManager.GetString("Model_Compile_Render", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Written by Num0005..
+        /// </summary>
+        public static string Num005 {
+            get {
+                return ResourceManager.GetString("Num005", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Biped.
+        /// </summary>
+        public static string Object_Biped {
+            get {
+                return ResourceManager.GetString("Object_Biped", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Control.
+        /// </summary>
+        public static string Object_Control {
+            get {
+                return ResourceManager.GetString("Object_Control", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Crate.
+        /// </summary>
+        public static string Object_Crate {
+            get {
+                return ResourceManager.GetString("Object_Crate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creature.
+        /// </summary>
+        public static string Object_Creature {
+            get {
+                return ResourceManager.GetString("Object_Creature", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment.
+        /// </summary>
+        public static string Object_Equipment {
+            get {
+                return ResourceManager.GetString("Object_Equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Garbage.
+        /// </summary>
+        public static string Object_Garbage {
+            get {
+                return ResourceManager.GetString("Object_Garbage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light Fixture.
+        /// </summary>
+        public static string Object_Light_Fixture {
+            get {
+                return ResourceManager.GetString("Object_Light_Fixture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Machine.
+        /// </summary>
+        public static string Object_Machine {
+            get {
+                return ResourceManager.GetString("Object_Machine", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projectile.
+        /// </summary>
+        public static string Object_Projectile {
+            get {
+                return ResourceManager.GetString("Object_Projectile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scenery.
+        /// </summary>
+        public static string Object_Scenery {
+            get {
+                return ResourceManager.GetString("Object_Scenery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sound Scenery.
+        /// </summary>
+        public static string Object_Sound_Scenery {
+            get {
+                return ResourceManager.GetString("Object_Sound_Scenery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Object Type.
+        /// </summary>
+        public static string Object_Type {
+            get {
+                return ResourceManager.GetString("Object_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vehicle.
+        /// </summary>
+        public static string Object_Vehicle {
+            get {
+                return ResourceManager.GetString("Object_Vehicle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Weapon.
+        /// </summary>
+        public static string Object_Weapon {
+            get {
+                return ResourceManager.GetString("Object_Weapon", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ok.
+        /// </summary>
+        public static string Ok {
+            get {
+                return ResourceManager.GetString("Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Outdated Version!.
+        /// </summary>
+        public static string Outdated_Version {
+            get {
+                return ResourceManager.GetString("Outdated_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Package Level.
+        /// </summary>
+        public static string Package_Level {
+            get {
+                return ResourceManager.GetString("Package_Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Packaging.
+        /// </summary>
+        public static string Packing {
+            get {
+                return ResourceManager.GetString("Packing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portable Install.
+        /// </summary>
+        public static string Portable_Install_Enabled {
+            get {
+                return ResourceManager.GetString("Portable_Install_Enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Using launcher path as install location. Please ensure it is inside of your map editor folder..
+        /// </summary>
+        public static string Portable_True {
+            get {
+                return ResourceManager.GetString("Portable_True", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Portable Install Confirmed.
+        /// </summary>
+        public static string Portable_True_Header {
+            get {
+                return ResourceManager.GetString("Portable_True_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Everyone else working on Project Cartographer..
+        /// </summary>
+        public static string Project_Cartographer {
+            get {
+                return ResourceManager.GetString("Project_Cartographer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder.
+        /// </summary>
+        public static string Registry_Failed {
+            get {
+                return ResourceManager.GetString("Registry_Failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repairs completed.
+        /// </summary>
+        public static string Registry_Passed {
+            get {
+                return ResourceManager.GetString("Registry_Passed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Render Type.
+        /// </summary>
+        public static string Render_Type {
+            get {
+                return ResourceManager.GetString("Render_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Repair registry.
+        /// </summary>
+        public static string Repair_Registry {
+            get {
+                return ResourceManager.GetString("Repair_Registry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Original research into H2tool and H2Guerrila carried out by Kornmann00 as part of the opensauce project..
+        /// </summary>
+        public static string Research {
+            get {
+                return ResourceManager.GetString("Research", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Sapien window layout.
+        /// </summary>
+        public static string Reset_Sapien_Windows {
+            get {
+                return ResourceManager.GetString("Reset_Sapien_Windows", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open CMD in Toolkit folder.
+        /// </summary>
+        public static string Run_CMD {
+            get {
+                return ResourceManager.GetString("Run_CMD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run Programs.
+        /// </summary>
+        public static string Run_Programs_Header {
+            get {
+                return ResourceManager.GetString("Run_Programs_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select image to compile..
+        /// </summary>
+        public static string Select_Bitmap {
+            get {
+                return ResourceManager.GetString("Select_Bitmap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select H2Tool.exe.
+        /// </summary>
+        public static string Select_H2Tool {
+            get {
+                return ResourceManager.GetString("Select_H2Tool", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select level file to compile..
+        /// </summary>
+        public static string Select_Level {
+            get {
+                return ResourceManager.GetString("Select_Level", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select .LTF file.
+        /// </summary>
+        public static string Select_LTF {
+            get {
+                return ResourceManager.GetString("Select_LTF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select model to compile..
+        /// </summary>
+        public static string Select_Model {
+            get {
+                return ResourceManager.GetString("Select_Model", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select a scenario file to package..
+        /// </summary>
+        public static string Select_Scenario {
+            get {
+                return ResourceManager.GetString("Select_Scenario", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select .AIFF, .WAV, or .WMA file.
+        /// </summary>
+        public static string Select_Sound {
+            get {
+                return ResourceManager.GetString("Select_Sound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select unicode encoded .txt file to compile..
+        /// </summary>
+        public static string Select_Text {
+            get {
+                return ResourceManager.GetString("Select_Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set permissions.
+        /// </summary>
+        public static string Set_Permissions {
+            get {
+                return ResourceManager.GetString("Set_Permissions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string Settings {
+            get {
+                return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove shared tags..
+        /// </summary>
+        public static string Shared_Tag_Removal {
+            get {
+                return ResourceManager.GetString("Shared_Tag_Removal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Sound.
+        /// </summary>
+        public static string Sound_Compile {
+            get {
+                return ResourceManager.GetString("Sound_Compile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to • Spanish translation by Wonser.
+        /// </summary>
+        public static string Spanish_Translation {
+            get {
+                return ResourceManager.GetString("Spanish_Translation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special thanks to :.
+        /// </summary>
+        public static string Special_Thanks {
+            get {
+                return ResourceManager.GetString("Special_Thanks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Super.
+        /// </summary>
+        public static string Super {
+            get {
+                return ResourceManager.GetString("Super", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System Locale.
+        /// </summary>
+        public static string System_Locale {
+            get {
+                return ResourceManager.GetString("System_Locale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tasks.
+        /// </summary>
+        public static string Tasks_Header {
+            get {
+                return ResourceManager.GetString("Tasks_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Compile Text.
+        /// </summary>
+        public static string Text_Compile {
+            get {
+                return ResourceManager.GetString("Text_Compile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Halo 2 Editing Toolkit.
+        /// </summary>
+        public static string Title {
+            get {
+                return ResourceManager.GetString("Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are using a version of the toolkit that is not supported by H2Codez, features added by H2Codez will not be available.
+        ///Please install the orginal version of the toolkit that was distributed on the DVD, as that&apos;s the only version H2Codez can patch..
+        /// </summary>
+        public static string Unsupported_Toolkit {
+            get {
+                return ResourceManager.GetString("Unsupported_Toolkit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version Error!.
+        /// </summary>
+        public static string Unsupported_Toolkit_Header {
+            get {
+                return ResourceManager.GetString("Unsupported_Toolkit_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Latest version is: {0} You are using: {1}
+        ///Do you want to update?.
+        /// </summary>
+        public static string Update_Check {
+            get {
+                return ResourceManager.GetString("Update_Check", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

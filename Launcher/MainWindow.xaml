@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Halo2CodezLauncher"
+        xmlns:p="clr-namespace:H2CodezLauncher.Properties"
         mc:Ignorable="d"
-        Title="Halo 2 Editing Toolkit" Height="398.667" Width="546.667"
+        Title="{x:Static p:Resources.Title}" Height="398.667" Width="546.667"
         ResizeMode="CanMinimize">
     <Window.Resources>
         <Visibility x:Key="show_light_slider">Visible</Visibility>
@@ -15,170 +16,370 @@
             <RowDefinition Height="224*"/>
             <RowDefinition Height="177*"/>
         </Grid.RowDefinitions>
-        <GroupBox Header="Run Programs" Margin="31,10,17,103" RenderTransformOrigin="0.946,0.575">
-            <Grid HorizontalAlignment="Left" Height="76" Margin="10,0,-2,0" VerticalAlignment="Top" Width="473" RenderTransformOrigin="-0.2,0.108">
-                <Button Content="Run H2Sapien" Click="RunHalo2Sapien" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="92"/>
-                <Button Content="Run H2Guerilla" Click="RunHalo2Guerilla" HorizontalAlignment="Left" Margin="187,10,0,0" VerticalAlignment="Top" Width="92"/>
-                <Button Content="Run Halo2" Click="RunHalo2" HorizontalAlignment="Left" Margin="347,10,0,0" VerticalAlignment="Top" Width="92" RenderTransformOrigin="0.587,0.7"/>
-                <Button x:Name="run_cmd" Content="Open CMD in Toolkit folder" HorizontalAlignment="Left" Margin="10,46,0,0" VerticalAlignment="Top" Width="162" Click="run_cmd_Click"/>
-                <Button x:Name="custom_h2tool_cmd" Content="Custom H2Tool Command" HorizontalAlignment="Left" Margin="292,46,0,0" VerticalAlignment="Top" Width="147" Click="custom_h2tool_cmd_Click"/>
+        <GroupBox Header="{x:Static p:Resources.Run_Programs_Header}" Margin="10,10,10,103" RenderTransformOrigin="0.946,0.575">
+            <Grid Margin="3" RenderTransformOrigin="-0.2,0.108">
+                <Button Content="{x:Static p:Resources.Launch_H2Sapien}" Click="RunHalo2Sapien" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                <Button Content="{x:Static p:Resources.Launch_H2Guerilla}" Click="RunHalo2Guerilla" Padding="4" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                <Button Content="{x:Static p:Resources.Launch_Halo2}" Click="RunHalo2" Padding="4" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <Button x:Name="run_cmd" Content="{x:Static p:Resources.Run_CMD}" Click="run_cmd_Click" Padding="4" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <Button x:Name="custom_h2tool_cmd" Content="{x:Static p:Resources.Custom_H2Tool_CMD}" Click="custom_h2tool_cmd_Click" Padding="4" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Tasks" Margin="31,113,17,35" Grid.RowSpan="2">
-            <TabControl HorizontalAlignment="Left" Width="456" Margin="10,10,0,9" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" TabStripPlacement="Left">
-                <TabItem Header="Level Compile" Width="105" Margin="-2,-2,2,-2">
-                    <Grid Background="#FFE5E5E5">
-                        <Button x:Name="browse_level_compile" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_level_compile_Click"/>
-
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select level file to compile." Foreground="{StaticResource brushWatermarkForeground}" 
-                       Visibility="{Binding ElementName=compile_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
-                        <TextBox Name="compile_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
-                        <GroupBox x:Name="light_quality_select_box" Header="Light Quality" HorizontalAlignment="Left" Height="63" Margin="10,80,0,0" VerticalAlignment="Top" Width="189" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
-                            <GroupBox.BindingGroup>
-                                <BindingGroup/>
-                            </GroupBox.BindingGroup>
-                            <ComboBox x:Name="light_quality_level" Margin="31.334,10,30.333,8.08" d:LayoutOverrides="Height" SelectedIndex="6">
-                                <ComboBoxItem Content="Checkerboard"/>
-                                <ComboBoxItem Content="Direct only"/>
-                                <ComboBoxItem Content="Draft low"/>
-                                <ComboBoxItem Content="Draft medium"/>
-                                <ComboBoxItem Content="Draft high"/>
-                                <ComboBoxItem Content="Draft super"/>
-                                <ComboBoxItem Content="Low"/>
-                                <ComboBoxItem Content="Medium"/>
-                                <ComboBoxItem Content="High"/>
-                                <ComboBoxItem Content="Super"/>
-                                <ComboBoxItem Content="Custom"/>
-                            </ComboBox>
-                        </GroupBox>
-                        <GroupBox x:Name="instance_number" Header="Instance Count" HorizontalAlignment="Left" Height="63" Margin="222,81,0,0" VerticalAlignment="Top" Width="107" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
-                            <GroupBox.BindingGroup>
-                                <BindingGroup/>
-                            </GroupBox.BindingGroup>
-                            <TextBox Name="instance_value" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="24" Margin="24,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48" Background="Transparent" RenderTransformOrigin="0.249,0.696" Text="1" MaxLines="1" MaxLength="4" PreviewTextInput="numbers_only"/>
-                        </GroupBox>
-                        <Button Content="Compile Level" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="HandleClickCompile"/>
-                        <RadioButton Name="CompileOnly" Content="Compile Only" HorizontalAlignment="Left" Margin="20,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.44,-1.4" IsChecked="True" Checked="CompileOnly_Checked"/>
-                        <RadioButton Name="LightOnly" Content="Light Only" HorizontalAlignment="Left" Margin="129,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.356,0.533" Checked="LightOnly_Checked"/>
-                        <RadioButton Name="CompileAndLight" Content="Compile and light" HorizontalAlignment="Left" Margin="222,60,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.429,0.4" Checked="CompileAndLight_Checked"/>
+        <GroupBox Header="{x:Static p:Resources.Tasks_Header}" Margin="10,113,10,35" Grid.RowSpan="2">
+            <TabControl HorizontalAlignment="Left" Width="490" Margin="10,10,0,9" HorizontalContentAlignment="Center" VerticalContentAlignment="Bottom" TabStripPlacement="Left">
+                <TabItem Header="{x:Static p:Resources.Compile_Level}" Margin="-2,-2,1,-2">
+                    <Grid Background="#FFE5E5E5" Margin="0,0,0,0">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="browse_level_compile" Grid.Column="0" Content="{x:Static p:Resources.Browse}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4" Click="browse_level_compile_Click" MinWidth="75" MinHeight="26"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Static p:Resources.Select_Level}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=compile_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
+                                </Grid>
+                                <TextBox Name="compile_level_path" Grid.Column="2" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="Transparent" MinHeight="26" MaxHeight="26"/>
+                            </Grid>
+                            <GroupBox x:Name="light_quality_select_box" Header="{x:Static p:Resources.Light_Quality_Header}" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}" Grid.Row="2" MinHeight="60" MinWidth="150">
+                                <GroupBox.BindingGroup>
+                                    <BindingGroup/>
+                                </GroupBox.BindingGroup>
+                                <ComboBox x:Name="light_quality_level" SelectedIndex="6" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="100">
+                                    <ComboBoxItem Content="{x:Static p:Resources.Checkerboard}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Direct_Only}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Draft_Low}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Draft_Medium}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Draft_High}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Draft_Super}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Low}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Medium}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.High}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Super}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Custom}"/>
+                                </ComboBox>
+                            </GroupBox>
+                            <GroupBox x:Name="instance_number" Header="{x:Static p:Resources.Instance_Count_Header}" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}" Grid.Row="2" MinHeight="60" MinWidth="150">
+                                <GroupBox.BindingGroup>
+                                    <BindingGroup/>
+                                </GroupBox.BindingGroup>
+                                <TextBox Name="instance_value" BorderBrush="{StaticResource brushWatermarkBorder}" VerticalAlignment="Center" TextWrapping="Wrap" Background="Transparent" Text="1" MaxLines="1" MaxLength="4" PreviewTextInput="numbers_only" HorizontalAlignment="Center" MinWidth="48" MinHeight="24"/>
+                            </GroupBox>
+                            <Button Content="{x:Static p:Resources.Compile_Level}" Click="HandleClickCompile" Grid.Row="2" VerticalAlignment="Bottom"/>
+                            <RadioButton Name="CompileOnly" Content="{x:Static p:Resources.Compile_Only}" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="True" Checked="CompileOnly_Checked"/>
+                            <RadioButton Name="LightOnly" Content="{x:Static p:Resources.Light_Only}" Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Top" Checked="LightOnly_Checked"/>
+                            <RadioButton Name="CompileAndLight" Content="{x:Static p:Resources.Compile_And_Light}" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Checked="CompileAndLight_Checked"/>
+                        </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Text Compile" Margin="-2,0,2,0" Width="105" Height="24" VerticalAlignment="Bottom">
+                <TabItem Header="{x:Static p:Resources.Text_Compile}" Margin="-2,0,1,-2" Height="24" VerticalAlignment="Bottom">
                     <Grid Background="#FFE5E5E5">
-                        <Button x:Name="Browse_text" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="Browse_text_Click"/>
-                        <Button Content="Compile Text" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileText"/>
-
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select unicode encoded .txt file to compile." Foreground="{StaticResource brushWatermarkForeground}" 
-                       Visibility="{Binding ElementName=compile_text_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
-                        <TextBox Name="compile_text_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="Browse_text" Content="{x:Static p:Resources.Browse}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4" Click="Browse_text_Click" MinWidth="75" MinHeight="26"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Static p:Resources.Select_Text}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=compile_text_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
+                                </Grid>
+                                <TextBox Name="compile_text_path" BorderBrush="{StaticResource brushWatermarkBorder}" Grid.Column="2" VerticalAlignment="Center" Background="Transparent" MinHeight="26" MaxHeight="26"/>
+                            </Grid>
+                            <Button Content="{x:Static p:Resources.Compile_Text}" Grid.Row="1" Click="CompileText" VerticalAlignment="Bottom" />
+                        </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Bitmap Compile" Margin="-2,-1,2,1" Width="105" Height="24">
+                <TabItem Header="{x:Static p:Resources.Bitmap_Compile}" Margin="-2,2,1,-6">
                     <Grid Background="#FFE5E5E5">
-                        <Button x:Name="browse_bitmap" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_bitmap_Click"/>
-                        <Button Content="Compile Image" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="CompileImage"/>
-                        <GroupBox x:Name="bitmap_select_box" Header="Bitmap Type" HorizontalAlignment="Left" Height="63" Margin="10,80,0,0" VerticalAlignment="Top" Width="325" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
-                            <GroupBox.BindingGroup>
-                                <BindingGroup/>
-                            </GroupBox.BindingGroup>
-                            <ComboBox x:Name="bitmap_compile_type" HorizontalAlignment="Left" Margin="0,10,-2,0" VerticalAlignment="Top" Width="315" Height="26" SelectedIndex="0">
-                                <ComboBoxItem Content="2D Textures"/>
-                                <ComboBoxItem Content="3D Textures"/>
-                                <ComboBoxItem Content="Cubemaps"/>
-                                <ComboBoxItem Content="Sprites"/>
-                                <ComboBoxItem Content="Interface"/>
-                            </ComboBox>
-                        </GroupBox>
-
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select image to compile." Foreground="{StaticResource brushWatermarkForeground}" 
-                       Visibility="{Binding ElementName=compile_image_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
-                        <TextBox Name="compile_image_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="browse_bitmap" Content="{x:Static p:Resources.Browse}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4" Click="browse_bitmap_Click" MinWidth="75" MinHeight="26"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Static p:Resources.Select_Bitmap}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=compile_image_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" FontStyle="Italic"/>
+                                </Grid>
+                                <TextBox Name="compile_image_path" BorderBrush="{StaticResource brushWatermarkBorder}" Grid.Column="2" VerticalAlignment="Center" Background="Transparent" MinHeight="26" MaxHeight="26"/>
+                            </Grid>
+                            <Button Content="{x:Static p:Resources.Compile_Bitmap}" Grid.Row="1" Click="CompileImage" VerticalAlignment="Bottom"/>
+                            <GroupBox x:Name="bitmap_select_box" Header="{x:Static p:Resources.Bitmap_Type_Header}" Grid.Row="1" VerticalAlignment="Top" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
+                                <GroupBox.BindingGroup>
+                                    <BindingGroup/>
+                                </GroupBox.BindingGroup>
+                                <ComboBox x:Name="bitmap_compile_type" VerticalAlignment="Center" SelectedIndex="0">
+                                    <ComboBoxItem Content="{x:Static p:Resources.Bitmap_2D_Textures}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Bitmap_3D_Textures}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Bitmap_Cubemaps}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Bitmap_Sprites}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Bitmap_Interface}"/>
+                                </ComboBox>
+                            </GroupBox>
+                        </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Model Compile" Margin="-2,-3,2,0" Width="105" Height="24" VerticalAlignment="Top">
+                <TabItem Header="{x:Static p:Resources.Model_Compile}" Margin="-2,6,1,-6" Height="24" VerticalAlignment="Top">
                     <Grid Background="#FFE5E5E5">
-                        <Button x:Name="browse_model" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_model_Click"/>
-                        <Button x:Name="compile_model" Content="Compile Model" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="compile_model_Click"/>
-
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select model to compile." Foreground="{StaticResource brushWatermarkForeground}" 
-                       Visibility="{Binding ElementName=compile_model_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
-                        <TextBox Name="compile_model_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
-                        <ComboBox x:Name="model_compile_obj_type" HorizontalAlignment="Left" Margin="230,110,0,0" VerticalAlignment="Top" Width="92" Height="26" SelectedIndex="11">
-                            <ComboBoxItem Content="Biped"/>
-                            <ComboBoxItem Content="Vehicle"/>
-                            <ComboBoxItem Content="Weapon"/>
-                            <ComboBoxItem Content="Equipment"/>
-                            <ComboBoxItem Content="Garbage"/>
-                            <ComboBoxItem Content="Projectile"/>
-                            <ComboBoxItem Content="Scenery"/>
-                            <ComboBoxItem Content="Machine"/>
-                            <ComboBoxItem Content="Control"/>
-                            <ComboBoxItem Content="Light Fixture"/>
-                            <ComboBoxItem Content="Sound Scenery"/>
-                            <ComboBoxItem Content="Crate"/>
-                            <ComboBoxItem Content="Creature"/>
-                        </ComboBox>
-                        <ComboBox x:Name="model_compile_render_type" HorizontalAlignment="Left" Margin="11,110,0,0" VerticalAlignment="Top" Width="50" Height="26" SelectedIndex="0">
-                            <ComboBoxItem Content="BSP"/>
-                            <ComboBoxItem Content="DAE"/>
-                        </ComboBox>
-                        <RadioButton x:Name="model_compile_collision" Content="Collision" Margin="85,50,188,0" VerticalAlignment="Top" RenderTransformOrigin="0.25,0.333" Checked="model_compile_collision_Checked" />
-                        <RadioButton x:Name="model_compile_physics" Content="Physics" Margin="160,50,118,0" VerticalAlignment="Top" Checked="model_compile_physics_Checked" RenderTransformOrigin="0.491,0.533"/>
-                        <RadioButton x:Name="model_compile_animations" Content="Animations" Margin="230,50,29,0" VerticalAlignment="Top" Checked="model_compile_animations_Checked" RenderTransformOrigin="0.491,0.533"/>
-                        <RadioButton x:Name="model_compile_obj" Content="Object" HorizontalAlignment="Left" Margin="230,80,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.5" Checked="model_compile_obj_Checked"/>
-                        <RadioButton x:Name="model_compile_all" Content="All" Margin="10,80,300,0" VerticalAlignment="Top" RenderTransformOrigin="-0.026,0.467" IsChecked="True" Checked="model_compile_all_Checked"/>
-                        <Label Content="Object Type" HorizontalAlignment="Left" Margin="156,110,0,0" VerticalAlignment="Top"/>
-                        <Label Content="Render Type" HorizontalAlignment="Left" Margin="62,110,0,0" VerticalAlignment="Top"/>
-                        <RadioButton x:Name="model_compile_render" Content="Render" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Checked="model_compile_render_Checked"/>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="browse_model" Content="{x:Static p:Resources.Browse}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4" Click="browse_model_Click" MinWidth="75" MinHeight="26"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Static p:Resources.Select_Model}" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=compile_model_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic" HorizontalAlignment="Left"/>
+                                </Grid>
+                                <TextBox Name="compile_model_path" BorderBrush="{StaticResource brushWatermarkBorder}" Grid.Column="2" VerticalAlignment="Center" Background="Transparent" MinHeight="26" MaxHeight="26"/>
+                            </Grid>
+                            <GroupBox x:Name="model_compile_obj_box" Header="{x:Static p:Resources.Object_Type}" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}" MinHeight="60" MinWidth="150">
+                                <GroupBox.BindingGroup>
+                                    <BindingGroup/>
+                                </GroupBox.BindingGroup>
+                                <ComboBox x:Name="model_compile_obj_type" HorizontalAlignment="Center" VerticalAlignment="Center" SelectedIndex="11" MinWidth="100">
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Biped}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Vehicle}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Weapon}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Equipment}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Garbage}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Projectile}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Scenery}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Machine}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Control}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Light_Fixture}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Sound_Scenery}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Crate}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.Object_Creature}"/>
+                                </ComboBox>
+                            </GroupBox>
+                            <GroupBox x:Name="model_compile_render_box" Header="{x:Static p:Resources.Render_Type}" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}" MinHeight="60" MinWidth="150">
+                                <GroupBox.BindingGroup>
+                                    <BindingGroup/>
+                                </GroupBox.BindingGroup>
+                                <ComboBox x:Name="model_compile_render_type" SelectedIndex="0" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="100">
+                                    <ComboBoxItem Content="{x:Static p:Resources.BSP}"/>
+                                    <ComboBoxItem Content="{x:Static p:Resources.DAE}"/>
+                                </ComboBox>
+                            </GroupBox>
+                            <Button x:Name="compile_model" Content="{x:Static p:Resources.Compile_Model}" Grid.Row="2" Click="compile_model_Click" VerticalAlignment="Bottom"/>                            
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton x:Name="model_compile_collision" Content="{x:Static p:Resources.Model_Compile_Collision}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Checked="model_compile_collision_Checked"/>
+                                <RadioButton x:Name="model_compile_physics" Content="{x:Static p:Resources.Model_Compile_Physics}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="model_compile_physics_Checked"/>
+                                <RadioButton x:Name="model_compile_animations" Content="{x:Static p:Resources.Model_Compile_Animations}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Bottom" Checked="model_compile_animations_Checked"/>
+                                <RadioButton x:Name="model_compile_obj" Content="{x:Static p:Resources.Model_Compile_Object}" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="model_compile_obj_Checked"/>
+                                <RadioButton x:Name="model_compile_all" Content="{x:Static p:Resources.Model_Compile_All}" Grid.Column="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" IsChecked="True" Checked="model_compile_all_Checked"/>
+                                <RadioButton x:Name="model_compile_render" Content="{x:Static p:Resources.Model_Compile_Render}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="model_compile_render_Checked"/>
+                            </Grid>
+                        </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Sound Compile" Margin="-2,-3,2,3" Width="105" Height="24">
+                <TabItem Header="{x:Static p:Resources.Sound_Compile}" Margin="-2,6,1,-10">
                     <Grid Background="#FFE5E5E5">
-                        <Button x:Name="browse_sound" Content="Browse" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_sound_Click"/>
-                        <Button x:Name="browse_ltf" Content="Browse" HorizontalAlignment="Left" Margin="10,53,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_ltf_Click"/>
-                        <Button x:Name="import_lipsync" Content="Import Sound" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="import_sound_Click"/>
-
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select .WAV or .AIFF file" Foreground="{StaticResource brushWatermarkForeground}" 
-                       Visibility="{Binding ElementName=import_sound_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
-                        <TextBox Name="import_sound_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
-
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,52,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select .LTF file" Foreground="{StaticResource brushWatermarkForeground}" 
-                       Visibility="{Binding ElementName=import_lipsync_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
-                        <TextBox Name="import_lipsync_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,50,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
-                    </Grid>
-                </TabItem>                
-                <TabItem Header="Packaging" Margin="-2,-3,2,3" Width="105" Height="24">
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="35"/>                                
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="browse_sound" Content="{x:Static p:Resources.Browse}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4" Click="browse_sound_Click" MinWidth="75" MinHeight="26"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Static p:Resources.Select_Sound}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=import_sound_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" FontStyle="Italic"/>
+                                </Grid>
+                                <TextBox Name="import_sound_path" BorderBrush="{StaticResource brushWatermarkBorder}" Grid.Column="2" VerticalAlignment="Center" Background="Transparent" MinHeight="26" MaxHeight="26"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="browse_ltf" Content="{x:Static p:Resources.Browse}" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4" Click="browse_ltf_Click" MinWidth="75" MinHeight="26"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Static p:Resources.Select_LTF}" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=import_lipsync_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" FontStyle="Italic"/>
+                                </Grid>
+                                <TextBox Name="import_lipsync_path" BorderBrush="{StaticResource brushWatermarkBorder}" Grid.Column="2" VerticalAlignment="Center" Background="Transparent" MinHeight="26" MaxHeight="26"/>
+                            </Grid>
+                            <Button x:Name="import_lipsync" Content="{x:Static p:Resources.Import_Sound}" Grid.Row="2" VerticalAlignment="Bottom" Click="import_sound_Click"/>
+                        </Grid>
+                    </Grid>                            
+                </TabItem>
+                <TabItem Header="{x:Static p:Resources.Packing}" Margin="-2,10,1,-14">
                     <Grid Background="#FFE5E5E5">
-                        <Button x:Name="browse_package_level" Content="Browse" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.253,0.45" Click="browse_package_level_Click"/>
-
-                        <TextBlock HorizontalAlignment="Left" Height="23" Margin="103,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" RenderTransformOrigin="0.249,0.696" Text="Select a scenario file to package." Foreground="{StaticResource brushWatermarkForeground}" 
-                       Visibility="{Binding ElementName=package_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}"  FontStyle="Italic"/>
-                        <TextBox Name="package_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" HorizontalAlignment="Left" Height="23" Margin="100,20,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="235" Background="Transparent" RenderTransformOrigin="0.249,0.696"/>
-
-                        <Button Content="Package Level" HorizontalAlignment="Left" Margin="10,99,0,0" VerticalAlignment="Top" Width="325" RenderTransformOrigin="-0.2,0.35" Click="PackageLevel"/>
-                        <CheckBox x:Name="copy_map" Content="Copy to custom maps folder after packaging." HorizontalAlignment="Left" Margin="24,48,0,0" VerticalAlignment="Top" IsChecked="True"/>
-                        <CheckBox x:Name="shared_tag_removal" Content="Remove shared tags." HorizontalAlignment="Left" Margin="24,68,0,0" VerticalAlignment="Top" Width="258"/>
+                        <Grid Margin="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="8"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="browse_package_level" Content="{x:Static p:Resources.Browse}" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="4" Click="browse_package_level_Click" MinWidth="75" MinHeight="26"/>
+                                <Grid Grid.Column="2">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{x:Static p:Resources.Select_Scenario}" Grid.Column="1" VerticalAlignment="Center" Foreground="{StaticResource brushWatermarkForeground}" Visibility="{Binding ElementName=package_level_path, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" FontStyle="Italic" HorizontalAlignment="Left"/>
+                                </Grid>
+                                <TextBox Name="package_level_path" BorderBrush="{StaticResource brushWatermarkBorder}" Grid.Column="2" VerticalAlignment="Center" Background="Transparent" MinHeight="26" MaxHeight="26"/>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <CheckBox x:Name="copy_map" Content="{x:Static p:Resources.Copy_Map}" HorizontalAlignment="Left" VerticalAlignment="Center" IsChecked="True"/>
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <CheckBox x:Name="shared_tag_removal" Content="{x:Static p:Resources.Shared_Tag_Removal}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                            </Grid>
+                            <Button Content="{x:Static p:Resources.Package_Level}" Grid.Row="4" VerticalAlignment="Bottom" Click="PackageLevel"/>
+                        </Grid>
                     </Grid>
                 </TabItem>
-                <TabItem Header="Settings" Margin="-2,-3,2,3" Width="105" Height="24">
-                    <Grid Background="#FFE5E5E5">
-                        <Button Content="Reset Sapien window layout" Margin="32,10,152,0" VerticalAlignment="Top" Click="ResetSapienDisplay" RenderTransformOrigin="0.509,0.65"/>
-                        <Button Content="Repair registry" Margin="32,40,152,0" VerticalAlignment="Top" Click="RepairRegistry" RenderTransformOrigin="0.509,0.65"/>
-                        <CheckBox x:Name="large_addr_enabled" Content="Use executables with large address support" HorizontalAlignment="Left" Margin="32,65,0,0" VerticalAlignment="Top" Width="265" Checked="large_addr_enabled_Checked" Unchecked="large_addr_enabled_Checked"/>
-                        <CheckBox x:Name="ignore_updates_enabled" Content="Ignore Updates" HorizontalAlignment="Left" Margin="32,85,0,0" VerticalAlignment="Top" Width="265" Checked="ignore_updates_enabled_Checked" Unchecked="ignore_updates_enabled_Checked"/>
-                        <CheckBox x:Name="portable_install_enabled" Content="Portable Install" HorizontalAlignment="Left" Margin="32,105,0,0" VerticalAlignment="Top" Width="265" Checked="portable_install_enabled_checked" Unchecked="portable_install_enabled_checked"/>
-                    </Grid>
+                <TabItem Header="{x:Static p:Resources.Settings}" Margin="-2,14,1,-18">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid Background="#FFE5E5E5" Height="Auto">
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Button Content="{x:Static p:Resources.Reset_Sapien_Windows}" Grid.Row="0" VerticalAlignment="Center" Click="ResetSapienDisplay"/>
+                                <Button Content="{x:Static p:Resources.Repair_Registry}" Grid.Row="2" VerticalAlignment="Center" Click="RepairRegistry"/>
+                                <Button Content="{x:Static p:Resources.Set_Permissions}" Grid.Row="4" VerticalAlignment="Center" Click="SetPermissions"/>
+                                <CheckBox x:Name="large_addr_enabled" Content="{x:Static p:Resources.Large_Address_Enabled}" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="large_addr_enabled_Checked" Unchecked="large_addr_enabled_Checked"/>
+                                <CheckBox x:Name="ignore_updates_enabled" Content="{x:Static p:Resources.Ignore_Updates_Enabled}" Grid.Row="8" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="ignore_updates_enabled_Checked" Unchecked="ignore_updates_enabled_Checked"/>
+                                <CheckBox x:Name="portable_install_enabled" Content="{x:Static p:Resources.Portable_Install_Enabled}" Grid.Row="10" HorizontalAlignment="Left" VerticalAlignment="Center" Checked="portable_install_enabled_checked" Unchecked="portable_install_enabled_checked"/>
+                                <GroupBox x:Name="select_language_box" Header="{x:Static p:Resources.Language}" Grid.Row="12" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="{Binding Mode=OneWay, Source={StaticResource show_light_slider}}">
+                                    <GroupBox.BindingGroup>
+                                        <BindingGroup/>
+                                    </GroupBox.BindingGroup>
+                                    <ComboBox x:Name="select_language" HorizontalAlignment="Center" VerticalAlignment="Center" SelectedIndex="0" SelectionChanged="language_SelectionChanged">
+                                        <ComboBoxItem Content="{x:Static p:Resources.System_Locale}"/>
+                                        <ComboBoxItem Content="English"/>
+                                        <ComboBoxItem Content="Español"/>
+                                        <ComboBoxItem Content="Français"/>
+                                    </ComboBox>
+                                </GroupBox>
+                            </Grid>
+                        </Grid>                            
+                    </ScrollViewer>
                 </TabItem>
-                <TabItem Header="Credits" Margin="-2,-3,2,3" Width="105" Height="24">
-                    <Grid Background="#FFE5E5E5">
-                        <TextBlock HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="15" Width="323" FontSize="10"><Run Text="•"/><Run Text=" "/><Run Text="Launcher - Written by Num0005"/><Run Text="."/></TextBlock>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,30,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="323" RenderTransformOrigin="0.502,0.457"><Run FontSize="10" Text="• H2Codez - Originally written by Himanshu01, support for "/><Run FontSize="10" Text="H2S"/><Run FontSize="10" Text="apien and"/><LineBreak FontSize="10"/><Run FontSize="10" Text="H2Guerrila added by Num0005."/></TextBlock>
-                        <TextBlock Margin="10,118,237,0" TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.535,0.479"><Run Text="Special "/><Run Text="t"/><Run Text="hanks to"/><Run Text=" "/><Run Text=":"/></TextBlock>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,62,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.499,0.522" Width="310"><Run Text="•"/><Run Text=" Alpha"/><Run Text="/"/><Run Text="Beta"/><Run Text=" "/><Run Text="Testing"/><Run Text=" -"/><Run Text=" "/><Run Text="General-101 and Twinreaper."/></TextBlock>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,80,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.638,-0.927" Height="27"><Run Text="•"/><Run Text=" "/><Run Text="Research"/><Run Text=" -"/><Run Text=" Original"/><Run Text=" "/><Run Text="research into "/><Run Text="H2"/><Run Text="tool"/><Run Text=" and H2Guerrila "/><Run Text="carried "/><Run Text="out by Kornmann00"/><Run Text=" as part of the opensauce project"/><Run Text="."/><LineBreak/><Run/><Run Text=" "/></TextBlock>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,139,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.496,0.326" Width="323"><Run Text="•"/><Run Text=" "/><Run Text="Bungie / "/><Run Text="H"/><Run Text="ired "/><Run Text="G"/><Run Text="un"/><Run Text=" -"/><Run Text=" "/><Run Text="For creating the game and porting it."/></TextBlock>
-                        <TextBlock HorizontalAlignment="Left" Margin="10,157,0,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="10" RenderTransformOrigin="0.499,0.522" Width="316"><Run Text="•"/><Run Text=" "/><Run Text="Everyone else working on Project Cartographer. "/><Run Text=" "/></TextBlock>
-                    </Grid>
+                <TabItem Header="{x:Static p:Resources.Credits}" Margin="-2,18,1,-21">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <Grid Background="#FFE5E5E5" Height="Auto">
+                            <Grid Margin="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="8"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Row="0" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"><Run Text="{x:Static p:Resources.Launcher}"/></TextBlock>
+                                <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="10"><Run Text="{x:Static p:Resources.Num005}"/></TextBlock>
+                                <TextBlock Grid.Row="2" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="10"><Run Text="{x:Static p:Resources.Misc_Features}"/></TextBlock>
+                                <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="10"><Run Text="{x:Static p:Resources.Alpha_Beta_Testing}"/></TextBlock>
+                                <TextBlock Grid.Row="5" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"><Run Text="{x:Static p:Resources.H2Codez}"/></TextBlock>
+                                <TextBlock Grid.Row="6" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="10"><Run Text="{x:Static p:Resources.H2Codez_Team}"/></TextBlock>
+                                <TextBlock Grid.Row="7" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="10"><Run Text="{x:Static p:Resources.Research}"/></TextBlock>
+                                <TextBlock Grid.Row="9" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"><Run Text="{x:Static p:Resources.Language_Support}"/></TextBlock>
+                                <TextBlock Grid.Row="10" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"  FontSize="10"><Run Text="{x:Static p:Resources.Spanish_Translation}"/></TextBlock>
+                                <TextBlock Grid.Row="11" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"  FontSize="10"><Run Text="{x:Static p:Resources.French_Translation}"/></TextBlock>
+                                <TextBlock Grid.Row="13" Grid.ColumnSpan="2" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap"><Run Text="{x:Static p:Resources.Special_Thanks}"/></TextBlock>
+                                <TextBlock Grid.Row="14" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="10"><Run Text="{x:Static p:Resources.Bungie_Hired_Gun}"/></TextBlock>
+                                <TextBlock Grid.Row="15" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" FontSize="10"><Run Text="{x:Static p:Resources.Project_Cartographer}"/></TextBlock>
+                            </Grid>
+                        </Grid>                            
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
         </GroupBox>
