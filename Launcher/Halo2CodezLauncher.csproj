@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Resource.Embedder.2.1.1\build\Resource.Embedder.props" Condition="Exists('..\packages\Resource.Embedder.2.1.1\build\Resource.Embedder.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -46,6 +47,8 @@
     <Reference Include="ICSharpCode.SharpZipLib">
       <HintPath>bspatch\ICSharpCode.SharpZipLib.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.Build.Utilities.v4.0" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WindowsAPICodePack-Core.1.1.1\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
@@ -167,6 +170,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.2.0.0\build\netstandard1.4\Fody.targets'))" />
     <Error Condition="!Exists('..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Resource.Embedder.2.1.1\build\Resource.Embedder.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Resource.Embedder.2.1.1\build\Resource.Embedder.props'))" />
   </Target>
   <Import Project="..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.1.6.2\build\dotnet\Costura.Fody.targets')" />
 </Project>
