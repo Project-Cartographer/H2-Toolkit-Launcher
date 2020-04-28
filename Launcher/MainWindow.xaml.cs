@@ -1,18 +1,10 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Threading;
 using System.IO;
 using System.Reflection;
@@ -21,7 +13,6 @@ using System.Security.Cryptography;
 using System.Net;
 using Microsoft.VisualBasic.FileIO;
 using static System.Environment;
-using static System.Object;
 using static System.Diagnostics.Process;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using H2CodezLauncher.Properties;
@@ -43,6 +34,7 @@ namespace Halo2CodezLauncher
         private string Launcher_Directory = AppDomain.CurrentDomain.BaseDirectory;
         private string Guerilla_key = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Halo 2";
         private string Tools_Directory = "tools_directory";
+        bool startup_finished = false;
 
         [Flags]
         enum level_compile_type : Byte
@@ -128,13 +120,27 @@ namespace Halo2CodezLauncher
                 Process proc = Start(info);
                 if (wait)
                     proc.WaitForExit();
-            } catch (FileNotFoundException ex)
-            {
-                MessageBox.Show("Can't find \"" + ex.FileName + "\"", "Error Lauching!");
             }
             catch (System.ComponentModel.Win32Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Error Lauching!");
+                /*
+                https://docs.microsoft.com/en-us/windows/win32/debug/system-error-codes
+                */
+                int ErrorCode = ex.NativeErrorCode;
+                if (ErrorCode == 2)
+                {
+                    CustomOkDialogWPF.MsgBoxOk Cant_Find_File = new CustomOkDialogWPF.MsgBoxOk(string.Format(H2CodezLauncher.Properties.Resources.Cant_Find_File, info.FileName), H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                    Cant_Find_File.ShowDialog();
+                }
+                else if (ErrorCode == 1223)
+                {
+                    CustomOkDialogWPF.MsgBoxOk Launch_Cancelled = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Launch_Cancelled, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                    Launch_Cancelled.ShowDialog();
+                }
+                else
+                {
+                    throw ex;
+                }
             }
         }
 
@@ -181,14 +187,14 @@ namespace Halo2CodezLauncher
             string latest_version = wc.DownloadString(Settings.Default.version_url);
             if (latest_version != our_version && !Settings.Default.ignore_updates)
             {
-                MessageBoxResult user_answer = MessageBox.Show("Latest version is: " + latest_version + " You are using: " + our_version + " \nDo you want to update?",
-                     "Outdated Version!", MessageBoxButton.YesNo);
-                if (user_answer == MessageBoxResult.Yes)
+                CustomYesNoDialogWPF.MsgBoxYesNo Update_Check = new CustomYesNoDialogWPF.MsgBoxYesNo(string.Format(H2CodezLauncher.Properties.Resources.Update_Check, latest_version, our_version), H2CodezLauncher.Properties.Resources.Outdated_Version, H2CodezLauncher.Properties.Resources.Yes, H2CodezLauncher.Properties.Resources.No);
+                if ((bool)Update_Check.ShowDialog())
                 {
-                    AllowReadWriteFile("H2CodezLauncher.exe");
+                    string launcher_filename = System.Diagnostics.Process.GetCurrentProcess().MainModule.ModuleName;
+                    AllowReadWriteFile(launcher_filename);
 
                     wc.DownloadFile(Settings.Default.launcher_update_url, "H2CodezLauncher.exe.new");
-                    ForceMove("H2CodezLauncher.exe", "H2CodezLauncher.exe.old");
+                    ForceMove(launcher_filename, "H2CodezLauncher.exe.old");
                     ForceMove("H2CodezLauncher.exe.new", "H2CodezLauncher.exe");
                     AllowReadWriteFile("H2CodezLauncher.exe");
                     AllowReadWriteFile("H2CodezLauncher.exe.old");
@@ -224,13 +230,14 @@ namespace Halo2CodezLauncher
                 {
                     RegistryKey Guerilla_Tag_key = RegistryKey
                         .OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry32)
-                        .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2", true);
+                        .CreateSubKey("SOFTWARE\\Microsoft\\Halo 2");
 
-                    MessageBox.Show("Please select H2Tool.exe");
+                    CustomOkDialogWPF.MsgBoxOk Select_H2Tool = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Select_H2Tool, H2CodezLauncher.Properties.Resources.Repair_Registry, H2CodezLauncher.Properties.Resources.Ok);
+                    Select_H2Tool.ShowDialog();
 
                     OpenFileDialog dlg = new OpenFileDialog();
-                    dlg.Title = "Selet H2Tool.exe";
-                    dlg.Filter = "H2Tool|H2Tool.exe";
+                    dlg.Title = H2CodezLauncher.Properties.Resources.File_Dialog_Select_H2Tool;
+                    dlg.Filter = H2CodezLauncher.Properties.Resources.File_Dialog_H2Tool;
 
                     if (dlg.ShowDialog() == true)
                     {
@@ -238,7 +245,8 @@ namespace Halo2CodezLauncher
                     }
                     else
                     {
-                        MessageBox.Show("Failed to assign registry keys. Will default to using launcher location. This will break if the launcher is not located in the map editor folder");
+                        CustomOkDialogWPF.MsgBoxOk Registry_Failed = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Registry_Failed, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                        Registry_Failed.ShowDialog();
                         use_launcher_path = true;
                     }
 
@@ -250,7 +258,8 @@ namespace Halo2CodezLauncher
                         {
                             Guerilla_Tag_key.SetValue("tools_directory", H2Ek_install_path + "\\");
                             Guerilla_Tag_key.Close();
-                            MessageBox.Show("Repairs completed");
+                            CustomOkDialogWPF.MsgBoxOk Registry_Passed = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Registry_Passed, H2CodezLauncher.Properties.Resources.Repair_Registry, H2CodezLauncher.Properties.Resources.Ok);
+                            Registry_Passed.ShowDialog();
                         }
                         force_repair = false;
                     }
@@ -259,13 +268,48 @@ namespace Halo2CodezLauncher
                     {
                         Settings.Default.portable_install = false;
                         Settings.Default.Save();
-                        this.Dispatcher.Invoke(() =>
+                        this.Dispatcher.Invoke(new Action(() =>
                         {
                             portable_install_enabled.IsChecked = Settings.Default.portable_install;
-                        });
+                        }));
                     }
                 }
             }
+        }
+
+        void set_language()
+        {
+            /*
+            https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-lcid/a9eac961-e77d-41a6-90a5-ce1a8b0cdb9c?redirectedfrom=MSDN 
+            */
+
+            int language = Settings.Default.language;
+            string language_code;
+
+            if (language == 0)
+            {
+                System.Globalization.CultureInfo ci = System.Globalization.CultureInfo.InstalledUICulture;
+                language_code = ci.ToString();
+            }
+            else if (language == 1)
+            {
+                language_code = "en";
+            }
+            else if (language == 2)
+            {
+                language_code = "es";
+            }
+            else if (language == 3)
+            {
+                language_code = "fr";
+            }
+            else
+            {
+                language_code = "en";
+            }
+
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language_code);
+            System.Threading.Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo(language_code);
         }
 
         public MainWindow()
@@ -273,11 +317,14 @@ namespace Halo2CodezLauncher
             Application.Current.DispatcherUnhandledException += App_DispatcherUnhandledException;
             Settings.Default.Upgrade();
             Settings.Default.Save();
+            set_language();
 
             InitializeComponent();
             large_addr_enabled.IsChecked = Settings.Default.large_address_support;
             ignore_updates_enabled.IsChecked = Settings.Default.ignore_updates;
             portable_install_enabled.IsChecked = Settings.Default.portable_install;
+            select_language.SelectedIndex = Settings.Default.language;
+
             // Delete any left over update files.
             try
             {
@@ -289,7 +336,7 @@ namespace Halo2CodezLauncher
 
             var wc = new WebClient();
 
-            new Thread(delegate ()
+            Thread startup = new Thread(delegate ()
             {
                 Thread.CurrentThread.IsBackground = true;
                 try
@@ -298,21 +345,22 @@ namespace Halo2CodezLauncher
                     {
                         if (Registry.GetValue(Guerilla_key, Tools_Directory, null) is null)
                         {
-                            if (MessageBox.Show("Is this a portable install?", "Missing Registry Keys", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                            CustomYesNoDialogWPF.MsgBoxYesNo Ask_Portable = new CustomYesNoDialogWPF.MsgBoxYesNo(H2CodezLauncher.Properties.Resources.Ask_Portable, H2CodezLauncher.Properties.Resources.Ask_Portable_Header, H2CodezLauncher.Properties.Resources.Yes, H2CodezLauncher.Properties.Resources.No);
+                            if ((bool)Ask_Portable.ShowDialog())
                             {
-                                MessageBox.Show("Using launcher path as install location. Please ensure it is inside of your map editor folder.", "Portable Install Confirmed");
+                                CustomOkDialogWPF.MsgBoxOk Portable_True = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Portable_True, H2CodezLauncher.Properties.Resources.Portable_True_Header, H2CodezLauncher.Properties.Resources.Ok);
+                                Portable_True.ShowDialog();
                                 Settings.Default.portable_install = true;
                                 Settings.Default.Save();
-                                this.Dispatcher.Invoke(() =>
+                                this.Dispatcher.Invoke(new Action(() =>
                                 {
                                     portable_install_enabled.IsChecked = Settings.Default.portable_install;
-                                });
+                                }));
                             }
                             else
                             {
                                 repair_registry(false, false);
                             }
-
                         }
                     }
 
@@ -329,23 +377,23 @@ namespace Halo2CodezLauncher
                     file_list files_to_patch = file_list.none;
                     if (!check_files(ref files_to_patch))
                     {
-                        MessageBox.Show("You are using a version of the toolkit that is not supported by H2Codez, features added by H2Codez will not be available.\nPlease install the orginal version of the toolkit that was distributed on the DVD, as that's the only version H2Codez can patch.",
-                         "Version Error!");
+                        CustomOkDialogWPF.MsgBoxOk Unsupported_Toolkit = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Unsupported_Toolkit, H2CodezLauncher.Properties.Resources.Unsupported_Toolkit_Header, H2CodezLauncher.Properties.Resources.Ok);
+                        Unsupported_Toolkit.ShowDialog();
                         return;
                     }
 
                     if (!File.Exists(H2Ek_install_path + "H2Codez.dll") || files_to_patch != file_list.none)
                     {
-                        MessageBoxResult user_answer = MessageBox.Show("You have not installed H2Codez or the installation process is incomplete.\nDo you want to install H2Codez?",
-                         "H2Codez Install", MessageBoxButton.YesNo);
-                        if (user_answer == MessageBoxResult.No) return;
+                        CustomYesNoDialogWPF.MsgBoxYesNo H2Codez_Not_Found = new CustomYesNoDialogWPF.MsgBoxYesNo(H2CodezLauncher.Properties.Resources.H2Codez_Not_Found, H2CodezLauncher.Properties.Resources.H2Codez_Not_Found_Header, H2CodezLauncher.Properties.Resources.Yes, H2CodezLauncher.Properties.Resources.No);
+                        if ((bool)H2Codez_Not_Found.ShowDialog() == false) return;
 
                         AllowReadWriteDir(H2Ek_install_path, true); // wipe permissions for install path and let all users access it
                         ApplyPatches(files_to_patch, wc);
                         patch_exes_for_large_address_support();
                         wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
                         AllowReadWriteFile(H2Ek_install_path + "H2Codez.dll");
-                        MessageBox.Show("Successfully finished installing H2Codez!", "H2codez Install");
+                        CustomOkDialogWPF.MsgBoxOk H2Codez_Install_Passed = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.H2Codez_Install_Passed, H2CodezLauncher.Properties.Resources.H2Codez_Install_Header, H2CodezLauncher.Properties.Resources.Ok);
+                        H2Codez_Install_Passed.ShowDialog();
                         return;
                     }
 
@@ -354,16 +402,18 @@ namespace Halo2CodezLauncher
                     string our_h2codes_hash = CalculateMD5(H2Ek_install_path + "H2Codez.dll");
                     if (our_h2codes_hash != h2codez_latest_hash.ToLower() && !Settings.Default.ignore_updates)
                     {
-                        MessageBoxResult user_answer = MessageBox.Show("Your version of H2Codez is outdated, do you want to update it?",
-                         "H2Codez Update", MessageBoxButton.YesNo);
-                        if (user_answer == MessageBoxResult.Yes)
+                        CustomYesNoDialogWPF.MsgBoxYesNo H2Codez_Update = new CustomYesNoDialogWPF.MsgBoxYesNo(H2CodezLauncher.Properties.Resources.H2Codez_Update, H2CodezLauncher.Properties.Resources.H2Codez_Update_Header, H2CodezLauncher.Properties.Resources.Yes, H2CodezLauncher.Properties.Resources.No);
+                        if ((bool)H2Codez_Update.ShowDialog())
                         {
                             AllowReadWriteDir(H2Ek_install_path, true); // wipe permissions for install path and let all users access it
                             AllowReadWriteFile(H2Ek_install_path + "H2Codez.dll");
                             wc.DownloadFile(Settings.Default.h2codez_update_url, H2Ek_install_path + "H2Codez.dll");
-                            MessageBox.Show("Successfully finished updating H2Codez!", "H2Codez Update");
+                            CustomOkDialogWPF.MsgBoxOk H2Codez_Update_Passed = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.H2Codez_Update_Passed, H2CodezLauncher.Properties.Resources.H2Codez_Update_Passed_Header, H2CodezLauncher.Properties.Resources.Ok);
+                            H2Codez_Update_Passed.ShowDialog();
                         }
                     }
+
+                    startup_finished = true;
                 }
                 catch (UnauthorizedAccessException)
                 {
@@ -371,7 +421,8 @@ namespace Halo2CodezLauncher
                 }
                 catch (WebException ex) when (ex.InnerException is IOException)
                 {
-                    MessageBox.Show("Updating H2Codez failed because the launcher can't save the update data to disk.\nPlease close all currently open H2EK related programs and try again.", "Error!");
+                    CustomOkDialogWPF.MsgBoxOk H2Codez_In_Use = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.H2Codez_In_Use, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                    H2Codez_In_Use.ShowDialog();
                 }
                 catch (WebException ex) when (ex.InnerException is UnauthorizedAccessException)
                 {
@@ -379,9 +430,45 @@ namespace Halo2CodezLauncher
                 }
                 catch (WebException)
                 {
-                    MessageBox.Show("Check your internet connection and try again,\nif the problem presists fill a bug report.", "Update check failed!");
+                    CustomOkDialogWPF.MsgBoxOk H2Codez_No_Net = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.H2Codez_No_Net, H2CodezLauncher.Properties.Resources.H2Codez_No_Net_Header, H2CodezLauncher.Properties.Resources.Ok);
+                    H2Codez_No_Net.ShowDialog();
                 }
-            }).Start();
+            });
+            startup.SetApartmentState(ApartmentState.STA);
+            startup.Start();
+        }
+
+        private string get_default_path(string textbox_path, string compile_type)
+        {
+            string asset_folder = "data\\";
+            if (compile_type == "package_level_path")
+            {
+                asset_folder = "tags\\";
+            }
+
+            string path = H2Ek_install_path + asset_folder;
+            if (Keyboard.IsKeyDown(Key.LeftAlt))
+            {
+                string documents_halo2_asset = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\Halo 2\\" + asset_folder;
+
+                bool data_path_exists = System.IO.Directory.Exists(documents_halo2_asset);
+
+                if (!data_path_exists)
+                    System.IO.Directory.CreateDirectory(documents_halo2_asset);
+
+                path = documents_halo2_asset;
+            }
+
+            if (!string.IsNullOrWhiteSpace(textbox_path))
+            {
+                path = System.IO.Path.GetDirectoryName(textbox_path) + "\\";
+                if (compile_type == "compile_model_path")
+                {
+                    path = System.IO.Path.GetFullPath(textbox_path) + "\\";
+                }
+            }
+
+            return path;
         }
 
         private void ForceMove(string sourceFilename, string destinationFilename)
@@ -425,6 +512,11 @@ namespace Halo2CodezLauncher
                     FileSystemRights.FullControl,
                     AccessControlType.Allow));
 
+            AuthorizationRuleCollection rules = sec.GetAccessRules(true, false, typeof(System.Security.Principal.NTAccount));
+            foreach (FileSystemAccessRule rule in rules)
+                if (rule.IdentityReference.Value != "Everyone")
+                    sec.RemoveAccessRuleSpecific(rule);
+
             File.SetAccessControl(filename, sec);
         }
 
@@ -445,6 +537,11 @@ namespace Halo2CodezLauncher
                     InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
                     PropagationFlags.None,
                     AccessControlType.Allow));
+
+            AuthorizationRuleCollection rules = sec.GetAccessRules(true, false, typeof(System.Security.Principal.NTAccount));
+            foreach (FileSystemAccessRule rule in rules)
+                if (rule.IdentityReference.Value != "Everyone")
+                    sec.RemoveAccessRuleSpecific(rule);
 
             Directory.SetAccessControl(filename, sec);
 
@@ -568,7 +665,7 @@ namespace Halo2CodezLauncher
 
         private void RepairRegistry(object sender, RoutedEventArgs e)
         {
-            new Thread(delegate ()
+            Thread repair = new Thread(delegate ()
             {
                 Thread.CurrentThread.IsBackground = true;
                 try
@@ -579,7 +676,29 @@ namespace Halo2CodezLauncher
                 {
                     RelaunchAsAdmin("");
                 }
-            }).Start();
+            });
+            repair.SetApartmentState(ApartmentState.STA);
+            repair.Start();
+        }
+
+        private void SetPermissions(object sender, RoutedEventArgs e)
+        {
+            Thread set_permissions = new Thread(delegate ()
+            {
+                Thread.CurrentThread.IsBackground = true;
+                try
+                {
+                    AllowReadWriteDir(H2Ek_install_path, true); // wipe permissions for install path and let all users access it
+                    CustomOkDialogWPF.MsgBoxOk H2Codez_Set_Permissions = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.H2Codez_Set_Permissions, H2CodezLauncher.Properties.Resources.Repair_Registry, H2CodezLauncher.Properties.Resources.Ok);
+                    H2Codez_Set_Permissions.ShowDialog();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    RelaunchAsAdmin("");
+                }
+            });
+            set_permissions.SetApartmentState(ApartmentState.STA);
+            set_permissions.Start();
         }
 
         private void HandleClickCompile(object sender, RoutedEventArgs e)
@@ -589,14 +708,17 @@ namespace Halo2CodezLauncher
             if (File.Exists(level_path))
             {
                 light_quality light_level = (light_quality)light_quality_level.SelectedIndex;
-                new Thread(delegate ()
+                Thread compile_level = new Thread(delegate ()
                 {
                     CompileLevel(level_path.ToLower(), light_level, instance_text);
-                }).Start();
+                });
+                compile_level.SetApartmentState(ApartmentState.STA);
+                compile_level.Start();
             }
             else
             {
-                MessageBox.Show("Error: No such file!");
+                CustomOkDialogWPF.MsgBoxOk File_Not_Found = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.File_Not_Found, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                File_Not_Found.ShowDialog();
             }
         }
 
@@ -640,7 +762,8 @@ namespace Halo2CodezLauncher
                     RunProcess(process);
                 } else
                 {
-                    MessageBox.Show("Invalid instance count!");
+                    CustomOkDialogWPF.MsgBoxOk Invalid_Instance_Count = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Invalid_Instance_Count, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                    Invalid_Instance_Count.ShowDialog();
                 }
             }
         }
@@ -660,7 +783,8 @@ namespace Halo2CodezLauncher
             }
             else
             {
-                MessageBox.Show("Error: No such file!");
+                CustomOkDialogWPF.MsgBoxOk File_Not_Found = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.File_Not_Found, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                File_Not_Found.ShowDialog();
             }
         }
 
@@ -686,13 +810,14 @@ namespace Halo2CodezLauncher
                 var process = new ProcessStartInfo();
                 process.WorkingDirectory = H2Ek_install_path;
                 process.FileName = GetToolExeName(tool_type.tool);
-                process.Arguments = "bitmaps-with-type \"" + path + "\"" + " " + listEntry;
+                process.Arguments = "bitmaps-with-type \"" + path + "\" " + listEntry;
                 process.Arguments += " pause_after_run";
                 RunProcess(process);
             }
             else
             {
-                MessageBox.Show("Error: No such file!");
+                CustomOkDialogWPF.MsgBoxOk File_Not_Found = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.File_Not_Found, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                File_Not_Found.ShowDialog();
             }
         }
 
@@ -703,8 +828,13 @@ namespace Halo2CodezLauncher
             {
                 bool copy_map = (bool)this.copy_map.IsChecked;
                 bool remove_shared_tags = (bool)shared_tag_removal.IsChecked;
-                new Thread(delegate ()
+                bool cut_map = false;
+                Thread package_level = new Thread(delegate ()
                 {
+                    if (Keyboard.IsKeyDown(Key.LeftAlt))
+                    {
+                        cut_map = true;
+                    }
                     var process = new ProcessStartInfo();
                     process.WorkingDirectory = H2Ek_install_path;
                     process.FileName = GetToolExeName(tool_type.tool);
@@ -720,18 +850,34 @@ namespace Halo2CodezLauncher
                     string copy_to = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "\\My Games\\Halo 2\\Maps\\" + map_name;
                     String[] tags_path = Regex.Split(level_path, "tags");
                     string copy_from = tags_path[0] + "Maps\\" + map_name;
-                    try
+                    if (cut_map)
                     {
-                        File.Delete(copy_to);
-                        FileSystem.CopyFile(
-                            copy_from, copy_to, UIOption.AllDialogs, UICancelOption.DoNothing);
+                        try
+                        {
+                            File.Delete(copy_to);
+                            FileSystem.MoveFile(
+                                copy_from, copy_to, UIOption.AllDialogs, UICancelOption.DoNothing);
+                        }
+                        catch { };
                     }
-                    catch { };
-                }).Start();
+                    else
+                    {
+                        try
+                        {
+                            File.Delete(copy_to);
+                            FileSystem.CopyFile(
+                                copy_from, copy_to, UIOption.AllDialogs, UICancelOption.DoNothing);
+                        }
+                        catch { };
+                    }
+                });
+                package_level.SetApartmentState(ApartmentState.STA);
+                package_level.Start();
             }
             else
             {
-                MessageBox.Show("Error: No such file!");
+                CustomOkDialogWPF.MsgBoxOk File_Not_Found = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.File_Not_Found, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                File_Not_Found.ShowDialog();
             }
         }
 
@@ -755,15 +901,12 @@ namespace Halo2CodezLauncher
 
         private void browse_level_compile_Click(object sender, RoutedEventArgs e)
         {
-            string path = H2Ek_install_path + "data\\";
-            if (!string.IsNullOrWhiteSpace(compile_level_path.Text))
-            {
-                path = System.IO.Path.GetDirectoryName(compile_level_path.Text) + "\\";
-            }
+            string compile_name = "compile_level_path";
+            string path = get_default_path(compile_level_path.Text, compile_name);
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select Uncompiled level";
-            dlg.Filter = "Uncompiled map geometry|*.ASS;*.JMS";
+            dlg.Title = H2CodezLauncher.Properties.Resources.File_Dialog_Select_Level;
+            dlg.Filter = H2CodezLauncher.Properties.Resources.File_Dialog_Level;
             dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
@@ -774,15 +917,12 @@ namespace Halo2CodezLauncher
 
         private void Browse_text_Click(object sender, RoutedEventArgs e)
         {
-            string path = H2Ek_install_path + "data\\";
-            if (!string.IsNullOrWhiteSpace(compile_text_path.Text))
-            {
-                path = System.IO.Path.GetDirectoryName(compile_text_path.Text) + "\\";
-            }
+            string compile_name = "compile_text_path";
+            string path = get_default_path(compile_text_path.Text, compile_name);
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select unicode encoded .txt file to compile.";
-            dlg.Filter = "Unicode encoded .txt files|*.txt";
+            dlg.Title = H2CodezLauncher.Properties.Resources.File_Dialog_Select_Text;
+            dlg.Filter = H2CodezLauncher.Properties.Resources.File_Dialog_Text;
             dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
@@ -793,15 +933,12 @@ namespace Halo2CodezLauncher
 
         private void browse_bitmap_Click(object sender, RoutedEventArgs e)
         {
-            string path = H2Ek_install_path + "data\\";
-            if (!string.IsNullOrWhiteSpace(compile_image_path.Text))
-            {
-                path = System.IO.Path.GetDirectoryName(compile_image_path.Text) + "\\";
-            }
+            string compile_name = "compile_image_path";
+            string path = get_default_path(compile_image_path.Text, compile_name);
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select Image File";
-            dlg.Filter = "Supported image files|*.tif;*.tga;*.jpg;*.bmp";
+            dlg.Title = H2CodezLauncher.Properties.Resources.File_Dialog_Select_Bitmap;
+            dlg.Filter = H2CodezLauncher.Properties.Resources.File_Dialog_Bitmap;
             dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
@@ -812,15 +949,12 @@ namespace Halo2CodezLauncher
 
         private void browse_package_level_Click(object sender, RoutedEventArgs e)
         {
-            string path = H2Ek_install_path + "tags\\";
-            if (!string.IsNullOrWhiteSpace(package_level_path.Text))
-            {
-                path = System.IO.Path.GetDirectoryName(package_level_path.Text) + "\\";
-            }
+            string compile_name = "package_level_path";
+            string path = get_default_path(package_level_path.Text, compile_name);
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select Scenario";
-            dlg.Filter = "Unpackaged Map|*.scenario";
+            dlg.Title = H2CodezLauncher.Properties.Resources.File_Dialog_Select_Scenario;
+            dlg.Filter = H2CodezLauncher.Properties.Resources.File_Dialog_Scenario;
             dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
@@ -860,66 +994,120 @@ namespace Halo2CodezLauncher
             custom_command_text.Text = "";
         }
 
+        private void model_compile_collision_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.collision;
+            model_compile_obj_box.IsEnabled = false;
+            model_compile_render_box.IsEnabled = false;
+        }
+
+        private void model_compile_physics_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.physics;
+            model_compile_obj_box.IsEnabled = false;
+            model_compile_render_box.IsEnabled = false;
+        }
+
+        private void model_compile_animations_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.animations;
+            model_compile_obj_box.IsEnabled = false;
+            model_compile_render_box.IsEnabled = false;
+        }
+
+        private void model_compile_obj_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.obj;
+            model_compile_obj_box.IsEnabled = true;
+            model_compile_render_box.IsEnabled = false;
+        }
+
+        private void model_compile_all_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render | model_compile.animations;
+            model_compile_obj_box.IsEnabled = true;
+            model_compile_render_box.IsEnabled = true;
+        }
+
+        private void model_compile_render_Checked(object sender, RoutedEventArgs e)
+        {
+            model_compile_type = model_compile.render;
+            model_compile_obj_box.IsEnabled = false;
+            model_compile_render_box.IsEnabled = true;
+        }
+
         private void compile_model_Click(object sender, RoutedEventArgs e)
         {
             string path = compile_model_path.Text;
             object_type obj = (object_type)model_compile_obj_type.SelectedIndex;
             int render_type = model_compile_render_type.SelectedIndex;
-            new Thread(delegate ()
+            if (Directory.Exists(path))
             {
-                var process = new ProcessStartInfo();
-                process.WorkingDirectory = H2Ek_install_path;
-                process.FileName = GetToolExeName(tool_type.tool);
-                if (model_compile_type.HasFlag(model_compile.physics))
+                Thread start_model = new Thread(delegate ()
                 {
-                    process.Arguments = "model-physics \"" + path + "\"";
-                    process.Arguments += " pause_after_run";
-                    RunProcess(process, true);
-                }
-                if (model_compile_type.HasFlag(model_compile.collision))
-                {
-                    process.Arguments = "model-collision \"" + path + "\"";
-                    process.Arguments += " pause_after_run";
-                    RunProcess(process, true);
-                }
-                if (model_compile_type.HasFlag(model_compile.render))
-                {
-                    if (render_type == 0)
+                    var process = new ProcessStartInfo();
+                    process.WorkingDirectory = H2Ek_install_path;
+                    process.FileName = GetToolExeName(tool_type.tool);
+                    if (model_compile_type.HasFlag(model_compile.physics))
                     {
-                        process.FileName = GetToolExeName(tool_type.tool);
-                        process.Arguments = "model-render \"" + path.Replace(H2Ek_install_path + "data\\", "") + "\""; //Doesn't like a full path?
+                        process.Arguments = "model-physics \"" + path + "\"";
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
-                    else
+                    if (model_compile_type.HasFlag(model_compile.collision))
                     {
-                        process.FileName = GetToolExeName(tool_type.daeconverter);
-                        process.Arguments = "-compile \"" + path.Replace(H2Ek_install_path, "") + "\""; //DAEConverter adds exe path to the path the user enters.
+                        process.Arguments = "model-collision \"" + path + "\"";
                         process.Arguments += " pause_after_run";
                         RunProcess(process, true);
                     }
+                    if (model_compile_type.HasFlag(model_compile.render))
+                    {
+                        if (render_type == 0)
+                        {
+                            process.FileName = GetToolExeName(tool_type.tool);
+                            process.Arguments = "model-render \"" + path + "\"";
+                            process.Arguments += " pause_after_run";
+                            RunProcess(process, true);
+                        }
+                        else
+                        {
+                            process.FileName = GetToolExeName(tool_type.daeconverter);
+                            process.Arguments = "-compile \"" + path.Replace(H2Ek_install_path, "") + "\""; //DAEConverter adds exe path to the path the user enters.
+                            process.Arguments += " pause_after_run";
+                            RunProcess(process, true);
+                        }
 
-                }
-                if (model_compile_type.HasFlag(model_compile.animations))
-                {
-                    process.Arguments = "append-animations \"" + path + "\"";
-                    process.Arguments += " pause_after_run";
-                    RunProcess(process, true);
-                }
-                if (model_compile_type.HasFlag(model_compile.obj))
-                {
-                    process.Arguments = "model-object " + path.Replace(H2Ek_install_path + "data\\", "") + "\\ " + obj; //Doesn't like quotes or a full path?
-                    process.Arguments += " pause_after_run";
-                    RunProcess(process);
-                }
-            }).Start();
+                    }
+                    if (model_compile_type.HasFlag(model_compile.animations))
+                    {
+                        process.Arguments = "append-animations \"" + path + "\"";
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process, true);
+                    }
+                    if (model_compile_type.HasFlag(model_compile.obj))
+                    {
+                        process.Arguments = "model-object \"" + path.Replace(H2Ek_install_path + "data\\", "") + "\\" + Path.GetFileName(path) + "\" " + obj; //Doesn't like a full path?
+                        process.Arguments += " pause_after_run";
+                        RunProcess(process);
+                    }
+                });
+                start_model.SetApartmentState(ApartmentState.STA);
+                start_model.Start();
+            }
+            else
+            {
+                CustomOkDialogWPF.MsgBoxOk File_Not_Found = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.File_Not_Found, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                File_Not_Found.ShowDialog();
+            }
         }
 
         private void import_sound_Click(object sender, RoutedEventArgs e)
         {
-            /* For the future person looking through this. I hail you modder, curious onlooker, 343 employee, whomever. You may see this and be interested in trying it out for yourself.
-               Due to the nature of the code in H2Codez any sound files you try to compile must be in documents and should not be given a filename for reasons.
-               They also can't be given the path that comes  before the tags directory. Good fortune in your hunt*/
+            /*
+            For the future person looking through this. I hail you modder, curious onlooker, 343 employee, whomever. You may see this and be interested in trying it out for yourself.
+            Due to the nature of the code in H2Codez any sound files you try to compile must be in documents and should not be given a filename for reasons.
+            They also can't be given the path that comes before the tags directory. Good fortune in your hunt.
+            */
             if (!string.IsNullOrWhiteSpace(import_sound_path.Text) && string.IsNullOrWhiteSpace(import_lipsync_path.Text))
             {
                 string sound_path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(import_sound_path.Text).Replace(H2Ek_install_path + "data\\", ""));
@@ -945,24 +1133,23 @@ namespace Halo2CodezLauncher
             }
             else if (string.IsNullOrWhiteSpace(import_sound_path.Text) && !string.IsNullOrWhiteSpace(import_lipsync_path.Text))
             {
-                MessageBox.Show("Error: No file path in sound textbox!");
+                CustomOkDialogWPF.MsgBoxOk Invalid_Sound_Path = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Invalid_Sound_Path, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                Invalid_Sound_Path.ShowDialog();
             }
             else if (string.IsNullOrWhiteSpace(import_sound_path.Text) && string.IsNullOrWhiteSpace(import_lipsync_path.Text))
             {
-                MessageBox.Show("Error: No file path in sound textbox or ltf textbox!");
+                CustomOkDialogWPF.MsgBoxOk Invalid_Sound_LTF_Path = new CustomOkDialogWPF.MsgBoxOk(H2CodezLauncher.Properties.Resources.Invalid_Sound_LTF_Path, H2CodezLauncher.Properties.Resources.H2Codez_In_Use_Header, H2CodezLauncher.Properties.Resources.Ok);
+                Invalid_Sound_LTF_Path.ShowDialog();
             }
         }
 
         private void browse_model_Click(object sender, RoutedEventArgs e)
         {
-            string path = H2Ek_install_path + "data\\";
-            if (!string.IsNullOrWhiteSpace(compile_model_path.Text))
-            {
-                path = System.IO.Path.GetFileName(compile_model_path.Text) + "\\";
-            }
+            string compile_name = "compile_model_path";
+            string path = get_default_path(compile_model_path.Text, compile_name);
 
             var dlg = new CommonOpenFileDialog();
-            dlg.Title = "Select model folder.";
+            dlg.Title = H2CodezLauncher.Properties.Resources.File_Dialog_Select_Model;
             dlg.IsFolderPicker = true;
 
             dlg.AllowNonFileSystemItems = false;
@@ -976,48 +1163,6 @@ namespace Halo2CodezLauncher
             {
                 compile_model_path.Text = dlg.FileName;
             }
-        }
-
-        private void model_compile_collision_Checked(object sender, RoutedEventArgs e)
-        {
-            model_compile_type = model_compile.collision;
-            model_compile_obj_type.IsEnabled = false;
-            model_compile_render_type.IsEnabled = false;
-        }
-
-        private void model_compile_physics_Checked(object sender, RoutedEventArgs e)
-        {
-            model_compile_type = model_compile.physics;
-            model_compile_obj_type.IsEnabled = false;
-            model_compile_render_type.IsEnabled = false;
-        }
-
-        private void model_compile_animations_Checked(object sender, RoutedEventArgs e)
-        {
-            model_compile_type = model_compile.animations;
-            model_compile_obj_type.IsEnabled = false;
-            model_compile_render_type.IsEnabled = false;
-        }
-
-        private void model_compile_obj_Checked(object sender, RoutedEventArgs e)
-        {
-            model_compile_type = model_compile.obj;
-            model_compile_obj_type.IsEnabled = true;
-            model_compile_render_type.IsEnabled = false;
-        }
-
-        private void model_compile_all_Checked(object sender, RoutedEventArgs e)
-        {
-            model_compile_type = model_compile.collision | model_compile.physics | model_compile.obj | model_compile.render | model_compile.animations;
-            model_compile_obj_type.IsEnabled = true;
-            model_compile_render_type.IsEnabled = true;
-        }
-
-        private void model_compile_render_Checked(object sender, RoutedEventArgs e)
-        {
-            model_compile_type = model_compile.render;
-            model_compile_obj_type.IsEnabled = false;
-            model_compile_render_type.IsEnabled = true;
         }
 
         private void large_addr_enabled_Checked(object sender, RoutedEventArgs e)
@@ -1038,6 +1183,15 @@ namespace Halo2CodezLauncher
             Settings.Default.Save();
         }
 
+        private void language_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (startup_finished == true)
+            {
+                Settings.Default.language = select_language.SelectedIndex;
+                Settings.Default.Save();
+            }
+        }
+
         private void numbers_only(object sender, TextCompositionEventArgs e)
         {
             var textBox = sender as TextBox;
@@ -1046,15 +1200,12 @@ namespace Halo2CodezLauncher
 
         private void browse_sound_Click(object sender, RoutedEventArgs e)
         {
-            string path = H2Ek_install_path + "data\\";
-            if (!string.IsNullOrWhiteSpace(import_sound_path.Text))
-            {
-                path = System.IO.Path.GetDirectoryName(import_sound_path.Text) + "\\";
-            }
+            string compile_name = "import_sound_path";
+            string path = get_default_path(import_sound_path.Text, compile_name);
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select sound file";
-            dlg.Filter = "Sound File|*.AIFF;*.WAV";
+            dlg.Title = H2CodezLauncher.Properties.Resources.File_Dialog_Select_Sound;
+            dlg.Filter = H2CodezLauncher.Properties.Resources.File_Dialog_Sound;
             dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
@@ -1065,15 +1216,12 @@ namespace Halo2CodezLauncher
 
         private void browse_ltf_Click(object sender, RoutedEventArgs e)
         {
-            string path = H2Ek_install_path + "data\\";
-            if (!string.IsNullOrWhiteSpace(import_lipsync_path.Text))
-            {
-                path = System.IO.Path.GetDirectoryName(import_lipsync_path.Text) + "\\";
-            }
+            string compile_name = "import_lipsync_path";
+            string path = get_default_path(import_lipsync_path.Text, compile_name);
 
             OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Select ltf file.";
-            dlg.Filter = "Lipsync Tweak File|*.ltf";
+            dlg.Title = H2CodezLauncher.Properties.Resources.File_Dialog_Select_LTF;
+            dlg.Filter = H2CodezLauncher.Properties.Resources.File_Dialog_LTF;
             dlg.InitialDirectory = path;
 
             if (dlg.ShowDialog() == true)
