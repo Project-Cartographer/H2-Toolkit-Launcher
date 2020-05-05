@@ -512,11 +512,6 @@ namespace Halo2CodezLauncher
                     FileSystemRights.FullControl,
                     AccessControlType.Allow));
 
-            AuthorizationRuleCollection rules = sec.GetAccessRules(true, false, typeof(System.Security.Principal.NTAccount));
-            foreach (FileSystemAccessRule rule in rules)
-                if (rule.IdentityReference.Value != "Everyone")
-                    sec.RemoveAccessRuleSpecific(rule);
-
             File.SetAccessControl(filename, sec);
         }
 
@@ -537,11 +532,6 @@ namespace Halo2CodezLauncher
                     InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
                     PropagationFlags.None,
                     AccessControlType.Allow));
-
-            AuthorizationRuleCollection rules = sec.GetAccessRules(true, false, typeof(System.Security.Principal.NTAccount));
-            foreach (FileSystemAccessRule rule in rules)
-                if (rule.IdentityReference.Value != "Everyone")
-                    sec.RemoveAccessRuleSpecific(rule);
 
             Directory.SetAccessControl(filename, sec);
 
