@@ -1055,7 +1055,7 @@ namespace Halo2CodezLauncher
                         if (render_type == 0)
                         {
                             process.FileName = GetToolExeName(tool_type.tool);
-                            process.Arguments = "model-render \"" + path + "\"";
+                            process.Arguments = "model-render \"" + path.Replace(H2Ek_install_path + "data\\", "") + "\""; //Full path causes H2Tool to be unable to find shader collections.
                             process.Arguments += " pause_after_run";
                             RunProcess(process, true);
                         }
