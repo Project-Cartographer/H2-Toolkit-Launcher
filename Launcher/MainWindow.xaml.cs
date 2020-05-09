@@ -512,11 +512,6 @@ namespace Halo2CodezLauncher
                     FileSystemRights.FullControl,
                     AccessControlType.Allow));
 
-            AuthorizationRuleCollection rules = sec.GetAccessRules(true, false, typeof(System.Security.Principal.NTAccount));
-            foreach (FileSystemAccessRule rule in rules)
-                if (rule.IdentityReference.Value != "Everyone")
-                    sec.RemoveAccessRuleSpecific(rule);
-
             File.SetAccessControl(filename, sec);
         }
 
@@ -537,11 +532,6 @@ namespace Halo2CodezLauncher
                     InheritanceFlags.ContainerInherit | InheritanceFlags.ObjectInherit,
                     PropagationFlags.None,
                     AccessControlType.Allow));
-
-            AuthorizationRuleCollection rules = sec.GetAccessRules(true, false, typeof(System.Security.Principal.NTAccount));
-            foreach (FileSystemAccessRule rule in rules)
-                if (rule.IdentityReference.Value != "Everyone")
-                    sec.RemoveAccessRuleSpecific(rule);
 
             Directory.SetAccessControl(filename, sec);
 
@@ -745,7 +735,7 @@ namespace Halo2CodezLauncher
                     level_path = level_path.Replace("\\structure\\", "\\");
                     string scenario_path = new FileInfo(level_path).Directory.FullName;
 
-                    string common_args = "\"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + "\"" + System.IO.Path.GetFileNameWithoutExtension(level_path) + "\" " + lightQuality;
+                    string common_args = "\"" + scenario_path + "\\" + System.IO.Path.GetFileName(scenario_path) + "\" " + "\"" + System.IO.Path.GetFileName(level_path) + "\" " + lightQuality;
 
                     var process = new ProcessStartInfo();
                     process.WorkingDirectory = H2Ek_install_path;
@@ -1065,7 +1055,7 @@ namespace Halo2CodezLauncher
                         if (render_type == 0)
                         {
                             process.FileName = GetToolExeName(tool_type.tool);
-                            process.Arguments = "model-render \"" + path + "\"";
+                            process.Arguments = "model-render \"" + path.Replace(H2Ek_install_path + "data\\", "") + "\""; //Full path causes H2Tool to be unable to find shader collections.
                             process.Arguments += " pause_after_run";
                             RunProcess(process, true);
                         }
