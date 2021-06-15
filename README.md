@@ -1,4 +1,7 @@
 # H2-Toolkit-Launcher
+
+***Deprecated in favor of https://github.com/num0005/Osoyoos-Launcher***
+
 Launcher/installer for the h2codez modified halo 2 editing toolkit.
 ### Features
 * Autoupdates itself and h2codez.
